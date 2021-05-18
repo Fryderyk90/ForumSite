@@ -7,7 +7,11 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using _9Chan.Data.Repository;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.WebEncoders.Testing;
 
 namespace ForumSite
 {
@@ -23,6 +27,9 @@ namespace ForumSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<_9ChanContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("9chanconnectionstring")));
+            services.AddSingleton<ITest,Test>();
             services.AddRazorPages();
         }
 

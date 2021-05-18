@@ -1,4 +1,4 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -12,7 +12,10 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ForumSiteVaultUri": "https://forumsitevault.vault.azure.net/",
+        "AZURE_USERNAME": "fryderyk90@gmail.com",
+        "VaultUri": "https://forumsitesecrets.vault.azure.net/"
       }
     },
     "ForumSite": {
@@ -21,7 +24,10 @@
       "launchBrowser": true,
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ForumSiteVaultUri": "https://forumsitevault.vault.azure.net/",
+        "AZURE_USERNAME": "fryderyk90@gmail.com",
+        "VaultUri": "https://forumsitesecrets.vault.azure.net/"
       }
     }
   }
