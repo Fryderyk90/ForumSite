@@ -11,6 +11,10 @@
       "type": "secrets.keyVault",
       "connectionId": "VaultUri",
       "secretStore": null
+    },
+    "mssql2": {
+      "type": "mssql.local",
+      "connectionId": "ForumSiteContextConnection"
     }
   }
 }

@@ -16,15 +16,13 @@ namespace ForumSite.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly ITest _iTest;
         private readonly IConfiguration _config;
-        private readonly _9ChanContext _context;
 
         public string fromTest { get; set; }
-        public IndexModel(ILogger<IndexModel> logger, ITest iTest, IConfiguration config, _9ChanContext context)
+        public IndexModel(ILogger<IndexModel> logger, ITest iTest, IConfiguration config)
         {
             _logger = logger;
             _iTest = iTest;
             _config = config;
-            _context = context;
         }
 
         public async Task OnGet()
