@@ -15,6 +15,6 @@ namespace _9Chan.Data.Repository
         {
         }
 
-        public DbSet<TestClass> TestClasses { get; set; }
+        
     }
 }
