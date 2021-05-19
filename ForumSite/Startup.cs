@@ -29,7 +29,8 @@ namespace ForumSite
         {
             //services.AddDbContext<_9ChanContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("9chanconnectionstring")));
-            services.AddSingleton<ITest,Test>();
+            
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddRazorPages();
         }
 

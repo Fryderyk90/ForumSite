@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.31229.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForumSite", "ForumSite\ForumSite.csproj", "{1056C01F-C8F8-43B1-BF9C-8E0780F2DB07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "9Chan.Core", "9Chan.Core\9Chan.Core.csproj", "{EDA05BAD-CF06-4AD0-8A5B-0F077A929BA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "9Chan.Core", "9Chan.Core\9Chan.Core.csproj", "{EDA05BAD-CF06-4AD0-8A5B-0F077A929BA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "9Chan.Data", "9Chan.Data\9Chan.Data.csproj", "{C90DE57E-468A-4714-B3AE-528D4ACAE1B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "9Chan.Data", "9Chan.Data\9Chan.Data.csproj", "{C90DE57E-468A-4714-B3AE-528D4ACAE1B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

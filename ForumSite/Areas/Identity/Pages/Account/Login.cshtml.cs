@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using _9Chan.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using ForumSite.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication;

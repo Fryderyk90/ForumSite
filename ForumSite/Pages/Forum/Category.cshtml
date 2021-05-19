@@ -1,0 +1,21 @@
+﻿@page
+@model ForumSite.Pages.Forum.CategoryModel
+@{
+}
+
+@foreach (var category in Model.Categories)
+{
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>SubCategories</th>
+        </tr>
+        <tr>
+            <td><a asp-page="./SubCategories" asp-route-id="@category.Id">@category.Title</a></td>
+            <td>@category.Description</td>
+            <td>@category.SubCategories</td>
+        </tr>
+
+    </table>
+}

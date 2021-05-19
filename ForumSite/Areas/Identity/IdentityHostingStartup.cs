@@ -1,6 +1,7 @@
 ﻿using System;
+using _9Chan.Core.Models;
+using _9Chan.Data.Repository;
 using ForumSite.Areas.Identity.Data;
-using ForumSite.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -18,8 +19,8 @@ namespace ForumSite.Areas.Identity
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<ForumSiteContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("9chanconnectionstring")));
-
+                       // AzureDb context.Configuration.GetConnectionString("9chanconnectionstring")));
+                       context.Configuration.GetConnectionString("LocalDatabase")));
                 services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<ForumSiteContext>();
             });

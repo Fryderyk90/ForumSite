@@ -14,18 +14,17 @@ namespace ForumSite.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly ITest _iTest;
+
         private readonly IConfiguration _config;
 
         public string fromTest { get; set; }
-        public IndexModel(ILogger<IndexModel> logger, ITest iTest, IConfiguration config)
+        public IndexModel(ILogger<IndexModel> logger, IConfiguration config)
         {
             _logger = logger;
-            _iTest = iTest;
             _config = config;
         }
 
-        public async Task OnGet()
+        public void OnGet()
         {
             
 

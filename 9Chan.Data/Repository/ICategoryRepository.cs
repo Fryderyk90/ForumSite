@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _9Chan.Core.Models;
 
 namespace _9Chan.Data.Repository
 {
-    public class Test : ITest
+    public interface ICategoryRepository
     {
-        public async Task<string> HelloAsync()
-        {
-            return "Hello!!!!!!!! from Repository PROJ!";
-        }
+        Task<List<Category>> AllCategories();
+         Task<Category> GetCategoryById(int id);
     }
 }
