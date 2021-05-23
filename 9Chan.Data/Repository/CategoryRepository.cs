@@ -24,9 +24,22 @@ namespace _9Chan.Data.Repository
 
         }
 
-        public Task<Category> GetCategoryById(int id)
+        public Category GetCategoryById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Categories.Find(id);
+        }
+
+        public async Task<Category> AddCategory(Category newCategory)
+        {
+            _context.Categories.Add(newCategory);
+            await _context.SaveChangesAsync();
+            return newCategory;
+        }
+
+        public Category RemoveCategoryById(int id)
+        {
+            var category = GetCategoryById(id);
+            return category;
         }
     }
 }

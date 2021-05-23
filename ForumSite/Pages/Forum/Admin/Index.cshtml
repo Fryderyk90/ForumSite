@@ -1,0 +1,68 @@
+﻿@page
+@model ForumSite.Pages.Forum.Admin.IndexModel
+@{
+}
+
+<h2>Categories</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col"><a asp-page="./AddCategory" class="btn btn btn-success">Add</a></th>
+        <th scope="col">Id</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+       
+
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model.Categories)
+        {
+            <tr>
+                <td></td>
+                <td>@category.Id</td>
+                <td>@category.Title</td>
+                <td>@category.Description</td>
+                <td align="right">
+                    <div>
+                        <a asp-page="AddSubCategory" asp-route-id="@category.Id" asp-route-title="@category.Title" class="btn btn-info font-weight-bold btn-info">Add Subcategory</a>
+                        <a asp-page="" asp-route-id="@category.Id" class="btn btn-primary font-weight-bold">Edit</a>
+                        <a asp-page="" asp-route-id="@category.Id" class="btn btn-danger font-weight-bold">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+<h2>SubCategories</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col"><a asp-page="./AddSubCategory" class="btn btn btn-success">Add</a></th>
+            <th scope="col">id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var subcategory in Model.SubCategories)
+        {
+            <tr>
+                <td>@subcategory.Id</td>
+                <td>@subcategory.Title</td>
+                <td>@subcategory.Description</td>
+                <td align="right">
+                    <div>
+                        <a asp-page="" asp-route-id="@subcategory.Id" class="btn btn-primary font-weight-bold">Edit</a>
+                        <a asp-page="" asp-route-id="@subcategory.Id" class="btn btn-danger font-weight-bold">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

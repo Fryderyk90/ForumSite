@@ -14,7 +14,7 @@ namespace _9Chan.Core.Models
         public string Description { get; set; }
 
         public string UserId { get; set; }
-        public List<User> Users { get; set; }
+        public User User { get; set; }
         public int? SubCategoryId { get; set; }
         public SubCategory SubCategory { get; set; }
         public int? PostId { get; set; }

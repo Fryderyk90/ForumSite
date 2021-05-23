@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _9Chan.Data.Repository;
 
 namespace _9Chan.Data.Migrations
 {
     [DbContext(typeof(ForumSiteContext))]
-    partial class ForumSiteContextModelSnapshot : ModelSnapshot
+    [Migration("20210520074724_adduserseeddata")]
+    partial class adduserseeddata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,6 +156,21 @@ namespace _9Chan.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ThreadUser", b =>
+                {
+                    b.Property<int>("ThreadsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ThreadsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("ThreadUser");
+                });
+
             modelBuilder.Entity("_9Chan.Core.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -219,7 +236,7 @@ namespace _9Chan.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DatePosted = new DateTime(2021, 5, 20, 12, 6, 43, 787, DateTimeKind.Local).AddTicks(6286),
+                            DatePosted = new DateTime(2021, 5, 20, 9, 47, 23, 655, DateTimeKind.Local).AddTicks(3431),
                             IsReported = false,
                             PostText = "Jag har funderat på att köpa S90 men den verkar vara dyr har någon erfarenhet av denna model?",
                             ThreadId = 1,
@@ -228,7 +245,7 @@ namespace _9Chan.Data.Migrations
                         new
                         {
                             Id = 2,
-                            DatePosted = new DateTime(2021, 5, 20, 12, 6, 43, 787, DateTimeKind.Local).AddTicks(7707),
+                            DatePosted = new DateTime(2021, 5, 20, 9, 47, 23, 655, DateTimeKind.Local).AddTicks(5219),
                             IsReported = false,
                             PostText = "Just det jag glömde säga att V60 modelen också är intressant, sry för dubbel post",
                             ThreadId = 1,
@@ -298,13 +315,11 @@ namespace _9Chan.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SubCategoryId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Threads");
 
@@ -444,6 +459,21 @@ namespace _9Chan.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ThreadUser", b =>
+                {
+                    b.HasOne("_9Chan.Core.Models.Thread", null)
+                        .WithMany()
+                        .HasForeignKey("ThreadsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("_9Chan.Core.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("_9Chan.Core.Models.Post", b =>
                 {
                     b.HasOne("_9Chan.Core.Models.Thread", "Thread")
@@ -474,13 +504,7 @@ namespace _9Chan.Data.Migrations
                         .WithMany("Threads")
                         .HasForeignKey("SubCategoryId");
 
-                    b.HasOne("_9Chan.Core.Models.User", "User")
-                        .WithMany("Threads")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("SubCategory");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.Category", b =>
@@ -501,8 +525,6 @@ namespace _9Chan.Data.Migrations
             modelBuilder.Entity("_9Chan.Core.Models.User", b =>
                 {
                     b.Navigation("Posts");
-
-                    b.Navigation("Threads");
                 });
 #pragma warning restore 612, 618
         }

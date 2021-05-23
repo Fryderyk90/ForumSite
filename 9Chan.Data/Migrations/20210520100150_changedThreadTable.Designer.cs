@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _9Chan.Data.Repository;
 
 namespace _9Chan.Data.Migrations
 {
     [DbContext(typeof(ForumSiteContext))]
-    partial class ForumSiteContextModelSnapshot : ModelSnapshot
+    [Migration("20210520100150_changedThreadTable")]
+    partial class changedThreadTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,26 +216,6 @@ namespace _9Chan.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DatePosted = new DateTime(2021, 5, 20, 12, 6, 43, 787, DateTimeKind.Local).AddTicks(6286),
-                            IsReported = false,
-                            PostText = "Jag har funderat på att köpa S90 men den verkar vara dyr har någon erfarenhet av denna model?",
-                            ThreadId = 1,
-                            UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DatePosted = new DateTime(2021, 5, 20, 12, 6, 43, 787, DateTimeKind.Local).AddTicks(7707),
-                            IsReported = false,
-                            PostText = "Just det jag glömde säga att V60 modelen också är intressant, sry för dubbel post",
-                            ThreadId = 1,
-                            UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7"
-                        });
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.SubCategory", b =>
@@ -307,19 +289,6 @@ namespace _9Chan.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Threads");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DateCreated = new DateTime(2021, 5, 20, 0, 0, 0, 0, DateTimeKind.Local),
-                            Description = "",
-                            IsSticky = false,
-                            PostId = 1,
-                            SubCategoryId = 1,
-                            Title = "Vilken Volvo bil ska jag köpa!?",
-                            UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7"
-                        });
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.User", b =>

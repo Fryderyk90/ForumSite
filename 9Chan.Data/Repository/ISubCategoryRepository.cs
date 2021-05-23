@@ -11,5 +11,7 @@ namespace _9Chan.Data.Repository
     {
         Task<List<SubCategory>> AllSubCategories();
         Task<SubCategory> GetSubCategoryById(int id);
+        Task<SubCategory> AddSubCategory(SubCategory newSubCategory);
+        
     }
 }

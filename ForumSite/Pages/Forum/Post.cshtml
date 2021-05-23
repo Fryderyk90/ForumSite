@@ -1,0 +1,13 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@using _9Chan.Core.Models
+@model ForumSite.Pages.Forum.PostModel
+@inject UserManager<User> Manager;
+@{
+}
+@foreach (var post in Model.Posts)
+{
+    <h6>@post.User.Email</h6>
+    <p>@post.DatePosted</p>
+    <p>@post.PostText</p>
+}

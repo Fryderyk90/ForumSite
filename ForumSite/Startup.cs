@@ -31,6 +31,9 @@ namespace ForumSite
             //    options.UseSqlServer(Configuration.GetConnectionString("9chanconnectionstring")));
             
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
+            services.AddScoped<IThreadRepository, ThreadRepository>();
+            services.AddScoped<IPostRepository, PostRepository>();
             services.AddRazorPages();
         }
 

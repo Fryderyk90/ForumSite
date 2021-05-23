@@ -45,7 +45,7 @@ namespace _9Chan.Data.Repository
             //    Id = 1,
             //    SubCategoryId = 1,
             //    PostId = 1,
-            //    UserId = "e4e322dd-aed7-4ba3-825b-a4b5097428e4",
+            //    UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7",
             //    Title = "Vilken Volvo bil ska jag köpa!?",
             //    Description = "",
             //    IsSticky = false,
@@ -55,7 +55,7 @@ namespace _9Chan.Data.Repository
             //{
             //    Id = 1,
             //    ThreadId = 1,
-            //    UserId = "e4e322dd-aed7-4ba3-825b-a4b5097428e4",
+            //    UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7",
             //    PostText = "Jag har funderat på att köpa S90 men den verkar vara dyr har någon erfarenhet av denna model?",
             //    DatePosted = DateTime.Now,
             //    IsReported = false
@@ -65,7 +65,7 @@ namespace _9Chan.Data.Repository
             //{
             //    Id = 2,
             //    ThreadId = 1,
-            //    UserId = "e4e322dd-aed7-4ba3-825b-a4b5097428e4",
+            //    UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7",
             //    PostText = "Just det jag glömde säga att V60 modelen också är intressant, sry för dubbel post",
             //    DatePosted = DateTime.Now,
             //    IsReported = false

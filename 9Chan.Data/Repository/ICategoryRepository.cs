@@ -10,6 +10,8 @@ namespace _9Chan.Data.Repository
     public interface ICategoryRepository
     {
         Task<List<Category>> AllCategories();
-         Task<Category> GetCategoryById(int id);
+        Category GetCategoryById(int id);
+        Task<Category> AddCategory(Category newCategory);
+        Category RemoveCategoryById(int id);
     }
 }

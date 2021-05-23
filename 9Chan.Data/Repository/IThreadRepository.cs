@@ -9,6 +9,7 @@ namespace _9Chan.Data.Repository
 {
     public interface IThreadRepository
     {
-        Task<Thread> GetThreadInSubCategoryById(int id);
+        Task<List<Thread>> GetThreadsInSubCategoryById(int id);
+        Task<List<Thread>> getThreads();
     }
 }

@@ -4,14 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using _9Chan.Core.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace _9Chan.Data.Repository
 {
-    class PostRepository : IPostRepository
+    public class PostRepository : IPostRepository
     {
-        public Task<List<Post>> GetPostsInThreadById(int id)
+        private readonly ForumSiteContext _context;
+
+        public PostRepository(ForumSiteContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+        public async Task<List<Post>> GetPostsInThreadById(int id)
+        {
+
+            var posts = await _context.Posts.Where(s => s.ThreadId == id).ToListAsync();
+            
+            //Where the magic happens DO NOT TOUCH
+            var users = await _context.RegUsers.ToArrayAsync();
+
+            return posts;
         }
 
         public Task<List<Post>> GetPostsByUserId(string userId)

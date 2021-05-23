@@ -1,0 +1,16 @@
+﻿@page
+@model ForumSite.Pages.Forum.ThreadsModel
+@{
+}
+@foreach (var thread in Model.Threads)
+{
+    <h4><a asp-route-id="@thread.Id" asp-page="./Post">@thread.Title</a></h4>
+    <p>@thread.User.Email</p>
+    <p>@thread.DateCreated.Date</p>
+}
+
+<form>
+    <div class="text-body">
+          
+    </div>
+</form>
