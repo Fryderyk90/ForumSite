@@ -32,21 +32,6 @@ namespace ForumSite.Pages.Forum
             Categories = await _categoryRepository.AllCategories();
         }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-
-            
-            if (ModelState.IsValid)
-            {
-                var newCategory = InputCategory;
-                await _categoryRepository.AddCategory(InputCategory);
-            }
-
-          
-            
-            //return RedirectToPage("/index");
-            return Page();
-
-        }
+       
     }
 }

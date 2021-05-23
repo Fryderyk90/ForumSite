@@ -10,8 +10,10 @@ namespace _9Chan.Data.Repository
     public interface ISubCategoryRepository
     {
         Task<List<SubCategory>> AllSubCategories();
+        Task<List<SubCategory>> AllSubCategoriesById(int id);
         Task<SubCategory> GetSubCategoryById(int id);
         Task<SubCategory> AddSubCategory(SubCategory newSubCategory);
-        
+        Task<SubCategory> DeleteSubCategory(int subCategoryId);
+
     }
 }

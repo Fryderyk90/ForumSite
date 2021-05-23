@@ -17,6 +17,16 @@ namespace _9Chan.Data.Repository
             _context = context;
         }
 
+        public Task<Thread> AddThread(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Thread> GetThreadId()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Thread>> GetThreadsInSubCategoryById(int id)
         {
             //Where the magic happens DO NOT TOUCH

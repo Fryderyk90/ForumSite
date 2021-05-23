@@ -31,7 +31,9 @@ namespace _9Chan.Data.Repository
 
         public async Task<Category> AddCategory(Category newCategory)
         {
+            var subcategories = await _context.SubCategories.ToArrayAsync();
             _context.Categories.Add(newCategory);
+            
             await _context.SaveChangesAsync();
             return newCategory;
         }

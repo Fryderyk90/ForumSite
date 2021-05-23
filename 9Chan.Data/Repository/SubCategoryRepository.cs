@@ -22,17 +22,37 @@ namespace _9Chan.Data.Repository
             return await _context.SubCategories.ToListAsync();
         }
 
-        public Task<SubCategory> GetSubCategoryById(int id)
+        public async Task<List<SubCategory>> AllSubCategoriesById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.SubCategories.Where(sb => sb.CategoryId == id).ToListAsync();
+        }
+
+        public async Task<SubCategory> GetSubCategoryById(int id)
+        {
+            var subcategory = await _context.SubCategories.FindAsync(id);
+            return subcategory;
         }
 
         public async Task<SubCategory> AddSubCategory(SubCategory newSubCategory)
         {
+            var categories = await _context.Categories.ToArrayAsync();
             var inputSubCategory = newSubCategory;
-            _context.SubCategories.Add(newSubCategory);
-            _context.SaveChangesAsync();
+            await _context.SubCategories.AddAsync(newSubCategory);
+            await _context.SaveChangesAsync();
             return newSubCategory;
+        }
+
+        public async Task<SubCategory> DeleteSubCategory(int subCategoryId)
+        {
+            var categories = _context.Categories.ToArrayAsync();
+            var subCategory = GetSubCategoryById(subCategoryId);
+            if (subCategory != null)
+            {
+                _context.SubCategories.Remove(await subCategory);
+                await _context.SaveChangesAsync();
+            }
+
+            return await subCategory;
         }
     }
 }

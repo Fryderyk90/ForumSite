@@ -19,9 +19,9 @@ namespace ForumSite.Pages.Forum
             _subCategoryRepository = subCategoryRepository;
         }
 
-        public async Task OnGet()
+        public async Task OnGet(int id)
         {
-            SubCategories = await _subCategoryRepository.AllSubCategories();
+            SubCategories = await _subCategoryRepository.AllSubCategoriesById(id);
         }
     }
 }

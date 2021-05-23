@@ -3,8 +3,16 @@
 @{
 }
 
-@foreach (var subCategory in Model.SubCategories)
-{
-    <h4><a asp-route-id="@subCategory.Id" asp-page="./Threads">@subCategory.Title</a></h4>
-    <h6>@subCategory.Description</h6>
-}
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+    </tr>
+    @foreach (var subCategory in Model.SubCategories)
+    {
+        <tr>
+            <td><a asp-route-id="@subCategory.Id" asp-page="./Threads">@subCategory.Title</a></td>
+            <td>@subCategory.Description</td>
+        </tr>
+    }
+</table>

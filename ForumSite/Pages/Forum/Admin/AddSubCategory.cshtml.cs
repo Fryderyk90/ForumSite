@@ -16,18 +16,21 @@ namespace ForumSite.Pages.Forum.Admin
         [BindProperty]
         public SubCategory InputSubCategory { get; set; }
 
+        public List<SubCategory> SubCategories { get; set; }
+
         public AddSubCategoryModel(ISubCategoryRepository subCategoryRepository)
         {
             _subCategoryRepository = subCategoryRepository;
         }
 
-        public void OnGet(string title)
+        public async Task OnGet(string title,int id)
         {
             Title = title;
+            SubCategories = await _subCategoryRepository.AllSubCategoriesById(id);
 
         }
 
-        public void OnPost(int id)
+        public async Task<RedirectToPageResult> OnPost(int id)
         {
             if (ModelState.IsValid)
             {
@@ -38,10 +41,10 @@ namespace ForumSite.Pages.Forum.Admin
                     Description = InputSubCategory.Description,
                     CategoryId = id
                 };
-                _subCategoryRepository.AddSubCategory(newSubCategory);
+                await _subCategoryRepository.AddSubCategory(newSubCategory);
             }
 
-            RedirectToPage("./Forum/Admin/Index");
+            return RedirectToPage("/Forum/Admin/Index");
 
         }
     }
