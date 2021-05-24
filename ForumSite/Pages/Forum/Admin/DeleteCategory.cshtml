@@ -1,0 +1,14 @@
+﻿@page
+@model ForumSite.Pages.Forum.Admin.DeleteCategoryModel
+@{
+}
+<h1>Delete Subcategory</h1>
+
+<div class="alert alert-danger">
+    Are you Sure you want to delete @Model.Category.Title?
+</div>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Yes!</button>
+    <a asp-page="Index" class="btn btn-outline-primary">Cancel</a>
+</form>

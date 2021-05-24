@@ -13,6 +13,7 @@ namespace ForumSite.Pages.Forum
     {
         private readonly IThreadRepository _threadRepository;
         public List<Thread> Threads { get; set; }
+        public Thread InputThread { get; set; }
         public ThreadsModel(IThreadRepository threadRepository)
         {
             _threadRepository = threadRepository;
@@ -21,6 +22,11 @@ namespace ForumSite.Pages.Forum
         public async Task OnGetAsync(int id)
         {
             Threads = await _threadRepository.GetThreadsInSubCategoryById(id);
+        }
+
+        public void OnPost()
+        {
+            _threadRepository.AddThread(InputThread);
         }
     }
 }

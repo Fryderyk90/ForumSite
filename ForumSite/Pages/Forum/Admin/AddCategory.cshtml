@@ -5,11 +5,6 @@
 <h1>Add Category</h1>
 
 <form method="post">
-    @*<div class="input-group">
-        <label asp-for="@Model.InputCategory.Title"></label>
-        <input asp-for="@Model.InputCategory.Title" class="form-control" />
-        <span asp-validation-for="@Model.InputCategory.Title" class="text-danger"></span>
-    </div>*@
     <div class="input-group flex-nowrap">
         <span class="input-group-text" id="addon-wrapping">Title</span>
         <input type="text" asp-for="@Model.InputCategory.Title" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
@@ -18,15 +13,6 @@
         <span class="input-group-text" id="addon-wrapping">Description</span>
         <input type="text" asp-for="@Model.InputCategory.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
     </div>
-
-
-
-    
-    @*<div class="input-group">
-        <label asp-for="@Model.InputCategory.Description"></label>
-        <input asp-for="@Model.InputCategory.Description" class="form-control" />
-        <span asp-validation-for="@Model.InputCategory.Description" class="text-danger"></span>
-    </div>*@
     <hr />
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

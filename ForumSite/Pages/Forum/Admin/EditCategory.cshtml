@@ -1,0 +1,20 @@
+﻿@page
+@model ForumSite.Pages.Forum.Admin.EditCategoryModel
+@{
+}
+<h1>Add Category</h1>
+
+<form method="post">
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">Title</span>
+        <input type="text" asp-for="@Model.NewTitle" class="form-control" placeholder="@Model.Category.Title" aria-label="Title" aria-describedby="addon-wrapping">
+    </div>
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">Description</span>
+        <input type="text" asp-for="@Model.NewDescription" class="form-control" placeholder="@Model.Category.Description" aria-label="Title" aria-describedby="addon-wrapping">
+    </div>
+    <input type="hidden" asp-for="@Model.Category.Id" />
+    <input type="hidden" asp-for="@Model.Category.SubCategoryId" />
+    <hr />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

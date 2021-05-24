@@ -16,6 +16,7 @@ namespace ForumSite.Pages.Forum
         private readonly ForumSiteContext _context;
         public List<Post> Posts { get; set; }
         public User PostedBy { get; set; }
+        public Post Post { get; set; }
 
         public PostModel(IPostRepository postRepository, ForumSiteContext context)
         {

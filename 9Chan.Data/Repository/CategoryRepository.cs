@@ -24,9 +24,11 @@ namespace _9Chan.Data.Repository
 
         }
 
-        public Category GetCategoryById(int id)
+        public async Task<Category> GetCategoryById(int id)
         {
-            return _context.Categories.Find(id);
+            var subcategories = await _context.SubCategories.ToArrayAsync();
+            var category = await _context.Categories.FindAsync(id);
+            return category;
         }
 
         public async Task<Category> AddCategory(Category newCategory)
@@ -38,10 +40,29 @@ namespace _9Chan.Data.Repository
             return newCategory;
         }
 
-        public Category RemoveCategoryById(int id)
+        async Task<Category> ICategoryRepository.DeleteCategoryById(int id)
         {
-            var category = GetCategoryById(id);
-            return category;
+            var subcategories = await _context.SubCategories.ToArrayAsync();
+            var Category = await GetCategoryById(id);
+            if (Category != null)
+            {
+                _context.Categories.Remove(Category);
+                await _context.SaveChangesAsync();
+            }
+
+            return  Category;
         }
+
+        public async Task<Category> UpdateCategory(Category updatedCategory)
+        {
+            var entity = _context.Categories.Attach(updatedCategory);
+
+            entity.State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return updatedCategory;
+        }
+
+        
     }
 }

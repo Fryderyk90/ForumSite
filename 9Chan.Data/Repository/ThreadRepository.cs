@@ -17,9 +17,13 @@ namespace _9Chan.Data.Repository
             _context = context;
         }
 
-        public Task<Thread> AddThread(int id)
+        public async Task<Thread> AddThread(Thread newThread)
         {
-            throw new NotImplementedException();
+            var subcategories = await _context.SubCategories.ToArrayAsync();
+            var inputThread = newThread;
+            await _context.Threads.AddAsync(newThread);
+            await _context.SaveChangesAsync();
+            return newThread;
         }
 
         public Task<Thread> GetThreadId()

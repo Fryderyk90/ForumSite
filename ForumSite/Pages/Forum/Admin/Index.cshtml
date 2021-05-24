@@ -19,15 +19,15 @@
         @foreach (var category in Model.Categories)
         {
             <tr>
-
+                
                 <td>@category.Id</td>
                 <td>@category.Title</td>
                 <td>@category.Description</td>
                 <td align="right">
-                    <div>
+                    <div>                           @*TODO Need to add Delete and edit for Category And Subcategory*@
                         <a asp-page="AddSubCategory" asp-route-id="@category.Id" asp-route-title="@category.Title" class="btn btn-info font-weight-bold btn-info">Subcategories</a>
-                        <a asp-page="" asp-route-id="@category.Id" class="btn btn-primary font-weight-bold"><i class="bi bi-pencil"></i></a>
-                        <a asp-page="" asp-route-id="@category.Id" class="btn btn-danger font-weight-bold"><i class="bi bi-trash"></i></a>
+                        <a asp-page="EditCategory" asp-route-id="@category.Id" class="btn btn-primary font-weight-bold"><i class="bi bi-pencil"></i></a>
+                        <a asp-page="DeleteCategory" asp-route-id="@category.Id" class="btn btn-danger font-weight-bold"><i class="bi bi-trash"></i></a>
                     </div>
                 </td>
             </tr>

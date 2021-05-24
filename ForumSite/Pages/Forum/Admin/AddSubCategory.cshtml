@@ -26,8 +26,8 @@
                 <td>@subcategory.Description</td>
                 <td align="right">
                     <div>
-                        <a asp-page="" asp-route-id="@subcategory.Id" class="btn btn-primary font-weight-bold">Edit</a>
-                        <a asp-page="Delete" asp-route-id="@subcategory.Id" class="btn btn-danger font-weight-bold">Delete</a>
+                        <a asp-page="EditSubCategory" asp-route-subCategoryId="@subcategory.Id" class="btn btn-primary font-weight-bold">Edit</a>
+                        <a asp-page="DeleteSubCategory" asp-route-id="@subcategory.Id" class="btn btn-danger font-weight-bold">Delete</a>
                     </div>
                 </td>
             </tr>
@@ -49,19 +49,18 @@
             <span asp-validation-for="InputSubCategory.Description" class="text-danger"></span>
         </div>
         <hr />*@
-    <h3>Add Subcategory</h3>
-    <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping">Title</span>
-        <input type="text" asp-for="@Model.InputSubCategory.Title" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
-    </div>
-    <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping">Description</span>
-        <input type="text" asp-for="@Model.InputSubCategory.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
-    </div>
-    <hr/>
-    <div align="right">
-        <button type="submit" class="btn btn-success">Submit</button>
-    </div>
+   
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Title</span>
+            <input type="text" asp-for="@Model.InputSubCategory.Title" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
+        </div>
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Description</span>
+            <input type="text" asp-for="@Model.InputSubCategory.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
+        </div>
+        <hr />
+        <button type="submit" class="btn btn-primary">Submit</button>
+   
     
 
 </form>
