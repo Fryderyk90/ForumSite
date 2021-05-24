@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Identity
 @using _9Chan.Core.Models
 @model ForumSite.Pages.Forum.PostModel
-@inject UserManager<User> Manager;
 @{
 }
 @foreach (var post in Model.Posts)
@@ -12,16 +11,13 @@
 <p>@post.PostText</p>
 }
 
-<h3>Create New Thread</h3>
-<div class="input-group flex-nowrap">
-    <span class="input-group-text" id="addon-wrapping">Title</span>
-    <input type="text" asp-for="@Model.Post.PostText" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
-</div>
-<div class="input-group flex-nowrap">
-    <span class="input-group-text" id="addon-wrapping">Description</span>
-    <input type="text" asp-for="@Model.Post.DatePosted" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
-</div>
-<hr />
-<div align="right">
-    <button type="submit" class="btn btn-success">Submit</button>
-</div>
+<h3>Create New Post</h3>
+<form method="post">
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">Title</span>
+        <input type="text" asp-for="@Model.Post.PostText" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
+    </div>
+
+    <hr />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

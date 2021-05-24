@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id}"
 @using Microsoft.AspNetCore.Identity
 @using _9Chan.Core.Models
 @model ForumSite.Pages.Forum.ThreadsModel
@@ -6,6 +6,7 @@
 }
 
 
+<h2>@Model.SubCategoryTitle</h2>
 <table class="table">
     <tr>
         <th>Title</th>
@@ -15,7 +16,7 @@
     @foreach (var thread in Model.Threads)
     {
         <tr>
-            <td><a asp-route-id="@thread.Id" asp-page="./Post">@thread.Title</a></td>
+            <td><a asp-route-id="@thread.Id" asp-page="/Forum/Post">@thread.Title</a></td>
             <td>@thread.User.Email</td>
             <td>@thread.DateCreated.ToShortDateString()</td>
         </tr>
@@ -23,21 +24,22 @@
 </table>
 
 <h3>Create New Thread</h3>
-<div class="input-group flex-nowrap">
-    <span class="input-group-text" id="addon-wrapping">Title</span>
-    <input type="text" asp-for="@Model.InputThread.Title" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
-</div>
-<div class="input-group flex-nowrap">
-    <span class="input-group-text" id="addon-wrapping">Description</span>
-    <input type="text" asp-for="@Model.InputThread.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
-</div>
-<input type="hidden" asp-for="InputThread.DateCreated.Date"/>
 
+<form method="post">
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">Title</span>
+        <input type="text" asp-for="@Model.InputThread.Title" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
+    </div>
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">Description</span>
+        <input type="text" asp-for="@Model.InputThread.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
+    </div>
+    <input type="hidden" asp-for="@Model.InputThread.UserId" />
 
-<hr/>
-<div align="right">
-    <button type="submit" class="btn btn-success">Submit</button>
-</div>
-
+    <hr />
+    <div align="right">
+        <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+</form>
 
 

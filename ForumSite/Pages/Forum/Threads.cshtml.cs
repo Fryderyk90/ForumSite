@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using _9Chan.Core.Models;
 using _9Chan.Data.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,21 +14,34 @@ namespace ForumSite.Pages.Forum
     public class ThreadsModel : PageModel
     {
         private readonly IThreadRepository _threadRepository;
+        public UserManager<User> _userManager { get; }
+        public string SubCategoryTitle { get; set; }
         public List<Thread> Threads { get; set; }
+        [BindProperty]
         public Thread InputThread { get; set; }
-        public ThreadsModel(IThreadRepository threadRepository)
+        public ThreadsModel(IThreadRepository threadRepository, UserManager<User> userManager)
         {
             _threadRepository = threadRepository;
+            _userManager = userManager;
         }
 
-        public async Task OnGetAsync(int id)
+        public async Task<IActionResult> OnGetAsync(int id, string subCategoryTitle)
         {
+            SubCategoryTitle = subCategoryTitle;
             Threads = await _threadRepository.GetThreadsInSubCategoryById(id);
+
+            return Page();
         }
 
-        public void OnPost()
+        public async Task<IActionResult> OnPost(int id)
         {
-            _threadRepository.AddThread(InputThread);
+            InputThread.SubCategoryId = id;
+
+            var user = await _userManager.GetUserAsync(User);
+            InputThread.UserId = user.Id;
+            InputThread.DateCreated = DateTime.Now;
+            await _threadRepository.AddThread(InputThread);
+            return Page();
         }
     }
 }

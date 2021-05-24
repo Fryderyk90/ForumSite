@@ -1,7 +1,10 @@
 ﻿@page
+@using Microsoft.AspNetCore.Identity
+@using _9Chan.Core.Models
 @model ForumSite.Pages.Forum.Admin.EditSubCategoryModel
 @{
 }
+@inject UserManager<User> _userManager
 <h1>Edit Subcategory</h1>
 <form method="post">
     <div class="input-group flex-nowrap">

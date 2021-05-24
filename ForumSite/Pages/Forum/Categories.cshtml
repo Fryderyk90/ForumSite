@@ -14,7 +14,7 @@
     @foreach (var category in Model.Categories)
     {
         <tr>
-            <td><a asp-page="./SubCategories" asp-route-id="@category.Id">@category.Title</a></td>
+            <td><a asp-page="./SubCategories" asp-route-id="@category.Id" asp-route-categoryTitle="@category.Title">@category.Title</a></td>
             <td>@category.Description</td>
             <td>@category.SubCategories</td>
         </tr>

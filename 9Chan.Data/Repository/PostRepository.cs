@@ -34,10 +34,11 @@ namespace _9Chan.Data.Repository
             throw new NotImplementedException();
         }
 
-        //public Task<Post> AddPostToThreadById(int id)
-        //{
+        public async Task<Post> AddPostToThreadById(Post newPost)
+        {
 
-        //    _context.Posts.AddAsync();
-        //}
+            await _context.Posts.AddAsync(newPost);
+            return newPost;
+        }
     }
 }

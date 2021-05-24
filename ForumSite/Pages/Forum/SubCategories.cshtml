@@ -1,8 +1,9 @@
-﻿@page
+﻿@page 
 @model ForumSite.Pages.Forum.SubCategoriesModel
 @{
 }
 
+<h2>@Model.CategoryTitle</h2>
 <table class="table">
     <tr>
         <th>Title</th>
@@ -11,7 +12,7 @@
     @foreach (var subCategory in Model.SubCategories)
     {
         <tr>
-            <td><a asp-route-id="@subCategory.Id" asp-page="./Threads">@subCategory.Title</a></td>
+            <td><a asp-route-id="@subCategory.Id" asp-route-subCategoryTitle="@subCategory.Title" asp-page="./Threads">@subCategory.Title</a></td>
             <td>@subCategory.Description</td>
         </tr>
     }
