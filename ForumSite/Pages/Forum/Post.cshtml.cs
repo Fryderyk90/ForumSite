@@ -13,7 +13,6 @@ namespace ForumSite.Pages.Forum
     public class PostModel : PageModel
     {
         private readonly IPostRepository _postRepository;
-        private readonly ForumSiteContext _context;
 
         public List<Post> Posts { get; set; }
         public UserManager<User> PostedBy { get; }
