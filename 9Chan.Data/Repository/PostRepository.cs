@@ -34,10 +34,25 @@ namespace _9Chan.Data.Repository
             throw new NotImplementedException();
         }
 
+        public async Task<Post> GetPostById(int postId)
+        {
+            var postedByUser = _context.RegUsers.ToArrayAsync();
+            return await _context.Posts.FindAsync(postId);
+        }
+
+        public async Task<Post> UpdatePost(Post updatedPost)
+        {
+            var post =_context.Posts.Attach(updatedPost);
+            post.State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return updatedPost;
+        }
+
         public async Task<Post> AddPostToThreadById(Post newPost)
         {
 
             await _context.Posts.AddAsync(newPost);
+            await _context.SaveChangesAsync();
             return newPost;
         }
     }

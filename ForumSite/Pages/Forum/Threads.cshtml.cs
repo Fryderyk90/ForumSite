@@ -19,6 +19,19 @@ namespace ForumSite.Pages.Forum
         public List<Thread> Threads { get; set; }
         [BindProperty]
         public Thread InputThread { get; set; }
+        [BindProperty]
+        public NewThread NewThreadInput { get; set; }
+
+        public class NewThread
+        {
+            public int SubCategoryId { get; set; }
+            public string UserId { get; set; }
+            public string ThreadTitle { get; set; }
+            public string Description { get; set; }
+            public bool IsReported { get; set; }
+            
+        }
+
         public ThreadsModel(IThreadRepository threadRepository, UserManager<User> userManager)
         {
             _threadRepository = threadRepository;
@@ -35,12 +48,28 @@ namespace ForumSite.Pages.Forum
 
         public async Task<IActionResult> OnPost(int id)
         {
-            InputThread.SubCategoryId = id;
-
+            if (ModelState.IsValid)
+            {
+                
+            
             var user = await _userManager.GetUserAsync(User);
-            InputThread.UserId = user.Id;
-            InputThread.DateCreated = DateTime.Now;
-            await _threadRepository.AddThread(InputThread);
+            var newThread = new Thread()
+            {
+                SubCategoryId = id,
+                UserId = user.Id,
+                DateCreated = DateTime.Now,
+                IsSticky = false,
+                Title = NewThreadInput.ThreadTitle,
+                Description = NewThreadInput.Description
+                
+
+            };
+            await _threadRepository.AddThread(newThread);
+            Threads = await _threadRepository.GetThreadsInSubCategoryById(id);
+                return Page();
+            }
+
+            
             return Page();
         }
     }

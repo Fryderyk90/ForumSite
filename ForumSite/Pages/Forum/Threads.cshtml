@@ -28,13 +28,13 @@
 <form method="post">
     <div class="input-group flex-nowrap">
         <span class="input-group-text" id="addon-wrapping">Title</span>
-        <input type="text" asp-for="@Model.InputThread.Title" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
+        <input type="text" asp-for="@Model.NewThreadInput.ThreadTitle" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
     </div>
     <div class="input-group flex-nowrap">
         <span class="input-group-text" id="addon-wrapping">Description</span>
-        <input type="text" asp-for="@Model.InputThread.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
+        <input type="text" asp-for="@Model.NewThreadInput.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
     </div>
-    <input type="hidden" asp-for="@Model.InputThread.UserId" />
+    <input type="hidden" asp-for="@Model.NewThreadInput.UserId" />
 
     <hr />
     <div align="right">

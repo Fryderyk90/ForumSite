@@ -6,16 +6,17 @@
 }
 @foreach (var post in Model.Posts)
 {
-<h6>@post.User.Email</h6>
-<p>@post.DatePosted</p>
-<p>@post.PostText</p>
+    <h6>@post.User.Email</h6>
+    <p>@post.DatePosted</p>
+    <p>@post.PostText</p>
+    <p align="right"><a asp-route-id="@post.Id" asp-page="ConfirmReport">Report</a></p>
 }
 
 <h3>Create New Post</h3>
 <form method="post">
     <div class="input-group flex-nowrap">
         <span class="input-group-text" id="addon-wrapping">Title</span>
-        <input type="text" asp-for="@Model.Post.PostText" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
+        <input type="text" asp-for="@Model.InputPost.InputText" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
     </div>
 
     <hr />
