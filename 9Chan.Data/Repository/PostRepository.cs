@@ -22,7 +22,7 @@ namespace _9Chan.Data.Repository
         {
 
             var posts = await _context.Posts.Where(s => s.ThreadId == id).ToListAsync();
-            
+
             //Where the magic happens DO NOT TOUCH
             var users = await _context.RegUsers.ToArrayAsync();
 
@@ -42,7 +42,7 @@ namespace _9Chan.Data.Repository
 
         public async Task<Post> UpdatePost(Post updatedPost)
         {
-            var post =_context.Posts.Attach(updatedPost);
+            var post = _context.Posts.Attach(updatedPost);
             post.State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return updatedPost;
@@ -54,6 +54,37 @@ namespace _9Chan.Data.Repository
             await _context.Posts.AddAsync(newPost);
             await _context.SaveChangesAsync();
             return newPost;
+        }
+
+        public async Task<Post> DeletePostById(int id)
+        {
+            var reportedPost = await GetPostById(id);
+            if (reportedPost != null)
+            {
+                _context.Posts.Remove(reportedPost);
+                await _context.SaveChangesAsync();
+            }
+
+            return reportedPost;
+        }
+
+        public async Task<List<Post>> ReportedPosts()
+        {
+
+            var reportedPosts = await _context.Posts.Where(p => p.IsReported == true).OrderBy(p => p.UserId).ToListAsync();
+            var users = await _context.RegUsers.ToArrayAsync();
+
+            return reportedPosts;
+        }
+
+        public async Task<Post> UnReportPost(int id)
+        {
+            var reportedPost = await GetPostById(id);
+
+            reportedPost.IsReported = false;
+            await _context.SaveChangesAsync();
+
+            return reportedPost;
         }
     }
 }

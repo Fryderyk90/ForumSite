@@ -14,5 +14,8 @@ namespace _9Chan.Data.Repository
         Task<Post> GetPostById(int postId);
         Task<Post> UpdatePost(Post post);
         Task<Post> AddPostToThreadById(Post newPost);
+        Task<Post> DeletePostById(int id);
+        Task<List<Post>> ReportedPosts();
+        Task<Post> UnReportPost(int id);
     }
 }

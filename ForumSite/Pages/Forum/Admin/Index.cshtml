@@ -19,15 +19,44 @@
         @foreach (var category in Model.Categories)
         {
             <tr>
-                
+
                 <td>@category.Id</td>
                 <td>@category.Title</td>
                 <td>@category.Description</td>
                 <td align="right">
-                    <div>                           @*TODO Need to add Delete and edit for Category And Subcategory*@
+                    <div>
+                        @*TODO Need to add Delete and edit for Category And Subcategory*@
                         <a asp-page="AddSubCategory" asp-route-id="@category.Id" asp-route-title="@category.Title" class="btn btn-info font-weight-bold btn-info">Subcategories</a>
                         <a asp-page="EditCategory" asp-route-id="@category.Id" class="btn btn-primary font-weight-bold"><i class="bi bi-pencil"></i></a>
                         <a asp-page="DeleteCategory" asp-route-id="@category.Id" class="btn btn-danger font-weight-bold"><i class="bi bi-trash"></i></a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h2>Reported Posts</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Post</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var post in Model.ReportedPosts)
+        {
+            <tr>
+
+                <td>@post.User.UserName</td>
+                <td>@post.PostText</td>
+
+                <td align="right">
+                    <div>
+                        <a asp-page="UnReportPost" asp-route-id="@post.Id" asp-route-text="@post.PostText" class="btn btn-primary font-weight-bold"><i class="bi bi-pencil"></i></a>
+                        <a asp-page="DeleteReportedPost" asp-route-id="@post.Id" asp-route-text="@post.PostText" class="btn btn-danger font-weight-bold"><i class="bi bi-trash"></i></a>
                     </div>
                 </td>
             </tr>

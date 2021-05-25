@@ -19,5 +19,8 @@
     <input type="hidden" asp-for="@Model.SubCategory.ThreadId" />
     <input type="hidden" asp-for="@Model.SubCategory.CategoryId" />
     <hr />
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-danger">Submit</button>
+        <a asp-page="./Index" class="btn btn-primary">Back</a>
+    </div>
 </form>

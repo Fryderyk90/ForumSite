@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @using _9Chan.Core.Models
 @model ForumSite.Pages.Forum.ThreadsModel
+@inject SignInManager<User> SignInManager
 @{
 }
 
@@ -23,23 +24,27 @@
     }
 </table>
 
-<h3>Create New Thread</h3>
+@if (SignInManager.IsSignedIn(User))
+{
 
-<form method="post">
-    <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping">Title</span>
-        <input type="text" asp-for="@Model.NewThreadInput.ThreadTitle" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
-    </div>
-    <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping">Description</span>
-        <input type="text" asp-for="@Model.NewThreadInput.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
-    </div>
-    <input type="hidden" asp-for="@Model.NewThreadInput.UserId" />
 
-    <hr />
-    <div align="right">
-        <button type="submit" class="btn btn-success">Submit</button>
-    </div>
-</form>
+    <h3>Create New Thread</h3>
 
+    <form method="post">
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Title</span>
+            <input type="text" asp-for="@Model.NewThreadInput.ThreadTitle" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
+        </div>
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Description</span>
+            <input type="text" asp-for="@Model.NewThreadInput.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
+        </div>
+        <input type="hidden" asp-for="@Model.NewThreadInput.UserId" />
+
+        <hr />
+        <div align="right">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </form>
+}
 

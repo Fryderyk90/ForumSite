@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using _9Chan.Core.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,52 +27,8 @@ namespace _9Chan.Data.Repository
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
-            builder.Entity<Category>().HasData(new Category
-            {
-                Id = 1,
-                SubCategoryId = 1,
-                Title = "Bilar",
-                Description = "Här hittar du disskusioner om bilar"
-            });
-            builder.Entity<SubCategory>().HasData(new SubCategory
-            {
-                Id = 1,
-                CategoryId = 1,
-                ThreadId = 1,
-                Title = "Volvo",
-                Description = "Här diskuterar vi enbart Volvo bilar"
-
-            });
-            //builder.Entity<Thread>().HasData(new Thread
-            //{
-            //    Id = 1,
-            //    SubCategoryId = 1,
-            //    PostId = 1,
-            //    UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7",
-            //    Title = "Vilken Volvo bil ska jag köpa!?",
-            //    Description = "",
-            //    IsSticky = false,
-            //    DateCreated = DateTime.Today
-            //});
-            //builder.Entity<Post>().HasData(new Post
-            //{
-            //    Id = 1,
-            //    ThreadId = 1,
-            //    UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7",
-            //    PostText = "Jag har funderat på att köpa S90 men den verkar vara dyr har någon erfarenhet av denna model?",
-            //    DatePosted = DateTime.Now,
-            //    IsReported = false
-            //});
-
-            //builder.Entity<Post>().HasData(new Post
-            //{
-            //    Id = 2,
-            //    ThreadId = 1,
-            //    UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7",
-            //    PostText = "Just det jag glömde säga att V60 modelen också är intressant, sry för dubbel post",
-            //    DatePosted = DateTime.Now,
-            //    IsReported = false
-            //});
+            
+            
         }
     }
 }

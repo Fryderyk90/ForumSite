@@ -174,15 +174,6 @@ namespace _9Chan.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Här hittar du disskusioner om bilar",
-                            SubCategoryId = 1,
-                            Title = "Bilar"
-                        });
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.Post", b =>
@@ -214,26 +205,6 @@ namespace _9Chan.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DatePosted = new DateTime(2021, 5, 20, 12, 6, 43, 787, DateTimeKind.Local).AddTicks(6286),
-                            IsReported = false,
-                            PostText = "Jag har funderat på att köpa S90 men den verkar vara dyr har någon erfarenhet av denna model?",
-                            ThreadId = 1,
-                            UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DatePosted = new DateTime(2021, 5, 20, 12, 6, 43, 787, DateTimeKind.Local).AddTicks(7707),
-                            IsReported = false,
-                            PostText = "Just det jag glömde säga att V60 modelen också är intressant, sry för dubbel post",
-                            ThreadId = 1,
-                            UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7"
-                        });
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.SubCategory", b =>
@@ -260,16 +231,6 @@ namespace _9Chan.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("SubCategories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 1,
-                            Description = "Här diskuterar vi enbart Volvo bilar",
-                            ThreadId = 1,
-                            Title = "Volvo"
-                        });
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.Thread", b =>
@@ -307,19 +268,6 @@ namespace _9Chan.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Threads");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DateCreated = new DateTime(2021, 5, 20, 0, 0, 0, 0, DateTimeKind.Local),
-                            Description = "",
-                            IsSticky = false,
-                            PostId = 1,
-                            SubCategoryId = 1,
-                            Title = "Vilken Volvo bil ska jag köpa!?",
-                            UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7"
-                        });
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.User", b =>

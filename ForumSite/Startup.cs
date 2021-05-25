@@ -34,7 +34,10 @@ namespace ForumSite
             services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
             services.AddScoped<IThreadRepository, ThreadRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
-            services.AddRazorPages();
+            services.AddRazorPages(options =>
+            {
+                options.Conventions.AuthorizeFolder("/Forum/Admin");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

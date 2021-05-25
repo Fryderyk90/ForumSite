@@ -1,6 +1,7 @@
 ﻿@page
 @using Microsoft.AspNetCore.Identity
 @using _9Chan.Core.Models
+@inject SignInManager<User> SignInManager
 @model ForumSite.Pages.Forum.PostModel
 @{
 }
@@ -9,16 +10,23 @@
     <h6>@post.User.Email</h6>
     <p>@post.DatePosted</p>
     <p>@post.PostText</p>
-    <p align="right"><a asp-route-id="@post.Id" asp-page="ConfirmReport">Report</a></p>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <p align="right"><a asp-route-id="@post.Id" asp-page="ConfirmReport">Report</a></p>
+    }
+
 }
 
-<h3>Create New Post</h3>
-<form method="post">
-    <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping">Title</span>
-        <input type="text" asp-for="@Model.InputPost.InputText" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
-    </div>
+@if (SignInManager.IsSignedIn(User))
+{
+    <h3>Create New Post</h3>
+    <form method="post">
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Title</span>
+            <input type="text" asp-for="@Model.InputPost.InputText" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
+        </div>
 
-    <hr />
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+        <hr />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+}
