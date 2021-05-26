@@ -11,10 +11,14 @@ namespace _9Chan.Data.Repository
     public class SubCategoryRepository : ISubCategoryRepository
     {
         private readonly ForumSiteContext _context;
+        private readonly IThreadRepository _threadRepository;
+        private readonly IPostRepository _postRepository;
 
-        public SubCategoryRepository(ForumSiteContext context)
+        public SubCategoryRepository(ForumSiteContext context, IThreadRepository threadRepository, IPostRepository postRepository)
         {
             _context = context;
+            _threadRepository = threadRepository;
+            _postRepository = postRepository;
         }
 
         public async Task<List<SubCategory>> AllSubCategories()
@@ -25,14 +29,14 @@ namespace _9Chan.Data.Repository
         public async Task<List<SubCategory>> AllSubCategoriesById(int id)
         {
             return await _context.SubCategories.Where(sb => sb.CategoryId == id).ToListAsync();
-             
+
         }
 
         public async Task<SubCategory> UpdateSubCategory(SubCategory updatedSubCategory)
         {
 
             var entity = _context.SubCategories.Attach(updatedSubCategory);
-           
+
             entity.State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
@@ -54,21 +58,52 @@ namespace _9Chan.Data.Repository
         {
             var categories = await _context.Categories.ToArrayAsync();
             var inputSubCategory = newSubCategory;
-            await _context.SubCategories.AddAsync(newSubCategory); 
+            await _context.SubCategories.AddAsync(newSubCategory);
             await _context.SaveChangesAsync();
             return newSubCategory;
         }
 
-        public async Task<SubCategory> DeleteSubCategory(int? subCategoryId)
-        {
-            var categories = _context.Categories.ToArrayAsync();
-            var subCategory = GetSubCategoryById(subCategoryId);
-          
-                _context.SubCategories.Remove(await subCategory);
-                await _context.SaveChangesAsync();
-            
 
-            return await subCategory;
+
+        public async Task<SubCategory> DeleteSubCategory(int id)
+        {
+
+
+
+            var subCategory = await GetSubCategoryById(id);
+            _context.SubCategories.Remove(subCategory);
+            await _context.SaveChangesAsync();
+
+
+            return subCategory;
+        }
+
+
+        public async Task DeleteSubCategories(int id)
+        {
+            var threadsToDelete = await _threadRepository.GetThreadsInSubCategoryById(id);
+            var postsInToDelete = await _postRepository.GetPostsInThreadById(id);
+            var subCategoriesToDelete = await AllSubCategoriesById(id);
+
+            if (postsInToDelete.Count > 0)
+            {
+                await _postRepository.DeletePostsInThread(postsInToDelete);
+            }
+            if (threadsToDelete.Count > 0)
+            {
+                await _threadRepository.DeleteThreadsById(threadsToDelete);
+            }
+
+            if (subCategoriesToDelete.Count > 0)
+            {
+                foreach (var subCategory in subCategoriesToDelete)
+                {
+                    _context.SubCategories.Remove(subCategory);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
         }
     }
 }

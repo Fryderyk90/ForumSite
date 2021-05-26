@@ -7,6 +7,7 @@ using _9Chan.Data.Repository;
 using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace ForumSite.Pages.Forum.Admin
 {
@@ -15,13 +16,15 @@ namespace ForumSite.Pages.Forum.Admin
     {
         private readonly ISubCategoryRepository _subCategoryRepository;
 
+        public class InputSubCategory
+        {
+            public string Title { get; set; }
+            public string Description { get; set; }
+        }
         [BindProperty]
+        public InputSubCategory InputModel { get; set; }
+        
         public SubCategory SubCategory { get; set; }
-        [BindProperty]
-        public string NewTitle { get; set; }
-        [BindProperty]
-        public string NewDescription { get; set; }
-       
         public EditSubCategoryModel(ISubCategoryRepository subCategoryRepository)
         {
             _subCategoryRepository = subCategoryRepository;
@@ -35,15 +38,16 @@ namespace ForumSite.Pages.Forum.Admin
             return Page();
         }
 
-        public async Task<IActionResult> OnPost(int id)
+        public async Task<IActionResult> OnPost(int subCategoryId)
         {
             if (ModelState.IsValid)
             {
-                //    await _subCategoryRepository.UpdateSubCategory(id,NewTitle,NewDescription);
-                SubCategory.Title = NewTitle;
-                SubCategory.Description = NewDescription;
+               
+                SubCategory = await _subCategoryRepository.GetSubCategoryById(subCategoryId);
+                SubCategory.Title = InputModel.Title;
+                SubCategory.Description = InputModel.Description;
                 await _subCategoryRepository.UpdateSubCategory(SubCategory);
-                return RedirectToPage("index");
+                return RedirectToPage("./index/AddSubCategory");
             }
 
             return Page();

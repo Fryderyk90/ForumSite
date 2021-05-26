@@ -17,7 +17,7 @@
     @foreach (var thread in Model.Threads)
     {
         <tr>
-            <td><a asp-route-id="@thread.Id" asp-page="/Forum/Post">@thread.Title</a></td>
+            <td><a asp-route-id="@thread.SubCategoryId" asp-page="/Forum/Post">@thread.Title</a></td>
             <td>@thread.User.Email</td>
             <td>@thread.DateCreated.ToShortDateString()</td>
         </tr>

@@ -1,0 +1,43 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@using _9Chan.Core.Models
+@model ForumSite.Pages.Forum.Admin.RoleHandelingModel
+@{
+}
+<div>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Users</th>
+            <th></th>
+            <th>Admins</th>
+        </tr>
+
+        <tr>
+            @foreach (var user in @Model.Users)
+            {
+
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" asp-page="PromoteToAdmin" asp-route-id="@user.Id"><i class="bi bi-person-lines-fill">Promote</i></a>
+                    </div>
+                </td>
+                <td>
+                    @user.UserName
+                </td>
+            }
+            @foreach (var admin in @Model.Admins)
+            {
+                <td>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-danger" asp-page="RemoveAdminRole" asp-route-id="@admin.Id"><i class="bi bi-person">Demote</i></a>
+                    </div>
+                </td>
+                <td>@admin.UserName</td>
+            }
+        </tr>
+
+    </table>
+    <hr />
+</div>
+

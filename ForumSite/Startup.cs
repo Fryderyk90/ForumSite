@@ -34,6 +34,13 @@ namespace ForumSite
             services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
             services.AddScoped<IThreadRepository, ThreadRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminPolicy", 
+                    policy => 
+                        policy.RequireRole("Admin"));
+            });
             services.AddRazorPages(options =>
             {
                 options.Conventions.AuthorizeFolder("/Forum/Admin");

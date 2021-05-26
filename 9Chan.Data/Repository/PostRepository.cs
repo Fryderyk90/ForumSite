@@ -68,6 +68,16 @@ namespace _9Chan.Data.Repository
             return reportedPost;
         }
 
+        public async Task DeletePostsInThread(List<Post> postsToDelete)
+        {
+            foreach (var post in postsToDelete)
+            {
+                _context.Posts.Remove(post);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Post>> ReportedPosts()
         {
 

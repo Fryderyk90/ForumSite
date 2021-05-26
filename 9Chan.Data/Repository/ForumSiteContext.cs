@@ -20,6 +20,7 @@ namespace _9Chan.Data.Repository
         public DbSet<Thread> Threads { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<User> RegUsers { get; set; }
+        public DbSet<PersonalMessage> PersonalMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

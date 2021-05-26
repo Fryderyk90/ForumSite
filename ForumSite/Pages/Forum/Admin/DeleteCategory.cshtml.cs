@@ -33,12 +33,14 @@ namespace ForumSite.Pages.Forum.Admin
 
         public async Task<IActionResult> OnPost(int id)
         {
-            
-            var category = await _categoryRepository.DeleteCategoryById(id);
+
+            var category = await _categoryRepository.GetCategoryById(id);
             if (category == null)
             {
                 return RedirectToPage("./NotFound");
             }
+            await _categoryRepository.DeleteCategoryById(category.Id);
+            
             return RedirectToPage("./index");
         }
 
