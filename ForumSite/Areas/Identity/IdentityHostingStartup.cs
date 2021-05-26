@@ -21,7 +21,9 @@ namespace ForumSite.Areas.Identity
                     options.UseSqlServer(
                        // AzureDb context.Configuration.GetConnectionString("9chanconnectionstring")));
                        context.Configuration.GetConnectionString("LocalDatabase")));
-                services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+                
+                services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<ForumSiteContext>();
             });
         }

@@ -38,12 +38,15 @@ namespace ForumSite.Pages.Forum.Admin
         public async Task<IActionResult> OnPost(int id)
         {
 
-            var subcategory = await _subCategoryRepository.DeleteSubCategory(id);
-            if(subcategory == null)
+
+            var subcategoryToDelete = await _subCategoryRepository.GetSubCategoryById(id);
+            if (subcategoryToDelete == null)
             {
-                return RedirectToPage("./NotFound");
+                return RedirectToPage("Pages/NotFound");
             }
-            return RedirectToPage("./index");
+            await _subCategoryRepository.DeleteSubCategories(subcategoryToDelete.Id);
+
+            return RedirectToPage("./Index/AddSubCategory");
         }
     }
 }

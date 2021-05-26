@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace _9Chan.Data.Migrations
 {
-    public partial class testifthisworks : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -201,13 +201,19 @@ namespace _9Chan.Data.Migrations
                     IsSticky = table.Column<bool>(type: "bit", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     SubCategoryId = table.Column<int>(type: "int", nullable: true),
                     PostId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Threads", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Threads_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Threads_SubCategories_SubCategoryId",
                         column: x => x.SubCategoryId,
@@ -244,40 +250,6 @@ namespace _9Chan.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "ThreadUser",
-                columns: table => new
-                {
-                    ThreadsId = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ThreadUser", x => new { x.ThreadsId, x.UsersId });
-                    table.ForeignKey(
-                        name: "FK_ThreadUser_AspNetUsers_UsersId",
-                        column: x => x.UsersId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ThreadUser_Threads_ThreadsId",
-                        column: x => x.ThreadsId,
-                        principalTable: "Threads",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Description", "SubCategoryId", "Title" },
-                values: new object[] { 1, "Här hittar du disskusioner om bilar", 1, "Bilar" });
-
-            migrationBuilder.InsertData(
-                table: "SubCategories",
-                columns: new[] { "Id", "CategoryId", "Description", "ThreadId", "Title" },
-                values: new object[] { 1, 1, "Här diskuterar vi enbart Volvo bilar", 1, "Volvo" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -339,9 +311,9 @@ namespace _9Chan.Data.Migrations
                 column: "SubCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ThreadUser_UsersId",
-                table: "ThreadUser",
-                column: "UsersId");
+                name: "IX_Threads_UserId",
+                table: "Threads",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -365,16 +337,13 @@ namespace _9Chan.Data.Migrations
                 name: "Posts");
 
             migrationBuilder.DropTable(
-                name: "ThreadUser");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Threads");
 
             migrationBuilder.DropTable(
-                name: "Threads");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "SubCategories");

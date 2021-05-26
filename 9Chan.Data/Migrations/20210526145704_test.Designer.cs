@@ -10,8 +10,8 @@ using _9Chan.Data.Repository;
 namespace _9Chan.Data.Migrations
 {
     [DbContext(typeof(ForumSiteContext))]
-    [Migration("20210519163852_testifthisworks")]
-    partial class testifthisworks
+    [Migration("20210526145704_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,21 +156,6 @@ namespace _9Chan.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ThreadUser", b =>
-                {
-                    b.Property<int>("ThreadsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ThreadsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("ThreadUser");
-                });
-
             modelBuilder.Entity("_9Chan.Core.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -191,15 +176,26 @@ namespace _9Chan.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Här hittar du disskusioner om bilar",
-                            SubCategoryId = 1,
-                            Title = "Bilar"
-                        });
+            modelBuilder.Entity("_9Chan.Core.Models.PersonalMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PersonalMessages");
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.Post", b =>
@@ -257,16 +253,6 @@ namespace _9Chan.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("SubCategories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 1,
-                            Description = "Här diskuterar vi enbart Volvo bilar",
-                            ThreadId = 1,
-                            Title = "Volvo"
-                        });
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.Thread", b =>
@@ -295,11 +281,13 @@ namespace _9Chan.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SubCategoryId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Threads");
                 });
@@ -426,19 +414,13 @@ namespace _9Chan.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ThreadUser", b =>
+            modelBuilder.Entity("_9Chan.Core.Models.PersonalMessage", b =>
                 {
-                    b.HasOne("_9Chan.Core.Models.Thread", null)
+                    b.HasOne("_9Chan.Core.Models.User", "ToUser")
                         .WithMany()
-                        .HasForeignKey("ThreadsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
-                    b.HasOne("_9Chan.Core.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("ToUser");
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.Post", b =>
@@ -471,7 +453,13 @@ namespace _9Chan.Data.Migrations
                         .WithMany("Threads")
                         .HasForeignKey("SubCategoryId");
 
+                    b.HasOne("_9Chan.Core.Models.User", "User")
+                        .WithMany("Threads")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("SubCategory");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.Category", b =>
@@ -492,6 +480,8 @@ namespace _9Chan.Data.Migrations
             modelBuilder.Entity("_9Chan.Core.Models.User", b =>
                 {
                     b.Navigation("Posts");
+
+                    b.Navigation("Threads");
                 });
 #pragma warning restore 612, 618
         }

@@ -36,6 +36,7 @@ namespace ForumSite.Pages.Forum.Admin
                 };
 
                 await _categoryRepository.AddCategory(newCategory);
+                return RedirectToPage("./Index");
             }
 
 

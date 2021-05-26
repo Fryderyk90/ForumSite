@@ -1,0 +1,26 @@
+﻿@page
+@model ForumSite.Pages.Forum.Admin.Index1Model
+@{
+}
+<h1>Unreport Post</h1>
+
+@if (@Model.ReportedPost.IsReported == true)
+{
+    <div class="alert alert-danger">
+        Are you Sure you want to Unreport <br/>@Model.ReportedPost.PostText?
+    </div>
+}
+else
+{
+    <div class="alert alert-success">
+        <p>Post unreported</p>
+        <p>@Model.ReportedPost.PostText</p>
+    </div>
+}
+
+<form method="post">
+    <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-danger">Unreport</button>
+        <a asp-page="./Index" class="btn btn-primary">Back</a>
+    </div>
+</form>

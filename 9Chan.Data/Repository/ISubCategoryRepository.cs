@@ -14,7 +14,8 @@ namespace _9Chan.Data.Repository
         Task<SubCategory> UpdateSubCategory(SubCategory subCategory);
         Task<SubCategory> GetSubCategoryById(int? id);
         Task<SubCategory> AddSubCategory(SubCategory newSubCategory);
-        Task<SubCategory> DeleteSubCategory(int? subCategoryId);
+        Task<SubCategory> DeleteSubCategory(int subCategoryId);
+        Task DeleteSubCategories(int id);
 
     }
 }

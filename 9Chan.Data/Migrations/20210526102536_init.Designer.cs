@@ -10,8 +10,8 @@ using _9Chan.Data.Repository;
 namespace _9Chan.Data.Migrations
 {
     [DbContext(typeof(ForumSiteContext))]
-    [Migration("20210520074724_adduserseeddata")]
-    partial class adduserseeddata
+    [Migration("20210526102536_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,21 +156,6 @@ namespace _9Chan.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ThreadUser", b =>
-                {
-                    b.Property<int>("ThreadsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ThreadsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("ThreadUser");
-                });
-
             modelBuilder.Entity("_9Chan.Core.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -191,15 +176,6 @@ namespace _9Chan.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Här hittar du disskusioner om bilar",
-                            SubCategoryId = 1,
-                            Title = "Bilar"
-                        });
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.Post", b =>
@@ -231,26 +207,6 @@ namespace _9Chan.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DatePosted = new DateTime(2021, 5, 20, 9, 47, 23, 655, DateTimeKind.Local).AddTicks(3431),
-                            IsReported = false,
-                            PostText = "Jag har funderat på att köpa S90 men den verkar vara dyr har någon erfarenhet av denna model?",
-                            ThreadId = 1,
-                            UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DatePosted = new DateTime(2021, 5, 20, 9, 47, 23, 655, DateTimeKind.Local).AddTicks(5219),
-                            IsReported = false,
-                            PostText = "Just det jag glömde säga att V60 modelen också är intressant, sry för dubbel post",
-                            ThreadId = 1,
-                            UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7"
-                        });
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.SubCategory", b =>
@@ -277,16 +233,6 @@ namespace _9Chan.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("SubCategories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 1,
-                            Description = "Här diskuterar vi enbart Volvo bilar",
-                            ThreadId = 1,
-                            Title = "Volvo"
-                        });
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.Thread", b =>
@@ -315,26 +261,15 @@ namespace _9Chan.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SubCategoryId");
 
-                    b.ToTable("Threads");
+                    b.HasIndex("UserId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DateCreated = new DateTime(2021, 5, 20, 0, 0, 0, 0, DateTimeKind.Local),
-                            Description = "",
-                            IsSticky = false,
-                            PostId = 1,
-                            SubCategoryId = 1,
-                            Title = "Vilken Volvo bil ska jag köpa!?",
-                            UserId = "3a37b34f-e1d2-47f5-aba6-a75e62e538e7"
-                        });
+                    b.ToTable("Threads");
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.User", b =>
@@ -459,21 +394,6 @@ namespace _9Chan.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ThreadUser", b =>
-                {
-                    b.HasOne("_9Chan.Core.Models.Thread", null)
-                        .WithMany()
-                        .HasForeignKey("ThreadsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("_9Chan.Core.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("_9Chan.Core.Models.Post", b =>
                 {
                     b.HasOne("_9Chan.Core.Models.Thread", "Thread")
@@ -504,7 +424,13 @@ namespace _9Chan.Data.Migrations
                         .WithMany("Threads")
                         .HasForeignKey("SubCategoryId");
 
+                    b.HasOne("_9Chan.Core.Models.User", "User")
+                        .WithMany("Threads")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("SubCategory");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.Category", b =>
@@ -525,6 +451,8 @@ namespace _9Chan.Data.Migrations
             modelBuilder.Entity("_9Chan.Core.Models.User", b =>
                 {
                     b.Navigation("Posts");
+
+                    b.Navigation("Threads");
                 });
 #pragma warning restore 612, 618
         }

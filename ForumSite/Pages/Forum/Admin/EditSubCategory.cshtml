@@ -9,15 +9,15 @@
 <form method="post">
     <div class="input-group flex-nowrap">
         <span class="input-group-text" id="addon-wrapping">Title</span>
-        <input type="text" asp-for="@Model.NewTitle" class="form-control" placeholder="@Model.SubCategory.Title" aria-label="Title" aria-describedby="addon-wrapping">
+        <input type="text" asp-for="@Model.InputModel.Title" class="form-control" placeholder="@Model.SubCategory.Title" aria-label="Title" aria-describedby="addon-wrapping">
     </div>
     <div class="input-group flex-nowrap">
         <span class="input-group-text" id="addon-wrapping">Description</span>
-        <input type="text" asp-for="@Model.NewDescription" class="form-control" placeholder="@Model.SubCategory.Description" aria-label="Title" aria-describedby="addon-wrapping">
+        <input type="text" asp-for="@Model.InputModel.Description" class="form-control" placeholder="@Model.SubCategory.Description" aria-label="Title" aria-describedby="addon-wrapping">
     </div>
-    <input type="hidden" asp-for="@Model.SubCategory.Id" />
-    <input type="hidden" asp-for="@Model.SubCategory.ThreadId" />
-    <input type="hidden" asp-for="@Model.SubCategory.CategoryId" />
     <hr />
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-danger">Submit</button>
+        <a asp-page="./Index" class="btn btn-primary">Back</a>
+    </div>
 </form>

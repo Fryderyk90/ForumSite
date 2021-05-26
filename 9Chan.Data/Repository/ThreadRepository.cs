@@ -40,6 +40,16 @@ namespace _9Chan.Data.Repository
             return await _context.Threads.Where(t => t.SubCategoryId == id).ToListAsync();
         }
 
+        public async Task DeleteThreadsById(List<Thread> threadsToDelete)
+        {
+            foreach (var thread in threadsToDelete)
+            {
+                _context.Remove(thread);
+            }
+
+           await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Thread>> getThreads()
         {
             var threads = await _context.Threads.ToListAsync();

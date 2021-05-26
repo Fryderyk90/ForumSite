@@ -11,10 +11,12 @@ namespace _9Chan.Data.Repository
     public class CategoryRepository : ICategoryRepository
     {
         private readonly ForumSiteContext _context;
+        private readonly ISubCategoryRepository _subCategoryRepository;
 
-        public CategoryRepository(ForumSiteContext context)
+        public CategoryRepository(ForumSiteContext context, ISubCategoryRepository subCategoryRepository)
         {
             _context = context;
+            _subCategoryRepository = subCategoryRepository;
         }
 
         public async Task<List<Category>> AllCategories()
@@ -42,7 +44,11 @@ namespace _9Chan.Data.Repository
 
         async Task<Category> ICategoryRepository.DeleteCategoryById(int id)
         {
-            var subcategories = await _context.SubCategories.ToArrayAsync();
+            var subCategoriesToDelete = await _subCategoryRepository.AllSubCategoriesById(id);
+            if (subCategoriesToDelete.Count > 0)
+            {
+                await _subCategoryRepository.DeleteSubCategories(id);
+            }
             var Category = await GetCategoryById(id);
             if (Category != null)
             {
