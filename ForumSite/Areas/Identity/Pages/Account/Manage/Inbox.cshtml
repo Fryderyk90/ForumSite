@@ -1,0 +1,20 @@
+﻿@page
+@model ForumSite.Areas.Identity.Pages.Account.Manage.InboxModel
+@{
+}
+@inject UserManager<User> userManager
+
+<table>
+
+    <tr>
+        <th>From</th>
+        <th>Message</th>
+    </tr>
+    @foreach (var message in Model.PersonalMessages)
+    {
+        <tr>
+            <td>@userManager.FindByIdAsync(message.FromUserId).Result.UserName</td>
+            <td>@message.Message</td>
+        </tr>
+    }
+</table>

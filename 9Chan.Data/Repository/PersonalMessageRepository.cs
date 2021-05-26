@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _9Chan.Data.Repository
 {
-    class PersonalMessageRepository : IPersonalMessageRepository
+    public class PersonalMessageRepository : IPersonalMessageRepository
     {
         private readonly ForumSiteContext _context;
 

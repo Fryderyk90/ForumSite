@@ -10,11 +10,14 @@
     <h6>@post.User.Email</h6>
     <p>@post.DatePosted</p>
     <p>@post.PostText</p>
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <p align="right"><a asp-route-id="@post.Id" asp-page="ConfirmReport">Report</a></p>
-    }
+    <div class="btn-group" role="group">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <p align="right"><a asp-route-id="@post.Id" asp-page="ConfirmReport">Report</a></p>
+            <p align="right"><a asp-route-id="@post.User.Id" asp-route-username="@post.User.UserName" asp-page="SendPersonalMessage">PM</a></p>
+        }
 
+    </div>
 }
 
 @if (SignInManager.IsSignedIn(User))
@@ -27,6 +30,7 @@
         </div>
 
         <hr />
+
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 }

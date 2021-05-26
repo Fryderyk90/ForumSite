@@ -4,28 +4,15 @@
 @model ForumSite.Pages.Forum.Admin.RoleHandelingModel
 @{
 }
+
 <div>
+    <h2>Admins</h2>
     <table class="table">
         <tr>
             <th></th>
-            <th>Users</th>
-            <th></th>
             <th>Admins</th>
         </tr>
-
         <tr>
-            @foreach (var user in @Model.Users)
-            {
-
-                <td>
-                    <div class="btn-group">
-                        <a class="btn btn-primary" asp-page="PromoteToAdmin" asp-route-id="@user.Id"><i class="bi bi-person-lines-fill">Promote</i></a>
-                    </div>
-                </td>
-                <td>
-                    @user.UserName
-                </td>
-            }
             @foreach (var admin in @Model.Admins)
             {
                 <td>
@@ -36,8 +23,47 @@
                 <td>@admin.UserName</td>
             }
         </tr>
+    </table>
+</div>
+<h2>Users</h2>
+<div>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Users</th>
 
+        </tr>
+        @foreach (var user in @Model.Users)
+        {
+            <tr>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" asp-page="PromoteToAdmin" asp-route-id="@user.Id"><i class="bi bi-person-lines-fill">Promote</i></a>
+                    </div>
+                </td>
+                <td>
+                    @user.UserName
+                </td>
+
+            </tr>
+        }
     </table>
     <hr />
+    
 </div>
+
+@*TODO Below is add named role form to the IdentityRoles Uncomment it if no roles are added, 
+  TODO  add "User" and "Admin"*@
+
+@*<form method="post">
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">RoleName</span>
+        <input type="text" asp-for="@Model.RoleName" class="form-control" placeholder="Enter Rolename" aria-label="Title" aria-describedby="addon-wrapping">
+    </div>
+    <hr />
+    <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-danger">Add</button>
+        <a asp-page="./Index" class="btn btn-primary">Back</a>
+    </div>
+</form>*@
 
