@@ -1,13 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using _9Chan.Core.Models;
-using _9Chan.Data.Repository;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace ForumSite.Pages
 {
@@ -18,6 +11,7 @@ namespace ForumSite.Pages
         private readonly IConfiguration _config;
 
         public string fromTest { get; set; }
+
         public IndexModel(ILogger<IndexModel> logger, IConfiguration config)
         {
             _logger = logger;
@@ -26,12 +20,6 @@ namespace ForumSite.Pages
 
         public void OnGet()
         {
-            
-
-            
-
-            
-
         }
     }
 }

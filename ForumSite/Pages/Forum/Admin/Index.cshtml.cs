@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using _9Chan.Core.Models;
 using _9Chan.Data.Repository;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ForumSite.Pages.Forum.Admin
 {
@@ -18,7 +15,7 @@ namespace ForumSite.Pages.Forum.Admin
         public List<Category> Categories { get; set; }
         public List<SubCategory> SubCategories { get; set; }
         public List<Post> ReportedPosts { get; set; }
-        
+
         public IndexModel(ICategoryRepository categoryRepository, ISubCategoryRepository subCategoryRepository, IPostRepository postRepository)
         {
             _categoryRepository = categoryRepository;
@@ -31,7 +28,6 @@ namespace ForumSite.Pages.Forum.Admin
             Categories = await _categoryRepository.AllCategories();
             SubCategories = await _subCategoryRepository.AllSubCategories();
             ReportedPosts = await _postRepository.ReportedPosts();
-
         }
     }
 }

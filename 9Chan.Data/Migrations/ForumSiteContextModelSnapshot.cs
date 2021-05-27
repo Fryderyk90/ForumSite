@@ -228,6 +228,24 @@ namespace _9Chan.Data.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("_9Chan.Core.Models.ProfilePicture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProfilePictures");
+                });
+
             modelBuilder.Entity("_9Chan.Core.Models.SubCategory", b =>
                 {
                     b.Property<int>("Id")

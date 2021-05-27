@@ -1,10 +1,9 @@
-﻿using System;
+﻿using _9Chan.Core.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using _9Chan.Core.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace _9Chan.Data.Repository
 {
@@ -35,8 +34,7 @@ namespace _9Chan.Data.Repository
         {
             //Where the magic happens DO NOT TOUCH
             var usersInfo = await _context.RegUsers.ToArrayAsync();
-            
-            
+
             return await _context.Threads.Where(t => t.SubCategoryId == id).ToListAsync();
         }
 
@@ -47,13 +45,13 @@ namespace _9Chan.Data.Repository
                 _context.Remove(thread);
             }
 
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Thread>> getThreads()
         {
             var threads = await _context.Threads.ToListAsync();
-            
+
             return threads;
         }
     }

@@ -1,17 +1,9 @@
+using _9Chan.Data.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using _9Chan.Data.Repository;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.WebEncoders.Testing;
 
 namespace ForumSite
 {
@@ -29,23 +21,25 @@ namespace ForumSite
         {
             //services.AddDbContext<_9ChanContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("9chanconnectionstring")));
-            
+
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
             services.AddScoped<IThreadRepository, ThreadRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IPersonalMessageRepository, PersonalMessageRepository>();
+            services.AddScoped<IProfilePictureRepository, ProfilePictureRepository>();
+
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("AdminPolicy", 
-                    policy => 
+                options.AddPolicy("AdminPolicy",
+                    policy =>
                         policy.RequireRole("Admin"));
             });
-            //services.AddRazorPages(options =>
-            //{
-            //    options.Conventions.AuthorizeFolder("/Forum/Admin","AdminPolicy");
-            //});
+            services.AddRazorPages(options =>
+            {
+                options.Conventions.AuthorizeFolder("/Forum/Admin", "AdminPolicy");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

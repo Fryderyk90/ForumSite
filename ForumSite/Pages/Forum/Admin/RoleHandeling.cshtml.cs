@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using _9Chan.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ForumSite.Pages.Forum.Admin
 {
@@ -28,15 +26,15 @@ namespace ForumSite.Pages.Forum.Admin
         public IList<User> Admins { get; set; }
 
         public List<IdentityRole> IdentityRoles { get; set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
             IdentityRoles = await _roleManager.Roles.ToListAsync();
             Users = await _userManager.GetUsersInRoleAsync("User");
             Admins = await _userManager.GetUsersInRoleAsync("Admin");
-            
+
             return Page();
         }
-
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -57,11 +55,9 @@ namespace ForumSite.Pages.Forum.Admin
                 var role = new IdentityRole
                 {
                     Name = RoleName,
-
                 };
                 await _roleManager.CreateAsync(role);
             }
-
         }
     }
 }

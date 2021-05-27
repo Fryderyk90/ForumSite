@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using _9Chan.Core.Models;
 using _9Chan.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading.Tasks;
 
 namespace ForumSite.Pages.Forum
 {
@@ -25,9 +22,10 @@ namespace ForumSite.Pages.Forum
         {
             public bool IsReported { get; set; }
         }
+
         public async Task OnGet(int id)
         {
-           Post = await _postRepository.GetPostById(id);
+            Post = await _postRepository.GetPostById(id);
         }
 
         public async Task<IActionResult> OnPost(int id)
@@ -35,7 +33,6 @@ namespace ForumSite.Pages.Forum
             var postToUpDate = await _postRepository.GetPostById(id);
             postToUpDate.IsReported = true;
 
-            
             await _postRepository.UpdatePost(postToUpDate);
 
             Post = await _postRepository.GetPostById(id);

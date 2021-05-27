@@ -1,10 +1,8 @@
-﻿using System;
+﻿using _9Chan.Core.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using _9Chan.Core.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace _9Chan.Data.Repository
 {
@@ -28,7 +26,6 @@ namespace _9Chan.Data.Repository
             await _context.PersonalMessages.AddAsync(newMessage);
             await _context.SaveChangesAsync();
             return newMessage;
-
         }
 
         public async Task<List<PersonalMessage>> GetMessagesToInbox(string id)
@@ -44,12 +41,11 @@ namespace _9Chan.Data.Repository
         {
             var users = await _context.RegUsers.ToArrayAsync();
             var message = await _context.PersonalMessages.FindAsync(id);
-               
 
             return message;
         }
 
-        public async Task<PersonalMessage> EditMessageById(int id,string message)
+        public async Task<PersonalMessage> EditMessageById(int id, string message)
         {
             var users = await _context.RegUsers.ToArrayAsync();
             var getMessage = await GetMessageById(id);

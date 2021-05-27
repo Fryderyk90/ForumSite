@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace _9Chan.Core.Models
 {

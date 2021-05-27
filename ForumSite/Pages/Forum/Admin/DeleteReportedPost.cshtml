@@ -6,16 +6,15 @@
 @if (Model.Post == null)
 {
     <div class="alert alert-success">
-        Post Deleted 
+        Post Deleted
     </div>
 }
 else
 {
     <div class="alert alert-danger">
-        Are you Sure you want to delete <br/>@Model.Post.PostText  
+        Are you Sure you want to delete <br />@Model.Post.PostText
     </div>
 }
-
 
 <form method="post">
     <div class="btn-group" role="group">

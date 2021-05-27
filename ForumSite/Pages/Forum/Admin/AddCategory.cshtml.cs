@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using _9Chan.Core.Models;
 using _9Chan.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading.Tasks;
 
 namespace ForumSite.Pages.Forum.Admin
 {
     public class AddCategoryModel : PageModel
     {
         private readonly ICategoryRepository _categoryRepository;
+
         [BindProperty]
         public Category InputCategory { get; set; }
 
@@ -22,7 +20,6 @@ namespace ForumSite.Pages.Forum.Admin
 
         public void OnGet()
         {
-
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -39,10 +36,7 @@ namespace ForumSite.Pages.Forum.Admin
                 return RedirectToPage("./Index");
             }
 
-
             return RedirectToPage("./Index");
         }
     }
-
 }
-

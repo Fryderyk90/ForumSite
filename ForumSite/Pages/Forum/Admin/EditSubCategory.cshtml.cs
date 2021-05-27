@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using _9Chan.Core.Models;
 using _9Chan.Data.Repository;
-using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
+using System.Threading.Tasks;
 
 namespace ForumSite.Pages.Forum.Admin
 {
-    
     public class EditSubCategoryModel : PageModel
     {
         private readonly ISubCategoryRepository _subCategoryRepository;
@@ -21,10 +15,12 @@ namespace ForumSite.Pages.Forum.Admin
             public string Title { get; set; }
             public string Description { get; set; }
         }
+
         [BindProperty]
         public InputSubCategory InputModel { get; set; }
-        
+
         public SubCategory SubCategory { get; set; }
+
         public EditSubCategoryModel(ISubCategoryRepository subCategoryRepository)
         {
             _subCategoryRepository = subCategoryRepository;
@@ -34,7 +30,6 @@ namespace ForumSite.Pages.Forum.Admin
         {
             SubCategory = await _subCategoryRepository.GetSubCategoryById(subCategoryId);
 
-
             return Page();
         }
 
@@ -42,7 +37,6 @@ namespace ForumSite.Pages.Forum.Admin
         {
             if (ModelState.IsValid)
             {
-               
                 SubCategory = await _subCategoryRepository.GetSubCategoryById(subCategoryId);
                 SubCategory.Title = InputModel.Title;
                 SubCategory.Description = InputModel.Description;

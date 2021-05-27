@@ -1,10 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using _9Chan.Core.Models;
-using Microsoft.AspNetCore.Identity;
-using Thread = System.Threading.Thread;
 
 namespace _9Chan.Core.Models
 {

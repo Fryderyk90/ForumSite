@@ -1,10 +1,8 @@
-﻿using System;
+﻿using _9Chan.Core.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using _9Chan.Core.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace _9Chan.Data.Repository
 {
@@ -29,12 +27,10 @@ namespace _9Chan.Data.Repository
         public async Task<List<SubCategory>> AllSubCategoriesById(int id)
         {
             return await _context.SubCategories.Where(sb => sb.CategoryId == id).ToListAsync();
-
         }
 
         public async Task<SubCategory> UpdateSubCategory(SubCategory updatedSubCategory)
         {
-
             var entity = _context.SubCategories.Attach(updatedSubCategory);
 
             entity.State = EntityState.Modified;
@@ -48,10 +44,6 @@ namespace _9Chan.Data.Repository
             var subcategory = await _context.SubCategories.FindAsync(id);
 
             return subcategory;
-
-
-
-
         }
 
         public async Task<SubCategory> AddSubCategory(SubCategory newSubCategory)
@@ -63,21 +55,14 @@ namespace _9Chan.Data.Repository
             return newSubCategory;
         }
 
-
-
         public async Task<SubCategory> DeleteSubCategory(int id)
         {
-
-
-
             var subCategory = await GetSubCategoryById(id);
             _context.SubCategories.Remove(subCategory);
             await _context.SaveChangesAsync();
 
-
             return subCategory;
         }
-
 
         public async Task DeleteSubCategories(int id)
         {
@@ -103,7 +88,6 @@ namespace _9Chan.Data.Repository
             }
 
             await _context.SaveChangesAsync();
-
         }
     }
 }

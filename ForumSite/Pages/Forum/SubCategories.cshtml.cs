@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using _9Chan.Core.Models;
 using _9Chan.Data.Repository;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ForumSite.Pages.Forum
 {
@@ -20,7 +17,7 @@ namespace ForumSite.Pages.Forum
             _subCategoryRepository = subCategoryRepository;
         }
 
-        public async Task OnGet(int id,string categoryTitle)
+        public async Task OnGet(int id, string categoryTitle)
         {
             CategoryTitle = categoryTitle;
             SubCategories = await _subCategoryRepository.AllSubCategoriesById(id);

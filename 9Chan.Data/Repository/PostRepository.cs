@@ -1,11 +1,9 @@
-﻿using System;
+﻿using _9Chan.Core.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using _9Chan.Core.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 
 namespace _9Chan.Data.Repository
 {
@@ -20,7 +18,6 @@ namespace _9Chan.Data.Repository
 
         public async Task<List<Post>> GetPostsInThreadById(int id)
         {
-
             var posts = await _context.Posts.Where(s => s.ThreadId == id).ToListAsync();
 
             //Where the magic happens DO NOT TOUCH
@@ -50,7 +47,6 @@ namespace _9Chan.Data.Repository
 
         public async Task<Post> AddPostToThreadById(Post newPost)
         {
-
             await _context.Posts.AddAsync(newPost);
             await _context.SaveChangesAsync();
             return newPost;
@@ -80,7 +76,6 @@ namespace _9Chan.Data.Repository
 
         public async Task<List<Post>> ReportedPosts()
         {
-
             var reportedPosts = await _context.Posts.Where(p => p.IsReported == true).OrderBy(p => p.UserId).ToListAsync();
             var users = await _context.RegUsers.ToArrayAsync();
 

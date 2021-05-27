@@ -10,8 +10,8 @@ using _9Chan.Data.Repository;
 namespace _9Chan.Data.Migrations
 {
     [DbContext(typeof(ForumSiteContext))]
-    [Migration("20210526151009_updatePmModel1")]
-    partial class updatePmModel1
+    [Migration("20210527095406_profilePictureTableAdded")]
+    partial class profilePictureTableAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -230,6 +230,24 @@ namespace _9Chan.Data.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("_9Chan.Core.Models.ProfilePicture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProfilePictures");
+                });
+
             modelBuilder.Entity("_9Chan.Core.Models.SubCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -329,6 +347,9 @@ namespace _9Chan.Data.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PersonalMessageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -360,6 +381,8 @@ namespace _9Chan.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("PersonalMessageId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -454,9 +477,21 @@ namespace _9Chan.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("_9Chan.Core.Models.User", b =>
+                {
+                    b.HasOne("_9Chan.Core.Models.PersonalMessage", null)
+                        .WithMany("Users")
+                        .HasForeignKey("PersonalMessageId");
+                });
+
             modelBuilder.Entity("_9Chan.Core.Models.Category", b =>
                 {
                     b.Navigation("SubCategories");
+                });
+
+            modelBuilder.Entity("_9Chan.Core.Models.PersonalMessage", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.SubCategory", b =>

@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using _9Chan.Core.Models;
 using _9Chan.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ForumSite.Pages.Forum.Admin
 {
@@ -13,6 +11,7 @@ namespace ForumSite.Pages.Forum.Admin
     {
         private readonly ISubCategoryRepository _subCategoryRepository;
         public string Title { get; set; }
+
         [BindProperty]
         public SubCategory InputSubCategory { get; set; }
 
@@ -23,11 +22,10 @@ namespace ForumSite.Pages.Forum.Admin
             _subCategoryRepository = subCategoryRepository;
         }
 
-        public async Task OnGet(string title,int id)
+        public async Task OnGet(string title, int id)
         {
             Title = title;
             SubCategories = await _subCategoryRepository.AllSubCategoriesById(id);
-
         }
 
         public async Task<RedirectToPageResult> OnPost(int id)
@@ -36,7 +34,6 @@ namespace ForumSite.Pages.Forum.Admin
             {
                 var newSubCategory = new SubCategory
                 {
-
                     Title = InputSubCategory.Title,
                     Description = InputSubCategory.Description,
                     CategoryId = id
@@ -45,7 +42,6 @@ namespace ForumSite.Pages.Forum.Admin
             }
 
             return RedirectToPage("/Forum/Admin/Index");
-
         }
     }
 }

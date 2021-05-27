@@ -31,7 +31,6 @@
         <tr>
             <th></th>
             <th>Users</th>
-
         </tr>
         @foreach (var user in @Model.Users)
         {
@@ -44,18 +43,16 @@
                 <td>
                     @user.UserName
                 </td>
-
             </tr>
         }
     </table>
     <hr />
-    
 </div>
 
-@*TODO Below is add named role form to the IdentityRoles Uncomment it if no roles are added, 
+@*TODO Below is add named role form to the IdentityRoles Uncomment it if no roles are added,
   TODO  add "User" and "Admin"*@
 
-@*<form method="post">
+<form method="post">
     <div class="input-group flex-nowrap">
         <span class="input-group-text" id="addon-wrapping">RoleName</span>
         <input type="text" asp-for="@Model.RoleName" class="form-control" placeholder="Enter Rolename" aria-label="Title" aria-describedby="addon-wrapping">
@@ -65,5 +62,4 @@
         <button type="submit" class="btn btn-danger">Add</button>
         <a asp-page="./Index" class="btn btn-primary">Back</a>
     </div>
-</form>*@
-
+</form>

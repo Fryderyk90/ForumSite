@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using _9Chan.Core.Models;
+﻿using _9Chan.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace _9Chan.Data.Repository
 {
@@ -21,9 +18,7 @@ namespace _9Chan.Data.Repository
 
         public async Task<List<Category>> AllCategories()
         {
-
             return await _context.Categories.ToListAsync();
-
         }
 
         public async Task<Category> GetCategoryById(int id)
@@ -37,7 +32,7 @@ namespace _9Chan.Data.Repository
         {
             var subcategories = await _context.SubCategories.ToArrayAsync();
             _context.Categories.Add(newCategory);
-            
+
             await _context.SaveChangesAsync();
             return newCategory;
         }
@@ -56,7 +51,7 @@ namespace _9Chan.Data.Repository
                 await _context.SaveChangesAsync();
             }
 
-            return  Category;
+            return Category;
         }
 
         public async Task<Category> UpdateCategory(Category updatedCategory)
@@ -68,7 +63,5 @@ namespace _9Chan.Data.Repository
 
             return updatedCategory;
         }
-
-        
     }
 }
