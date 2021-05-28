@@ -8,10 +8,10 @@ namespace ForumSite.Pages.Forum.Admin
 {
     public class DeleteCategoryModel : PageModel
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryData _categoryRepository;
         public Category Category { get; set; }
 
-        public DeleteCategoryModel(ICategoryRepository categoryRepository)
+        public DeleteCategoryModel(ICategoryData categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }

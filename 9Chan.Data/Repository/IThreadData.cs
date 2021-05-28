@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace _9Chan.Data.Repository
 {
-    public interface IThreadRepository
+    public interface IThreadData
     {
         Task<Thread> AddThread(Thread newThread);
 

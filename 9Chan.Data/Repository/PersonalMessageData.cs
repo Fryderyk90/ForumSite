@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace _9Chan.Data.Repository
 {
-    public class PersonalMessageRepository : IPersonalMessageRepository
+    public class PersonalMessageData : IPersonalMessageData
     {
         private readonly ForumSiteContext _context;
 
-        public PersonalMessageRepository(ForumSiteContext context)
+        public PersonalMessageData(ForumSiteContext context)
         {
             _context = context;
         }

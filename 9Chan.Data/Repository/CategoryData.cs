@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace _9Chan.Data.Repository
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryData : ICategoryData
     {
         private readonly ForumSiteContext _context;
-        private readonly ISubCategoryRepository _subCategoryRepository;
+        private readonly ISubCategoryData _subCategoryRepository;
 
-        public CategoryRepository(ForumSiteContext context, ISubCategoryRepository subCategoryRepository)
+        public CategoryData(ForumSiteContext context, ISubCategoryData subCategoryRepository)
         {
             _context = context;
             _subCategoryRepository = subCategoryRepository;
@@ -37,7 +37,7 @@ namespace _9Chan.Data.Repository
             return newCategory;
         }
 
-        async Task<Category> ICategoryRepository.DeleteCategoryById(int id)
+        async Task<Category> ICategoryData.DeleteCategoryById(int id)
         {
             var subCategoriesToDelete = await _subCategoryRepository.AllSubCategoriesById(id);
             if (subCategoriesToDelete.Count > 0)

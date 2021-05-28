@@ -8,7 +8,7 @@ namespace ForumSite.Pages.Forum.Admin
 {
     public class EditSubCategoryModel : PageModel
     {
-        private readonly ISubCategoryRepository _subCategoryRepository;
+        private readonly ISubCategoryData _subCategoryRepository;
 
         public class InputSubCategory
         {
@@ -21,7 +21,7 @@ namespace ForumSite.Pages.Forum.Admin
 
         public SubCategory SubCategory { get; set; }
 
-        public EditSubCategoryModel(ISubCategoryRepository subCategoryRepository)
+        public EditSubCategoryModel(ISubCategoryData subCategoryRepository)
         {
             _subCategoryRepository = subCategoryRepository;
         }

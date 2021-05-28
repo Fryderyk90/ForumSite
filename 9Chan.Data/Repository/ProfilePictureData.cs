@@ -6,14 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using _9Chan.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace _9Chan.Data.Repository
 {
-    public class ProfilePictureRepository : IProfilePictureRepository
+    public class ProfilePictureData : IProfilePictureData
     {
         private readonly ForumSiteContext _context;
 
-        public ProfilePictureRepository(ForumSiteContext context)
+        public ProfilePictureData(ForumSiteContext context)
         {
             _context = context;
         }
@@ -39,6 +40,23 @@ namespace _9Chan.Data.Repository
 
         }
 
+        public async Task<Byte[]> SaveProfilePicture(MemoryStream memoryStream, User user)
+        {
+            if (memoryStream.Length < 2097152)
+            {
+
+                user.ProfilePicture = memoryStream.ToArray();
+
+                  _context.RegUsers.Update(user);
+                await _context.SaveChangesAsync();
+
+                return user.ProfilePicture;
+            }
+
+            return null;
+        }
+
+
         public async Task<ProfilePicture> GetProfilePictureById(string userId)
         {
 
@@ -52,13 +70,30 @@ namespace _9Chan.Data.Repository
             return null;
         }
 
+        public string DisplayProfilePicture(User user)
+        {
+            var image = user.ProfilePicture;
+            var contentType = "image/jpeg";
+            if (image != null)
+            {
+                var convertArrayToImage = string.Format("data:{0};base64,{1}",
+                    contentType, Convert.ToBase64String(image));
+                return convertArrayToImage;
+            }
+            
+
+            return null;
+        }
+
+
+
+
         public async Task<string> DisplayPictureFromDatabase(string userId)
         {
             var picture = await GetProfilePictureById(userId);
             var image = picture.Content;
             var contentType = "image/jpeg";
-            var convertedImage = string.Format("data:{0};base64,{1}",
-                contentType, Convert.ToBase64String(image));
+            var convertedImage = $"data:{contentType};base64,{Convert.ToBase64String(image)}";
 
 
             return convertedImage;

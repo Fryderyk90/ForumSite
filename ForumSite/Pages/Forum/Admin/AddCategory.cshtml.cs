@@ -8,12 +8,12 @@ namespace ForumSite.Pages.Forum.Admin
 {
     public class AddCategoryModel : PageModel
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryData _categoryRepository;
 
         [BindProperty]
         public Category InputCategory { get; set; }
 
-        public AddCategoryModel(ICategoryRepository categoryRepository)
+        public AddCategoryModel(ICategoryData categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }

@@ -7,21 +7,23 @@ using System.Threading.Tasks;
 
 namespace _9Chan.Data.Repository
 {
-    public class PostRepository : IPostRepository
+    public class PostData : IPostData
     {
         private readonly ForumSiteContext _context;
 
-        public PostRepository(ForumSiteContext context)
+        public PostData(ForumSiteContext context)
         {
             _context = context;
         }
 
         public async Task<List<Post>> GetPostsInThreadById(int id)
         {
+            
             var posts = await _context.Posts.Where(s => s.ThreadId == id).ToListAsync();
 
             //Where the magic happens DO NOT TOUCH
             var users = await _context.RegUsers.ToArrayAsync();
+            var profilePictures = await _context.ProfilePictures.ToArrayAsync();
 
             return posts;
         }

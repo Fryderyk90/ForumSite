@@ -8,12 +8,12 @@ namespace ForumSite.Pages.Forum.Admin
 {
     public class DeleteModel : PageModel
     {
-        private readonly ISubCategoryRepository _subCategoryRepository;
+        private readonly ISubCategoryData _subCategoryRepository;
 
         public string Title { get; set; }
         public SubCategory SubCategory { get; set; }
 
-        public DeleteModel(ISubCategoryRepository subCategoryRepository)
+        public DeleteModel(ISubCategoryData subCategoryRepository)
         {
             _subCategoryRepository = subCategoryRepository;
         }

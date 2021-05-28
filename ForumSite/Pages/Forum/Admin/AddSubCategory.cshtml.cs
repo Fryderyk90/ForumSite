@@ -9,7 +9,7 @@ namespace ForumSite.Pages.Forum.Admin
 {
     public class AddSubCategoryModel : PageModel
     {
-        private readonly ISubCategoryRepository _subCategoryRepository;
+        private readonly ISubCategoryData _subCategoryRepository;
         public string Title { get; set; }
 
         [BindProperty]
@@ -17,7 +17,7 @@ namespace ForumSite.Pages.Forum.Admin
 
         public List<SubCategory> SubCategories { get; set; }
 
-        public AddSubCategoryModel(ISubCategoryRepository subCategoryRepository)
+        public AddSubCategoryModel(ISubCategoryData subCategoryRepository)
         {
             _subCategoryRepository = subCategoryRepository;
         }

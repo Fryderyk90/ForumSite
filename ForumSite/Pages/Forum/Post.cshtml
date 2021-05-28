@@ -5,18 +5,20 @@
 @model ForumSite.Pages.Forum.PostModel
 @{
 }
-@foreach (var post in Model.Posts)
+@foreach (var post in Model.NewPosts)
 {
-    <h6>@post.User.Email</h6>
-    <p>@post.DatePosted</p>
+    <img src="@post.ProfilePicture" height="80" width="80"/>
+    <h6>@post.UserName</h6>
+    <p style="float: right;">@post.DatePosted</p>
     <p>@post.PostText</p>
     <div class="btn-group" role="group">
         @if (SignInManager.IsSignedIn(User))
         {
-            <p align="right"><a asp-route-id="@post.Id" asp-page="ConfirmReport">Report</a></p>
-            <p align="right"><a asp-route-id="@post.User.Id" asp-route-username="@post.User.UserName" asp-page="SendPersonalMessage">PM</a></p>
+            <p align="right"><a asp-route-id="@post.PostId" asp-route-username="@post.UserName" asp-route-post="@post.PostText" asp-page="ConfirmReport">Report</a></p>
+            <p align="right"><a asp-route-id="@post.UserId" asp-route-username="@post.UserName" asp-page="SendPersonalMessage">PM</a></p>
         }
     </div>
+    <hr/>
 }
 
 @if (SignInManager.IsSignedIn(User))

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace _9Chan.Data.Repository
 {
-    public interface IPersonalMessageRepository
+    public interface IPersonalMessageData
     {
         Task<PersonalMessage> SendMessage(string from, string to, string message);
 

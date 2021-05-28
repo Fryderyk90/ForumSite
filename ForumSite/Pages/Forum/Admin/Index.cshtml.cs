@@ -8,15 +8,15 @@ namespace ForumSite.Pages.Forum.Admin
 {
     public class IndexModel : PageModel
     {
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly ISubCategoryRepository _subCategoryRepository;
-        private readonly IPostRepository _postRepository;
+        private readonly ICategoryData _categoryRepository;
+        private readonly ISubCategoryData _subCategoryRepository;
+        private readonly IPostData _postRepository;
 
         public List<Category> Categories { get; set; }
         public List<SubCategory> SubCategories { get; set; }
         public List<Post> ReportedPosts { get; set; }
 
-        public IndexModel(ICategoryRepository categoryRepository, ISubCategoryRepository subCategoryRepository, IPostRepository postRepository)
+        public IndexModel(ICategoryData categoryRepository, ISubCategoryData subCategoryRepository, IPostData postRepository)
         {
             _categoryRepository = categoryRepository;
             _subCategoryRepository = subCategoryRepository;

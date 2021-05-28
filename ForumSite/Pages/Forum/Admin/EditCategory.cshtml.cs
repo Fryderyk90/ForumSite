@@ -8,7 +8,7 @@ namespace ForumSite.Pages.Forum.Admin
 {
     public class EditCategoryModel : PageModel
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryData _categoryRepository;
 
         [BindProperty]
         public InputCategory InputModel { get; set; }
@@ -21,7 +21,7 @@ namespace ForumSite.Pages.Forum.Admin
 
         public Category Category { get; set; }
 
-        public EditCategoryModel(ICategoryRepository categoryRepository)
+        public EditCategoryModel(ICategoryData categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }

@@ -8,9 +8,9 @@ namespace ForumSite.Pages.Forum.Admin
 {
     public class Index1Model : PageModel
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IPostData _postRepository;
 
-        public Index1Model(IPostRepository postRepository)
+        public Index1Model(IPostData postRepository)
         {
             _postRepository = postRepository;
         }

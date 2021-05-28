@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace _9Chan.Data.Repository
 {
-    public class ThreadRepository : IThreadRepository
+    public class ThreadData : IThreadData
     {
         private readonly ForumSiteContext _context;
 
-        public ThreadRepository(ForumSiteContext context)
+        public ThreadData(ForumSiteContext context)
         {
             _context = context;
         }

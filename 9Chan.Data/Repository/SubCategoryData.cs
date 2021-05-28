@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace _9Chan.Data.Repository
 {
-    public class SubCategoryRepository : ISubCategoryRepository
+    public class SubCategoryData : ISubCategoryData
     {
         private readonly ForumSiteContext _context;
-        private readonly IThreadRepository _threadRepository;
-        private readonly IPostRepository _postRepository;
+        private readonly IThreadData _threadRepository;
+        private readonly IPostData _postRepository;
 
-        public SubCategoryRepository(ForumSiteContext context, IThreadRepository threadRepository, IPostRepository postRepository)
+        public SubCategoryData(ForumSiteContext context, IThreadData threadRepository, IPostData postRepository)
         {
             _context = context;
             _threadRepository = threadRepository;

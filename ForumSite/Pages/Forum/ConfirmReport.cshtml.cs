@@ -8,13 +8,15 @@ namespace ForumSite.Pages.Forum
 {
     public class ConfirmReportModel : PageModel
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IPostData _postRepository;
 
-        public ConfirmReportModel(IPostRepository postRepository)
+        public ConfirmReportModel(IPostData postRepository)
         {
             _postRepository = postRepository;
         }
 
+        public string ReportedUsername { get; set; }
+        public string ReportedPostText { get; set; }
         public Post Post { get; set; }
         public ReportedPost Reported { get; set; }
 
@@ -23,9 +25,10 @@ namespace ForumSite.Pages.Forum
             public bool IsReported { get; set; }
         }
 
-        public async Task OnGet(int id)
+        public void OnGet(string username, string post)
         {
-            Post = await _postRepository.GetPostById(id);
+            ReportedUsername = username;
+            ReportedPostText = post;
         }
 
         public async Task<IActionResult> OnPost(int id)

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace _9Chan.Data.Repository
 {
-    public interface ISubCategoryRepository
+    public interface ISubCategoryData
     {
         Task<List<SubCategory>> AllSubCategories();
 

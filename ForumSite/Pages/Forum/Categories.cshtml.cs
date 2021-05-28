@@ -9,8 +9,8 @@ namespace ForumSite.Pages.Forum
 {
     public class CategoryModel : PageModel
     {
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly ISubCategoryRepository _subCategoryRepository;
+        private readonly ICategoryData _categoryRepository;
+        private readonly ISubCategoryData _subCategoryRepository;
         public IEnumerable<Category> Categories { get; set; }
 
         [BindProperty]
@@ -18,7 +18,7 @@ namespace ForumSite.Pages.Forum
 
         public SubCategory InputSubCategory { get; set; }
 
-        public CategoryModel(ICategoryRepository categoryRepository, ISubCategoryRepository subCategoryRepository)
+        public CategoryModel(ICategoryData categoryRepository, ISubCategoryData subCategoryRepository)
         {
             _categoryRepository = categoryRepository;
             _subCategoryRepository = subCategoryRepository;

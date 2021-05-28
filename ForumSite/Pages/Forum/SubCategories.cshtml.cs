@@ -8,11 +8,11 @@ namespace ForumSite.Pages.Forum
 {
     public class SubCategoriesModel : PageModel
     {
-        private readonly ISubCategoryRepository _subCategoryRepository;
+        private readonly ISubCategoryData _subCategoryRepository;
         public List<SubCategory> SubCategories { get; set; }
         public string CategoryTitle { get; set; }
 
-        public SubCategoriesModel(ISubCategoryRepository subCategoryRepository)
+        public SubCategoriesModel(ISubCategoryData subCategoryRepository)
         {
             _subCategoryRepository = subCategoryRepository;
         }

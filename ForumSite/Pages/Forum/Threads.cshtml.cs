@@ -11,7 +11,7 @@ namespace ForumSite.Pages.Forum
 {
     public class ThreadsModel : PageModel
     {
-        private readonly IThreadRepository _threadRepository;
+        private readonly IThreadData _threadRepository;
         public UserManager<User> _userManager { get; }
         public string SubCategoryTitle { get; set; }
         public List<Thread> Threads { get; set; }
@@ -31,7 +31,7 @@ namespace ForumSite.Pages.Forum
             public bool IsReported { get; set; }
         }
 
-        public ThreadsModel(IThreadRepository threadRepository, UserManager<User> userManager)
+        public ThreadsModel(IThreadData threadRepository, UserManager<User> userManager)
         {
             _threadRepository = threadRepository;
             _userManager = userManager;

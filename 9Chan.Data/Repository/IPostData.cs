@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace _9Chan.Data.Repository
 {
-    public interface IPostRepository
+    public interface IPostData
     {
         Task<List<Post>> GetPostsInThreadById(int id);
 

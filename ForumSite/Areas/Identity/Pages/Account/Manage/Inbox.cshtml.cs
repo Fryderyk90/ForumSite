@@ -9,12 +9,12 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
 {
     public class InboxModel : PageModel
     {
-        private readonly IPersonalMessageRepository _personalMessageRepository;
+        private readonly IPersonalMessageData _personalMessageRepository;
         private readonly UserManager<User> _userManager;
 
         public List<PersonalMessage> PersonalMessages { get; set; }
 
-        public InboxModel(IPersonalMessageRepository personalMessageRepository, UserManager<User> userManager)
+        public InboxModel(IPersonalMessageData personalMessageRepository, UserManager<User> userManager)
         {
             _personalMessageRepository = personalMessageRepository;
             _userManager = userManager;

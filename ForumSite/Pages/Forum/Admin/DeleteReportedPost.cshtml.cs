@@ -8,10 +8,10 @@ namespace ForumSite.Pages.Forum.Admin
 {
     public class DeleteReportedPostModel : PageModel
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IPostData _postRepository;
         public Post Post { get; set; }
 
-        public DeleteReportedPostModel(IPostRepository postRepository)
+        public DeleteReportedPostModel(IPostData postRepository)
         {
             _postRepository = postRepository;
         }

@@ -22,13 +22,13 @@ namespace ForumSite
             //services.AddDbContext<_9ChanContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("9chanconnectionstring")));
 
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
-            services.AddScoped<IThreadRepository, ThreadRepository>();
-            services.AddScoped<IPostRepository, PostRepository>();
-            services.AddScoped<IPersonalMessageRepository, PersonalMessageRepository>();
-            services.AddScoped<IProfilePictureRepository, ProfilePictureRepository>();
-
+            services.AddScoped<ICategoryData, CategoryData>();
+            services.AddScoped<ISubCategoryData, SubCategoryData>();
+            services.AddScoped<IThreadData, ThreadData>();
+            services.AddScoped<IPostData, PostData>();
+            services.AddScoped<IPersonalMessageData, PersonalMessageData>();
+            services.AddScoped<IProfilePictureData, ProfilePictureData>();
+            services.AddControllers();
 
             services.AddAuthorization(options =>
             {
@@ -67,6 +67,7 @@ namespace ForumSite
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }

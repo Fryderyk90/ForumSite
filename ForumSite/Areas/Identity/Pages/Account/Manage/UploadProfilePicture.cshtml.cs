@@ -19,9 +19,9 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly ForumSiteContext _context;
-        private readonly IProfilePictureRepository _profilePictureRepository;
+        private readonly IProfilePictureData _profilePictureRepository;
 
-        public UploadProfilePictureModel(UserManager<User> userManager, ForumSiteContext context, IProfilePictureRepository profilePictureRepository)
+        public UploadProfilePictureModel(UserManager<User> userManager, ForumSiteContext context, IProfilePictureData profilePictureRepository)
         {
             _userManager = userManager;
             _context = context;
@@ -30,6 +30,8 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
 
         [BindProperty]
         public PictureFile FileUpload { get; set; }
+        [TempData]
+        public string Message { get; set; }
 
         public string DisplayPicture { get; set; }
         public class PictureFile
@@ -41,20 +43,35 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
         public async Task OnGet()
         {
             var user = await _userManager.GetUserAsync(User);
-            DisplayPicture = await _profilePictureRepository.DisplayPictureFromDatabase(user.Id);
+            
+            var profilePicture = _profilePictureRepository.DisplayProfilePicture(user);
+            if (string.IsNullOrWhiteSpace(profilePicture))
+            {
+                Message = "No Profile Picture Added";
+                DisplayPicture = "";
+            }
+            Message = "No Profile Picture Added";
+            DisplayPicture = profilePicture;
+            
 
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var memoryStream = new MemoryStream();
+            var user = await _userManager.GetUserAsync(User);
             
+            DisplayPicture = _profilePictureRepository.DisplayProfilePicture(user);
+            if (DisplayPicture == null)
+            {
+                var memoryStream = new MemoryStream();
                 await FileUpload.FormFile.CopyToAsync(memoryStream);
-                var user = await _userManager.GetUserAsync(User);
-                await _profilePictureRepository.UploadPicture(memoryStream, user.Id);
+                await _profilePictureRepository.SaveProfilePicture(memoryStream, user);
                 RedirectToPage("./Index");
-            
-            DisplayPicture = await _profilePictureRepository.DisplayPictureFromDatabase(user.Id);
+                Message = "Profile Picture Added";
+            }
+
+
+            Message = "Delete Profile Picture before uploading new";
             return Page();
         }
 
