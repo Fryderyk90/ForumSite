@@ -20,7 +20,7 @@ namespace ForumSite.Pages.Forum
         public async Task OnGet(int id, string categoryTitle)
         {
             CategoryTitle = categoryTitle;
-            SubCategories = await _subCategoryRepository.AllSubCategoriesById(id);
+            SubCategories = await _subCategoryRepository.AllSubCategoriesInByCategoryId(id);
         }
     }
 }

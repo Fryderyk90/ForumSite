@@ -25,7 +25,7 @@ namespace ForumSite.Pages.Forum.Admin
         public async Task OnGet(string title, int id)
         {
             Title = title;
-            SubCategories = await _subCategoryRepository.AllSubCategoriesById(id);
+            SubCategories = await _subCategoryRepository.AllSubCategoriesInByCategoryId(id);
         }
 
         public async Task<RedirectToPageResult> OnPost(int id)

@@ -7,7 +7,7 @@
 }
 @foreach (var post in Model.NewPosts)
 {
-    <img src="@post.ProfilePicture" height="80" width="80"/>
+    <img src="@post.ProfilePicture" height="80" width="80" />
     <h6>@post.UserName</h6>
     <p style="float: right;">@post.DatePosted</p>
     <p>@post.PostText</p>
@@ -18,7 +18,18 @@
             <p align="right"><a asp-route-id="@post.UserId" asp-route-username="@post.UserName" asp-page="SendPersonalMessage">PM</a></p>
         }
     </div>
-    <hr/>
+    <hr />
+    <div>
+        <h5>Replies</h5>
+        @for (int i = 0; i < @post.Comments.ToArray().Length; i++)
+        {
+            <p>@post.Comments[i].User.UserName</p>
+            <p>@post.Comments[i].CommentText</p>
+            <hr />
+        }
+    </div>
+
+
 }
 
 @if (SignInManager.IsSignedIn(User))
@@ -34,4 +45,76 @@
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+}
+
+
+@foreach (var post in Model.NewPosts)
+{
+    <div class="card mb-3" style="max-width: 100%;">
+        <div class="row g-0">
+            <div class="col-md-2">
+                <img src="@post.ProfilePicture" height="140" width="150" alt="..." style="
+        border-top: 3px solid black;
+        border-bottom: 3px solid black;
+        border-right: 3px solid black;
+        border-left: 3px solid black;
+    " />
+            </div>
+            <div class="col-md-10">
+                <div class="card-body">
+                    <h5 class="card-title">@post.UserName</h5>
+                    <p class="card-text">@post.PostText</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer">
+
+            <span>
+
+                <div class="btn-group" role="group" align="left">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <p align="right"><a asp-route-id="@post.PostId" asp-route-username="@post.UserName" asp-route-post="@post.PostText" asp-page="ConfirmReport">Report</a></p>
+                        <p align="right"><a asp-route-id="@post.UserId" asp-route-username="@post.UserName" asp-page="SendPersonalMessage">PM</a></p>
+                    }
+                </div>
+            </span>
+            <span>
+                <div align="right">
+                    <p class="card-text"><small class="text-muted">Posted: @post.DatePosted</small></p>
+                </div>
+            </span>
+        </div>
+        <div id="accordion">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Replies #@post.Comments.Where(p => p.PostId == @post.PostId).Count()
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    @for (int i = 0; i < @post.Comments.ToArray().Length; i++)
+                    {
+                        <div class="card-body">
+
+
+                            <p>@post.Comments[i].User.UserName</p>
+                            <p>@post.Comments[i].CommentText</p>
+                            <hr />
+
+                        </div>
+                    }
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
 }

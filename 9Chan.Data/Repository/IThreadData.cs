@@ -9,6 +9,7 @@ namespace _9Chan.Data.Repository
         Task<Thread> AddThread(Thread newThread);
 
         Task<Thread> GetThreadId();
+        Task<int> GetThreadIdByTitle(string threadName);
 
         Task<List<Thread>> GetThreadsInSubCategoryById(int id);
 

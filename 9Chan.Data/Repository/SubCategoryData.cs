@@ -24,7 +24,7 @@ namespace _9Chan.Data.Repository
             return await _context.SubCategories.ToListAsync();
         }
 
-        public async Task<List<SubCategory>> AllSubCategoriesById(int id)
+        public async Task<List<SubCategory>> AllSubCategoriesInByCategoryId(int id)
         {
             return await _context.SubCategories.Where(sb => sb.CategoryId == id).ToListAsync();
         }
@@ -68,7 +68,7 @@ namespace _9Chan.Data.Repository
         {
             var threadsToDelete = await _threadRepository.GetThreadsInSubCategoryById(id);
             var postsInToDelete = await _postRepository.GetPostsInThreadById(id);
-            var subCategoriesToDelete = await AllSubCategoriesById(id);
+            var subCategoriesToDelete = await AllSubCategoriesInByCategoryId(id);
 
             if (postsInToDelete.Count > 0)
             {

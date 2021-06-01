@@ -11,7 +11,8 @@ namespace ForumSite.Pages.Forum
 {
     public class ThreadsModel : PageModel
     {
-        private readonly IThreadData _threadRepository;
+        private readonly IThreadData _threadData;
+        private readonly IPostData _postData;
         public UserManager<User> _userManager { get; }
         public string SubCategoryTitle { get; set; }
         public List<Thread> Threads { get; set; }
@@ -31,16 +32,17 @@ namespace ForumSite.Pages.Forum
             public bool IsReported { get; set; }
         }
 
-        public ThreadsModel(IThreadData threadRepository, UserManager<User> userManager)
+        public ThreadsModel(IThreadData threadData, UserManager<User> userManager, IPostData postData)
         {
-            _threadRepository = threadRepository;
+            _threadData = threadData;
             _userManager = userManager;
+            _postData = postData;
         }
 
         public async Task<IActionResult> OnGetAsync(int id, string subCategoryTitle)
         {
             SubCategoryTitle = subCategoryTitle;
-            Threads = await _threadRepository.GetThreadsInSubCategoryById(id);
+            Threads = await _threadData.GetThreadsInSubCategoryById(id);
 
             return Page();
         }
@@ -57,10 +59,20 @@ namespace ForumSite.Pages.Forum
                     DateCreated = DateTime.Now,
                     IsSticky = false,
                     Title = NewThreadInput.ThreadTitle,
-                    Description = NewThreadInput.Description
                 };
-                await _threadRepository.AddThread(newThread);
-                Threads = await _threadRepository.GetThreadsInSubCategoryById(id);
+                await _threadData.AddThread(newThread);
+                var threadId = await _threadData.GetThreadIdByTitle(newThread.Title);
+                var firstPostInThread = new Post
+                {
+                    ThreadId = threadId,
+                    PostText = NewThreadInput.Description,
+                    DatePosted = DateTime.Now,
+                    UserId = user.Id
+
+                };
+                await _postData.AddPost(firstPostInThread);
+                
+                Threads = await _threadData.GetThreadsInSubCategoryById(id);
                 return Page();
             }
 

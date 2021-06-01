@@ -12,7 +12,6 @@ namespace _9Chan.Core.Models
 
         public string Description { get; set; }
 
-        public int? SubCategoryId { get; set; }
         public List<SubCategory> SubCategories { get; set; }
     }
 }

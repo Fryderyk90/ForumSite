@@ -7,14 +7,14 @@
 @if (@Model.ReportedPost.IsReported == true)
 {
     <div class="alert alert-danger">
-        Are you Sure you want to Unreport <br />@Model.ReportedPost.PostText?
+        Are you Sure you want to Unreport <br />@Model.Text?
     </div>
 }
 else
 {
     <div class="alert alert-success">
         <p>Post unreported</p>
-        <p>@Model.ReportedPost.PostText</p>
+        <p>@Model.Text</p>
     </div>
 }
 

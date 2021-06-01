@@ -1,3 +1,4 @@
+using _9Chan.Core.Models;
 using _9Chan.Data.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,7 @@ namespace ForumSite
             services.AddScoped<IPostData, PostData>();
             services.AddScoped<IPersonalMessageData, PersonalMessageData>();
             services.AddScoped<IProfilePictureData, ProfilePictureData>();
+            services.AddScoped<ICommentData, CommentData>();
             services.AddControllers();
 
             services.AddAuthorization(options =>

@@ -9,12 +9,13 @@ namespace _9Chan.Data.Repository
         Task<List<Post>> GetPostsInThreadById(int id);
 
         Task<List<Post>> GetPostsByUserId(string userId);
+        Task<string> ProfanityFilter(string input);
 
         Task<Post> GetPostById(int postId);
 
         Task<Post> UpdatePost(Post post);
 
-        Task<Post> AddPostToThreadById(Post newPost);
+        Task<Post> AddPost(Post newPost);
 
         Task<Post> DeletePostById(int id);
 

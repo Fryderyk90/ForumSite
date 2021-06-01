@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ForumSite.Pages.Forum
@@ -13,7 +14,7 @@ namespace ForumSite.Pages.Forum
     public class PostModel : PageModel
     {
         private readonly IPostData _postRepository;
-        private readonly IProfilePictureData _profilePictureRepository;
+        private readonly ICommentData _commentData;
 
         public List<Post> Posts { get; set; }
         public List<PostWithProfilePictures> NewPosts { get; set; }
@@ -26,60 +27,63 @@ namespace ForumSite.Pages.Forum
             public DateTime DatePosted { get; set; }
             public string PostText { get; set; }
             public string ProfilePicture { get; set; }
+            public List<Comment> Comments { get; set; }
         }
 
         public UserManager<User> PostedBy { get; }
-
+        public Comment[] Comments { get; set; }
         [BindProperty]
         public NewPost InputPost { get; set; }
+
+
 
         public class NewPost
         {
             public string InputText { get; set; }
-           
+
         }
-      
-        public PostModel(IPostData postRepository, UserManager<User> postedBy, IProfilePictureData profilePictureRepository)
+
+        public PostModel(IPostData postRepository, UserManager<User> postedBy, ICommentData commentData)
         {
             _postRepository = postRepository;
 
             PostedBy = postedBy;
-            _profilePictureRepository = profilePictureRepository;
+            _commentData = commentData;
         }
 
         public async Task OnGet(int id)
         {
             var getPosts = await _postRepository.GetPostsInThreadById(id);
             var newnewPosts = new List<PostWithProfilePictures>();
-        //    Posts = await _postRepository.GetPostsInThreadById(id);
-           // var image = new Byte[];
-            foreach (var post in getPosts)
-            {
-                var postPost = new PostWithProfilePictures
+            var comments = await _commentData.AllComments();
+            
+           
+
+
+                foreach (var post in getPosts)
                 {
-                    UserId = post.User.Id,
-                    UserName = post.User.UserName,
-                    DatePosted = post.DatePosted,
-                    PostId = post.Id,
-                    PostText = post.PostText,
-                    ProfilePicture = $"data:{"image/jpeg"};base64,{Convert.ToBase64String(post.User.ProfilePicture)}"
-
-
-                    //    var contentType = "image/jpeg";
-                //    if (image != null)
-                //    {
-                //    var convertArrayToImage = string.Format("data:{0};base64,{1}",
-                //    contentType, Convert.ToBase64String(image));
-                //    return convertArrayToImage;
-                //}
-                //ProfilePicture = image
+                   
                     
-                    
-                };
-                newnewPosts.Add(postPost);
-                
-            }
+                    var postPost = new PostWithProfilePictures
+                    {
+                        UserId = post.User.Id,
+                        UserName = post.User.UserName,
+                        DatePosted = post.DatePosted,
+                        PostId = post.Id,
+                        PostText = post.PostText,
+                        ProfilePicture = $"data:{"image/jpeg"};base64,{Convert.ToBase64String(post.User.ProfilePicture)}",
+                        Comments = comments.Where(c => c.PostId == post.Id).ToList()
 
+
+
+
+                    };
+
+                    newnewPosts.Add(postPost);
+
+                }
+            
+            Comments = comments;
             NewPosts = newnewPosts;
 
         }
@@ -97,7 +101,7 @@ namespace ForumSite.Pages.Forum
                     PostText = InputPost.InputText,
                     IsReported = false,
                 };
-                await _postRepository.AddPostToThreadById(newPost);
+                await _postRepository.AddPost(newPost);
                 Posts = await _postRepository.GetPostsInThreadById(id);
             }
 

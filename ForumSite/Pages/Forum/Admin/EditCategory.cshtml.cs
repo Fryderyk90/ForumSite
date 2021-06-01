@@ -8,7 +8,7 @@ namespace ForumSite.Pages.Forum.Admin
 {
     public class EditCategoryModel : PageModel
     {
-        private readonly ICategoryData _categoryRepository;
+        private readonly ICategoryData _categoryData;
 
         [BindProperty]
         public InputCategory InputModel { get; set; }
@@ -21,26 +21,27 @@ namespace ForumSite.Pages.Forum.Admin
 
         public Category Category { get; set; }
 
-        public EditCategoryModel(ICategoryData categoryRepository)
+        public EditCategoryModel(ICategoryData categoryData)
         {
-            _categoryRepository = categoryRepository;
+            _categoryData = categoryData;
         }
 
         public async Task OnGet(int id)
         {
-            Category = await _categoryRepository.GetCategoryById(id);
+            var category = await _categoryData.GetCategoryById(id);
+            Category = category;
         }
 
         public async Task<IActionResult> OnPost(int id)
         {
             if (ModelState.IsValid)
             {
-                Category = await _categoryRepository.GetCategoryById(id);
+                Category = await _categoryData.GetCategoryById(id);
 
                 Category.Title = InputModel.Title;
                 Category.Description = InputModel.Description;
 
-                await _categoryRepository.UpdateCategory(Category);
+                await _categoryData.UpdateCategory(Category);
 
                 return RedirectToPage("./Index");
             }

@@ -10,16 +10,19 @@ namespace _9Chan.Data.Repository
     public class ThreadData : IThreadData
     {
         private readonly ForumSiteContext _context;
+        private readonly IPostData _postData;
 
-        public ThreadData(ForumSiteContext context)
+        public ThreadData(ForumSiteContext context, IPostData postData)
         {
             _context = context;
+            _postData = postData;
         }
 
         public async Task<Thread> AddThread(Thread newThread)
         {
             var subcategories = await _context.SubCategories.ToArrayAsync();
-            var inputThread = newThread;
+            newThread.Title = await _postData.ProfanityFilter(newThread.Title);
+      
             await _context.Threads.AddAsync(newThread);
             await _context.SaveChangesAsync();
             return newThread;
@@ -28,6 +31,14 @@ namespace _9Chan.Data.Repository
         public Task<Thread> GetThreadId()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<int> GetThreadIdByTitle(string threadTitle)
+        {
+            var thread = await _context.Threads.FirstOrDefaultAsync(t => t.Title == threadTitle);
+
+            var threadId = thread.Id;
+            return threadId;
         }
 
         public async Task<List<Thread>> GetThreadsInSubCategoryById(int id)

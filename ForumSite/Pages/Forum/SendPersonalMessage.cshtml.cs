@@ -37,8 +37,8 @@ namespace ForumSite.Pages.Forum
                 var to = id;
                 await _personalMessageRepository.SendMessage(from, to, message);
             }
-
-            return RedirectToPage("./Index");
+            
+            return RedirectToPage("/Index");
         }
     }
 }

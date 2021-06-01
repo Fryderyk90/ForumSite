@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace _9Chan.Data.Repository
@@ -10,6 +11,7 @@ namespace _9Chan.Data.Repository
     public class PostData : IPostData
     {
         private readonly ForumSiteContext _context;
+
 
         public PostData(ForumSiteContext context)
         {
@@ -28,14 +30,16 @@ namespace _9Chan.Data.Repository
             return posts;
         }
 
-        public Task<List<Post>> GetPostsByUserId(string userId)
+        public async Task<List<Post>> GetPostsByUserId(string userId)
         {
-            throw new NotImplementedException();
+            return await _context.Posts.Where(p => p.UserId == userId).ToListAsync();
         }
+
+       
 
         public async Task<Post> GetPostById(int postId)
         {
-            var postedByUser = _context.RegUsers.ToArrayAsync();
+            var postedByUser = await _context.RegUsers.ToArrayAsync();
             return await _context.Posts.FindAsync(postId);
         }
 
@@ -47,11 +51,25 @@ namespace _9Chan.Data.Repository
             return updatedPost;
         }
 
-        public async Task<Post> AddPostToThreadById(Post newPost)
+        public async Task<Post> AddPost(Post newPost)
         {
+            string postText = newPost.PostText; 
+            newPost.PostText = await ProfanityFilter(postText);
+
             await _context.Posts.AddAsync(newPost);
             await _context.SaveChangesAsync();
             return newPost;
+        }
+
+
+
+        public async Task<string> ProfanityFilter(string input)
+        {
+            HttpClient client = new HttpClient();
+            var apiCall = "https://www.purgomalum.com/service/plain?text=" + input;
+            var apiResponse = await client.GetStringAsync(apiCall);
+            client.Dispose();
+            return apiResponse;
         }
 
         public async Task<Post> DeletePostById(int id)

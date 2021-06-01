@@ -15,10 +15,14 @@ namespace ForumSite.Pages.Forum.Admin
             _postRepository = postRepository;
         }
 
+        public string Text { get; set; }
+        public string Username { get; set; }
         public Post ReportedPost { get; set; }
 
-        public async Task<IActionResult> OnGet(int id)
+        public async Task<IActionResult> OnGet(int id, string text,string userName)
         {
+            Text = text;
+            Username = userName;
             ReportedPost = await _postRepository.GetPostById(id);
 
             return Page();

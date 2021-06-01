@@ -39,7 +39,7 @@ namespace _9Chan.Data.Repository
 
         async Task<Category> ICategoryData.DeleteCategoryById(int id)
         {
-            var subCategoriesToDelete = await _subCategoryRepository.AllSubCategoriesById(id);
+            var subCategoriesToDelete = await _subCategoryRepository.AllSubCategoriesInByCategoryId(id);
             if (subCategoriesToDelete.Count > 0)
             {
                 await _subCategoryRepository.DeleteSubCategories(id);
