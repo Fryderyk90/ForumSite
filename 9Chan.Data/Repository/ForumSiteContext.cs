@@ -19,6 +19,7 @@ namespace _9Chan.Data.Repository
         public DbSet<PersonalMessage> PersonalMessages { get; set; }
         public DbSet<ProfilePicture> ProfilePictures { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Like> Likes { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder builder)
         //{

@@ -13,6 +13,7 @@ namespace _9Chan.Data.Repository
         Task<Comment> DeleteComment(int id);
         Task<Comment> EditComment(Comment comment);
         Task<Comment> GetCommentById(int id);
+        Task<List<Comment>> GetCommentsByThreadId(int threadId);
         Task<Comment[]> AllComments();
     }
 }

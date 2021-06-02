@@ -17,9 +17,9 @@ namespace ForumSite.Pages.Forum
         private readonly ICommentData _commentData;
 
         public List<Post> Posts { get; set; }
-        public List<PostWithProfilePictures> NewPosts { get; set; }
+        public List<PostInput> NewPosts { get; set; }
 
-        public class PostWithProfilePictures
+        public class PostInput
         {
             public int PostId { get; set; }
             public string UserName { get; set; }
@@ -27,6 +27,7 @@ namespace ForumSite.Pages.Forum
             public DateTime DatePosted { get; set; }
             public string PostText { get; set; }
             public string ProfilePicture { get; set; }
+            public int ThreadId { get; set; }
             public List<Comment> Comments { get; set; }
         }
 
@@ -34,8 +35,14 @@ namespace ForumSite.Pages.Forum
         public Comment[] Comments { get; set; }
         [BindProperty]
         public NewPost InputPost { get; set; }
-
-
+        [BindProperty]
+        public newComment CommentInput { get; set; }
+        public class newComment
+        {
+            public string CommentText { get; set; }
+            public int ThreadId { get; set; }
+            public int  PostId { get; set; }
+        }
 
         public class NewPost
         {
@@ -54,8 +61,8 @@ namespace ForumSite.Pages.Forum
         public async Task OnGet(int id)
         {
             var getPosts = await _postRepository.GetPostsInThreadById(id);
-            var newnewPosts = new List<PostWithProfilePictures>();
-            var comments = await _commentData.AllComments();
+            var newnewPosts = new List<PostInput>();
+            var comments = await _commentData.GetCommentsByThreadId(id);
             
            
 
@@ -64,7 +71,7 @@ namespace ForumSite.Pages.Forum
                 {
                    
                     
-                    var postPost = new PostWithProfilePictures
+                    var postPost = new PostInput
                     {
                         UserId = post.User.Id,
                         UserName = post.User.UserName,
@@ -72,7 +79,8 @@ namespace ForumSite.Pages.Forum
                         PostId = post.Id,
                         PostText = post.PostText,
                         ProfilePicture = $"data:{"image/jpeg"};base64,{Convert.ToBase64String(post.User.ProfilePicture)}",
-                        Comments = comments.Where(c => c.PostId == post.Id).ToList()
+                        Comments = comments.Where(c => c.PostId == post.Id).ToList(),
+                        ThreadId = id
 
 
 
@@ -83,11 +91,63 @@ namespace ForumSite.Pages.Forum
 
                 }
             
-            Comments = comments;
+            Comments = comments.ToArray();
             NewPosts = newnewPosts;
 
         }
+        
+        public async Task<IActionResult> OnPostReply(int threadId, int postId)
+        {
 
+            var newComment = new Comment
+            {
+                CommentText = CommentInput.CommentText,
+                ThreadId = threadId,
+                PostId = postId,
+                DateReplied = DateTime.Now,
+                UserId = PostedBy.GetUserId(User)
+                
+            };
+            await _commentData.AddComment(newComment);
+            
+            var getPosts = await _postRepository.GetPostsInThreadById(threadId);
+            var newnewPosts = new List<PostInput>();
+            var comments = await _commentData.GetCommentsByThreadId(threadId);
+
+
+
+
+            foreach (var post in getPosts)
+            {
+
+
+                var postPost = new PostInput
+                {
+                    
+                    UserId = post.User.Id,
+                    UserName = post.User.UserName,
+                    DatePosted = post.DatePosted,
+                    PostId = post.Id,
+                    PostText = post.PostText,
+                    ProfilePicture = $"data:{"image/jpeg"};base64,{Convert.ToBase64String(post.User.ProfilePicture)}",
+                    Comments = comments.Where(c => c.PostId == post.Id).ToList()
+
+
+
+
+                };
+
+                newnewPosts.Add(postPost);
+
+            }
+
+            Comments = comments.ToArray();
+            NewPosts = newnewPosts;
+
+
+            var commentText = CommentInput.CommentText;
+            return Page();
+        }
         public async Task<IActionResult> OnPost(int id)
         {
             if (ModelState.IsValid)
@@ -107,10 +167,10 @@ namespace ForumSite.Pages.Forum
 
 
             var getPosts = await _postRepository.GetPostsInThreadById(id);
-            var newnewPosts = new List<PostWithProfilePictures>();
+            var newnewPosts = new List<PostInput>();
             foreach (var post in getPosts)
             {
-                var postPost = new PostWithProfilePictures
+                var postPost = new PostInput
                 {
                     UserId = post.User.Id,
                     UserName = post.User.UserName,
@@ -126,5 +186,8 @@ namespace ForumSite.Pages.Forum
             NewPosts = newnewPosts;
             return Page();
         }
+
+       
+
     }
 }

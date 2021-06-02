@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -20,6 +21,17 @@ namespace ForumSite.Pages
 
         public void OnGet()
         {
+        }
+
+        public void OnPost()
+        {
+            var test = fromTest;
+        }
+
+        public IActionResult OnPostOther()
+        {
+
+            return Page();
         }
     }
 }

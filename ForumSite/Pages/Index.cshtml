@@ -9,3 +9,27 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
+<h3>Create New Post OnPost</h3>
+<form method="post" asp-page-handler="OnPost">
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">Title</span>
+        <input type="text" asp-for="@Model.fromTest" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
+    </div>
+
+    <hr />
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<hr/>
+<h3>Create New Post OtherPost</h3>
+<form method="post" asp-page-handler="Other">
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">Title</span>
+        <input type="text" asp-for="@Model.fromTest" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
+    </div>
+
+    <hr />
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

@@ -48,6 +48,15 @@ namespace _9Chan.Data.Repository
             return comment;
         }
 
+        public async Task<List<Comment>> GetCommentsByThreadId(int threadId)
+        {
+            var comments = await _context.Comments
+                .Where(comment => comment.ThreadId == threadId)
+                .ToListAsync();
+
+            return comments;
+        }
+
         public async Task<Comment[]> AllComments()
         {
             var allComments = await _context.Comments.ToArrayAsync();

@@ -27,6 +27,9 @@
             <p>@post.Comments[i].CommentText</p>
             <hr />
         }
+        <hr />
+
+
     </div>
 
 
@@ -70,21 +73,20 @@
         </div>
         <div class="card-footer">
 
-            <span>
 
-                <div class="btn-group" role="group" align="left">
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        <p align="right"><a asp-route-id="@post.PostId" asp-route-username="@post.UserName" asp-route-post="@post.PostText" asp-page="ConfirmReport">Report</a></p>
-                        <p align="right"><a asp-route-id="@post.UserId" asp-route-username="@post.UserName" asp-page="SendPersonalMessage">PM</a></p>
-                    }
-                </div>
-            </span>
-            <span>
-                <div align="right">
-                    <p class="card-text"><small class="text-muted">Posted: @post.DatePosted</small></p>
-                </div>
-            </span>
+            <div class="btn-group" role="group" align="left">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <p align="right"><a asp-route-id="@post.PostId" asp-route-username="@post.UserName" asp-route-post="@post.PostText" asp-page="ConfirmReport">Report</a></p>
+                    <p align="right"><a asp-route-id="@post.UserId" asp-route-username="@post.UserName" asp-page="SendPersonalMessage">PM</a></p>
+                }
+            </div>
+
+
+            <div align="right">
+                <p class="card-text"><small class="text-muted">Posted: @post.DatePosted</small></p>
+            </div>
+
         </div>
         <div id="accordion">
             <div class="card">
@@ -99,7 +101,7 @@
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                     @for (int i = 0; i < @post.Comments.ToArray().Length; i++)
                     {
-                        <div class="card-body">
+                        <div class="card-body" id="1">
 
 
                             <p>@post.Comments[i].User.UserName</p>
@@ -108,6 +110,27 @@
 
                         </div>
                     }
+                    <div class="card-body" id="1">
+                        <form method="post" asp-page-handler="Reply">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="CommentInput.CommentText" class="control-label"></label>
+                                <input asp-for="CommentInput.CommentText" class="form-control" />
+                                <span asp-validation-for="CommentInput.CommentText" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <input type="submit" asp-page-handler="Reply" asp-route-postId="@post.PostId" asp-route-threadId="@post.ThreadId" class="btn btn-primary" />
+                            </div>
+                        </form>
+
+
+                        <hr />
+
+                    </div>
+
                 </div>
 
 
@@ -116,5 +139,18 @@
         </div>
     </div>
 
+    @*<form method="post" asp-page-handler="Reply">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CommentInput.CommentText" class="control-label"></label>
+                <input asp-for="CommentInput.CommentText" class="form-control" />
+                <span asp-validation-for="CommentInput.CommentText" class="text-danger"></span>
 
+            </div>
+
+            <div class="form-group">
+
+                <input type="submit" asp-page-handler="Reply" asp-route-postId="@post.PostId" asp-route-threadId="@post.ThreadId" class="btn btn-primary"/>
+            </div>
+        </form>*@
 }

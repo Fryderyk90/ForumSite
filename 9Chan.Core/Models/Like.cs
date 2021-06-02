@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace _9Chan.Core.Models
 {
-    public class Comment
+    public class Like
     {
         public int Id { get; set; }
         public int PostId { get; set; }
+        public int CommentId { get; set; }
         public string UserId { get; set; }
-        public int ThreadId { get; set; }
-        public string CommentText { get; set; }
-        public DateTime DateReplied { get; set; }
-        public User User { get; set; }
+
     }
 }
