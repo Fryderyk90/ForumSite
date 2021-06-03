@@ -39,5 +39,30 @@ namespace _9Chan.Data.Repository
 
             return likeToDelete;
         }
+
+        public async Task<List<Like>> GeLikesInThread(int threadId)
+        {
+            var likesInThread = await _context.Likes.Where(like => like.ThreadId == threadId).ToListAsync();
+
+
+            
+            
+
+            return likesInThread;
+        }
+
+        public List<Like> GetLikesOnPost(List<Like> likesInThread, int postId)
+        {
+            var likesOnPost = likesInThread.Where(like => like.PostId == postId).ToList();
+            return likesOnPost;
+        }
+
+        public List<Like> GetLikesOnComment(int commentId, List<Like> likesOnPost)
+        {
+            var likesOnComment = likesOnPost.Where(like => like.CommentId == commentId).ToList();
+
+            return likesOnComment;
+
+        }
     }
 }

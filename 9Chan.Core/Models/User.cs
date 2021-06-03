@@ -12,5 +12,6 @@ namespace _9Chan.Core.Models
         public List<Thread> Threads { get; set; }
         public int PostId { get; set; }
         public List<Post> Posts { get; set; }
+        public IList<UserGroups> UserGroups { get; set; }
     }
 }

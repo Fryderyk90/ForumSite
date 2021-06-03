@@ -15,8 +15,9 @@ namespace ForumSite.Pages.Forum
     {
         private readonly IPostData _postRepository;
         private readonly ICommentData _commentData;
+        private readonly ILikeData _likeData;
 
-        public List<Post> Posts { get; set; }
+        //    public List<Post> Posts { get; set; }
         public List<PostInput> NewPosts { get; set; }
 
         public class PostInput
@@ -28,7 +29,8 @@ namespace ForumSite.Pages.Forum
             public string PostText { get; set; }
             public string ProfilePicture { get; set; }
             public int ThreadId { get; set; }
-            public List<Comment> Comments { get; set; }
+            public int LikesOnPosts { get; set; }
+            public List<NewComment> Comments { get; set; }
         }
 
         public UserManager<User> PostedBy { get; }
@@ -36,12 +38,17 @@ namespace ForumSite.Pages.Forum
         [BindProperty]
         public NewPost InputPost { get; set; }
         [BindProperty]
-        public newComment CommentInput { get; set; }
-        public class newComment
+        public NewComment CommentsWithLikes { get; set; }
+        public class NewComment
         {
+            public int Id { get; set; }
             public string CommentText { get; set; }
             public int ThreadId { get; set; }
-            public int  PostId { get; set; }
+            public int PostId { get; set; }
+            public DateTime DateReplied { get; set; }
+            public int LikesOnComment { get; set; }
+            public User User { get; set; }
+            public string UserId { get; set; }
         }
 
         public class NewPost
@@ -50,102 +57,86 @@ namespace ForumSite.Pages.Forum
 
         }
 
-        public PostModel(IPostData postRepository, UserManager<User> postedBy, ICommentData commentData)
+        public PostModel(IPostData postRepository, UserManager<User> postedBy, ICommentData commentData, ILikeData likeData)
         {
             _postRepository = postRepository;
 
             PostedBy = postedBy;
             _commentData = commentData;
+            _likeData = likeData;
         }
 
         public async Task OnGet(int id)
         {
-            var getPosts = await _postRepository.GetPostsInThreadById(id);
-            var newnewPosts = new List<PostInput>();
-            var comments = await _commentData.GetCommentsByThreadId(id);
-            
-           
-
-
-                foreach (var post in getPosts)
-                {
-                   
-                    
-                    var postPost = new PostInput
-                    {
-                        UserId = post.User.Id,
-                        UserName = post.User.UserName,
-                        DatePosted = post.DatePosted,
-                        PostId = post.Id,
-                        PostText = post.PostText,
-                        ProfilePicture = $"data:{"image/jpeg"};base64,{Convert.ToBase64String(post.User.ProfilePicture)}",
-                        Comments = comments.Where(c => c.PostId == post.Id).ToList(),
-                        ThreadId = id
-
-
-
-
-                    };
-
-                    newnewPosts.Add(postPost);
-
-                }
-            
-            Comments = comments.ToArray();
-            NewPosts = newnewPosts;
-
+            await UpdatePage(id);
         }
-        
-        public async Task<IActionResult> OnPostReply(int threadId, int postId)
+
+        private async Task UpdatePage(int id)
         {
-
-            var newComment = new Comment
-            {
-                CommentText = CommentInput.CommentText,
-                ThreadId = threadId,
-                PostId = postId,
-                DateReplied = DateTime.Now,
-                UserId = PostedBy.GetUserId(User)
-                
-            };
-            await _commentData.AddComment(newComment);
-            
-            var getPosts = await _postRepository.GetPostsInThreadById(threadId);
-            var newnewPosts = new List<PostInput>();
-            var comments = await _commentData.GetCommentsByThreadId(threadId);
-
-
-
+            var getPosts = await _postRepository.GetPostsInThreadById(id);
+            var newPosts = new List<PostInput>();
+            var comments = await _commentData.GetCommentsByThreadId(id);
+            var likesInThread = await _likeData.GeLikesInThread(id);
+            var likesOnPost = likesInThread.ToLookup(l => l.PostId, l => l.PostId);
+            var likesOnComment = likesInThread.ToLookup(l => l.CommentId, l => l.CommentId);
+            var commentWithLikesList = new List<NewComment>();
 
             foreach (var post in getPosts)
             {
+                var commentss = comments.Where(c => c.PostId == post.Id).ToList();
+                foreach (var comment in commentss)
+                {
+                    var commentWithLike = new NewComment()
+                    {
+                        Id = comment.Id,
+                        PostId = comment.PostId,
+                        CommentText = comment.CommentText,
+                        DateReplied = comment.DateReplied,
+                        LikesOnComment = likesOnComment[comment.Id].Count(),
+                        User = comment.User,
+                        UserId = comment.UserId
+                    };
 
+
+                    commentWithLikesList.Add(commentWithLike);
+                }
 
                 var postPost = new PostInput
                 {
-                    
                     UserId = post.User.Id,
                     UserName = post.User.UserName,
                     DatePosted = post.DatePosted,
                     PostId = post.Id,
                     PostText = post.PostText,
                     ProfilePicture = $"data:{"image/jpeg"};base64,{Convert.ToBase64String(post.User.ProfilePicture)}",
-                    Comments = comments.Where(c => c.PostId == post.Id).ToList()
-
-
-
-
+                    Comments = commentWithLikesList, //comments.Where(c => c.PostId == post.Id).ToList(),
+                    ThreadId = id,
+                    LikesOnPosts = likesOnPost[post.Id].Count()
+                    
                 };
-
-                newnewPosts.Add(postPost);
-
+                newPosts.Add(postPost);
+              //  }
             }
 
-            Comments = comments.ToArray();
-            NewPosts = newnewPosts;
+            NewPosts = newPosts;
+        }
 
+        public async Task<IActionResult> OnPostReply(int threadId, int postId)
+        {
 
-            var commentText = CommentInput.CommentText;
+            var newComment = new Comment
+            {
+                CommentText = InputPost.InputText,
+                ThreadId = threadId,
+                PostId = postId,
+                DateReplied = DateTime.Now,
+                UserId = PostedBy.GetUserId(User)
+
+            };
+            await _commentData.AddComment(newComment);
+
+            await UpdatePage(threadId);
+
             return Page();
         }
         public async Task<IActionResult> OnPost(int id)
@@ -162,32 +153,32 @@ namespace ForumSite.Pages.Forum
                     IsReported = false,
                 };
                 await _postRepository.AddPost(newPost);
-                Posts = await _postRepository.GetPostsInThreadById(id);
             }
 
+            await UpdatePage(id);
 
-            var getPosts = await _postRepository.GetPostsInThreadById(id);
-            var newnewPosts = new List<PostInput>();
-            foreach (var post in getPosts)
-            {
-                var postPost = new PostInput
-                {
-                    UserId = post.User.Id,
-                    UserName = post.User.UserName,
-                    DatePosted = post.DatePosted,
-                    PostId = post.Id,
-                    PostText = post.PostText,
-                    ProfilePicture = $"data:{"image/jpeg"};base64,{Convert.ToBase64String(post.User.ProfilePicture)}"
-                };
-                newnewPosts.Add(postPost);
 
-            }
-
-            NewPosts = newnewPosts;
             return Page();
         }
 
-       
+        public async Task<IActionResult> OnPostAddLike(string userId, int threadId, int postId, int commentId)
+        {
+            var like = new Like
+            {
+                UserId = userId,
+                ThreadId = threadId,
+                PostId = postId,
+                CommentId = commentId
+            };
+
+            await _likeData.AddLike(like);
+            await UpdatePage(threadId);
+
+
+
+            return Page();
+        }
+
 
     }
 }

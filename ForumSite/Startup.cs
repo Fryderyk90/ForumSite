@@ -30,6 +30,8 @@ namespace ForumSite
             services.AddScoped<IPersonalMessageData, PersonalMessageData>();
             services.AddScoped<IProfilePictureData, ProfilePictureData>();
             services.AddScoped<ICommentData, CommentData>();
+            services.AddScoped<ILikeData, LikeData>();
+            services.AddScoped<IGroupData, GroupData>();
             services.AddControllers();
 
             services.AddAuthorization(options =>

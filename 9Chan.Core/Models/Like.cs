@@ -12,6 +12,7 @@ namespace _9Chan.Core.Models
         public int PostId { get; set; }
         public int CommentId { get; set; }
         public string UserId { get; set; }
+        public int ThreadId { get; set; }
 
     }
 }

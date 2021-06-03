@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _9Chan.Data.Repository;
 
 namespace _9Chan.Data.Migrations
 {
     [DbContext(typeof(ForumSiteContext))]
-    partial class ForumSiteContextModelSnapshot : ModelSnapshot
+    [Migration("20210603122645_AddedGroupsTable")]
+    partial class AddedGroupsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,15 +204,12 @@ namespace _9Chan.Data.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("_9Chan.Core.Models.ForumGroup", b =>
+            modelBuilder.Entity("_9Chan.Core.Models.Group", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AdminId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -523,7 +522,7 @@ namespace _9Chan.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("_9Chan.Core.Models.ForumGroup", b =>
+            modelBuilder.Entity("_9Chan.Core.Models.Group", b =>
                 {
                     b.HasOne("_9Chan.Core.Models.User", "User")
                         .WithMany()

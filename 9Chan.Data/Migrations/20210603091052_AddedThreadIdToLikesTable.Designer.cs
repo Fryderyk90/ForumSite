@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _9Chan.Data.Repository;
 
 namespace _9Chan.Data.Migrations
 {
     [DbContext(typeof(ForumSiteContext))]
-    partial class ForumSiteContextModelSnapshot : ModelSnapshot
+    [Migration("20210603091052_AddedThreadIdToLikesTable")]
+    partial class AddedThreadIdToLikesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,32 +202,6 @@ namespace _9Chan.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("_9Chan.Core.Models.ForumGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AdminId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.Like", b =>
@@ -515,15 +491,6 @@ namespace _9Chan.Data.Migrations
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.Comment", b =>
-                {
-                    b.HasOne("_9Chan.Core.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("_9Chan.Core.Models.ForumGroup", b =>
                 {
                     b.HasOne("_9Chan.Core.Models.User", "User")
                         .WithMany()

@@ -1,0 +1,34 @@
+﻿@page
+@using _9Chan.Core.Models
+@model ForumSite.Pages.Forum.JoinGroupModel
+@inject UserManager<User> userManager
+@{
+}
+<h1>Groups</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Group Name</th>
+            <th scope="col">Description</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var group in @Model.Groups)
+        {
+            <tr>
+                <td scope="col">@group.Name</td>
+                <td scope="col">@group.Description</td>
+                <td scope="col">
+                    <form method="post" asp-page-handler="OnPost">
+                        <button type="submit" asp-route-userId="@userManager.GetUserId(User)" asp-route-groupId="@group.Id" class="btn btn-success">
+                            Join Group
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
