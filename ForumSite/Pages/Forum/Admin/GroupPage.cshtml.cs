@@ -54,7 +54,7 @@ namespace ForumSite.Pages.Forum.Admin
             {
                 newGroup.Name = Input.Name;
                 newGroup.Description = Input.Description;
-                newGroup.UserId = userManager.GetUserId(User);
+             //   newGroup.UserId = userManager.GetUserId(User);
 
 
                 await _groupData.CreateGroup(newGroup);

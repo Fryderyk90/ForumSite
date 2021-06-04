@@ -29,7 +29,7 @@ namespace ForumSite.Pages.Forum
 
         public async Task<IActionResult> OnPost(string userId, int groupId)
         {
-            _groupData.AddUserToGroup(userId);
+           await _groupData.AddUserToGroup(userId);
             return Page();
         }
     }

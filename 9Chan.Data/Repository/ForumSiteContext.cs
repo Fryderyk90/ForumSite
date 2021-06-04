@@ -21,7 +21,7 @@ namespace _9Chan.Data.Repository
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<ForumGroup> Groups { get; set; }
-        public DbSet<UserGroups> UserToGroup { get; set; }
+       
 
         //protected override void OnModelCreating(ModelBuilder builder)
         //{

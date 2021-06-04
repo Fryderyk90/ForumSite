@@ -15,6 +15,6 @@ namespace _9Chan.Core.Models
         public string Description { get; set; }
         public User User { get; set; }
 
-        public IList<UserGroups> UserGroups { get; set; }
+       
     }
 }

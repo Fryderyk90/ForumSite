@@ -40,6 +40,7 @@ namespace _9Chan.Data.Repository
 
         public async Task<ForumGroup> GetGroupById(int groupId)
         {
+
            var groupToDelete = await _context.Groups.FirstOrDefaultAsync(group => group.Id == groupId);
 
            _context.Groups.Remove(groupToDelete);
