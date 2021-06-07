@@ -27,11 +27,12 @@ namespace ForumSite
             services.AddScoped<ISubCategoryData, SubCategoryData>();
             services.AddScoped<IThreadData, ThreadData>();
             services.AddScoped<IPostData, PostData>();
-            services.AddScoped<IPersonalMessageData, PersonalMessageData>();
+            services.AddScoped<IMessageData, MessageData>();
             services.AddScoped<IProfilePictureData, ProfilePictureData>();
             services.AddScoped<ICommentData, CommentData>();
             services.AddScoped<ILikeData, LikeData>();
             services.AddScoped<IGroupData, GroupData>();
+            services.AddScoped<IUserGroupManager, UserGroupManager>();
             services.AddControllers();
 
             services.AddAuthorization(options =>

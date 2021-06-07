@@ -6,18 +6,29 @@
 @{
 }
 
-
+<h3>@Model.Message</h3>
 @foreach (var post in Model.NewPosts)
 {
     <div class="card mb-3" style="max-width: 100%;">
         <div class="row g-0">
             <div class="col-md-2">
-                <img src="@post.ProfilePicture" height="140" width="150" alt="..." style="
-        border-top: 3px solid black;
-        border-bottom: 3px solid black;
-        border-right: 3px solid black;
-        border-left: 3px solid black;
-    " />
+                @if (post.ProfilePicture == null)
+                {
+                    <img src="https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-11.jpg" height="140" width="150" alt="..." style="
+                            border-top: 3px solid black;
+                border-bottom: 3px solid black;
+                border-right: 3px solid black;
+                border-left: 3px solid black;
+                " />}
+                else
+                {
+                    <img src="@post.ProfilePicture" height="140" width="150" alt="..." style="
+
+                border-top: 3px solid black;
+                border-bottom: 3px solid black;
+                border-right: 3px solid black;
+                border-left: 3px solid black;
+                " />}
             </div>
             <div class="col-md-10">
                 <div class="card-body">
@@ -39,7 +50,7 @@
                     <form method="post" asp-page-handler="AddLike">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
-                            
+
 
                         </div>
 
@@ -73,7 +84,18 @@
 
                         <div class="row g-0">
                             <div class="col-md-2">
-                                <img src=@($"data:{"image/jpeg"};base64,{Convert.ToBase64String(@post.Comments[i].User.ProfilePicture)}") height="140" width="150" alt="..." style="border-top: 3px solid black; border-bottom: 3px solid black; border-right: 3px solid black; border-left: 3px solid black;" />
+                                @if (post.Comments[i].User.ProfilePicture == null)
+                                {
+                                    <img src="https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-11.jpg" height="140" width="150" alt="..." style="
+                            border-top: 3px solid black;
+                border-bottom: 3px solid black;
+                border-right: 3px solid black;
+                border-left: 3px solid black;
+                " />}
+                                else
+                                {
+                                    <img src=@($"data:{"image/jpeg"};base64,{Convert.ToBase64String(@post.Comments[i].User.ProfilePicture)}") height="140" width="150" alt="..." style="border-top: 3px solid black; border-bottom: 3px solid black; border-right: 3px solid black; border-left: 3px solid black;" />
+                                }
                             </div>
                             <div class="col-md-10">
                                 <div class="card-body">
@@ -95,13 +117,13 @@
                                     <form method="post" asp-page-handler="AddLike">
                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                         <div class="form-group">
-                            
+
 
                                         </div>
 
                                         <div class="form-group">
 
-                                            <input type="submit" asp-page-handler="AddLike" asp-route-userId="@post.UserId" asp-route-threadId="@post.ThreadId" asp-route-postId="@post.PostId" asp-route-commentId="@post.Comments[i].Id" class="btn btn-primary" />
+                                            <input type="submit" asp-page-handler="AddLikeToComment" asp-route-userId="@post.UserId" asp-route-threadId="@post.ThreadId" asp-route-postId="@post.PostId" asp-route-commentId="@post.Comments[i].Id" class="btn btn-primary" />
                                         </div>
                                     </form>
                                 }
@@ -155,6 +177,6 @@
 
         <hr />
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit"  class="btn btn-primary">Submit</button>
     </form>
 }

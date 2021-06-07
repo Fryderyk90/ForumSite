@@ -44,7 +44,8 @@ namespace _9Chan.Data.Repository
         {
             if (memoryStream.Length < 2097152)
             {
-
+                
+                
                 user.ProfilePicture = memoryStream.ToArray();
 
                   _context.RegUsers.Update(user);
@@ -97,6 +98,11 @@ namespace _9Chan.Data.Repository
 
 
             return convertedImage;
+        }
+
+        public Task DeleteProfilePicture(ProfilePicture profilePicture)
+        {
+            return null;
         }
     }
 }

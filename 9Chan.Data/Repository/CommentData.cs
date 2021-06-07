@@ -11,6 +11,7 @@ namespace _9Chan.Data.Repository
     public class CommentData : ICommentData
     {
         private readonly ForumSiteContext _context;
+        private readonly PostData postData;
 
         public CommentData(ForumSiteContext context)
         {
@@ -19,6 +20,8 @@ namespace _9Chan.Data.Repository
 
         public async Task<Comment> AddComment(Comment comment)
         {
+      //      comment.CommentText = await postData.ProfanityFilter(comment.CommentText);
+             
             await _context.Comments.AddAsync(comment);
             await _context.SaveChangesAsync();
             return comment;

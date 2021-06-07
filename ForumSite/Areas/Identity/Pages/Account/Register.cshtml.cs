@@ -51,6 +51,7 @@ namespace ForumSite.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
+            [Display(Name = "User Name")]
             public string UserName { get; set; }
 
             [Required]

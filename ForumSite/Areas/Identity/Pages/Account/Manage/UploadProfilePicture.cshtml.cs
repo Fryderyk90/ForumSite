@@ -50,7 +50,8 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
                 Message = "No Profile Picture Added";
                 DisplayPicture = "";
             }
-            Message = "No Profile Picture Added";
+            else
+            Message = "";
             DisplayPicture = profilePicture;
             
 
@@ -59,19 +60,16 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            
-            DisplayPicture = _profilePictureRepository.DisplayProfilePicture(user);
-            if (DisplayPicture == null)
-            {
-                var memoryStream = new MemoryStream();
+
+            var memoryStream = new MemoryStream();
                 await FileUpload.FormFile.CopyToAsync(memoryStream);
                 await _profilePictureRepository.SaveProfilePicture(memoryStream, user);
                 RedirectToPage("./Index");
-                Message = "Profile Picture Added";
-            }
+                Message = "Profile Picture Updated";
+            
 
+            DisplayPicture = _profilePictureRepository.DisplayProfilePicture(user);
 
-            Message = "Delete Profile Picture before uploading new";
             return Page();
         }
 

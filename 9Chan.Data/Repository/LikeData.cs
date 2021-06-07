@@ -19,9 +19,28 @@ namespace _9Chan.Data.Repository
 
         public async Task<Like> AddLike(Like like)
         {
-            await _context.Likes.AddAsync(like);
-            await _context.SaveChangesAsync();
-            return like;
+           
+                await _context.Likes.AddAsync(like);
+                await _context.SaveChangesAsync();
+                return like;
+        
+        }
+
+        public async Task<bool> LikeOnPostIsUnique(string userId, int postId, int threadId)
+        {
+            var isUniqe =  await _context.Likes.FirstOrDefaultAsync
+               (
+               l =>
+               l.UserId == userId &&
+               l.PostId == postId &&
+               l.ThreadId == threadId
+               );
+            if (isUniqe == null)
+            {
+                return true;
+            }
+            else
+                return false;
         }
 
         public async Task<Like> GetLikeByUserId(string userId)
@@ -45,8 +64,8 @@ namespace _9Chan.Data.Repository
             var likesInThread = await _context.Likes.Where(like => like.ThreadId == threadId).ToListAsync();
 
 
-            
-            
+
+
 
             return likesInThread;
         }
@@ -62,6 +81,37 @@ namespace _9Chan.Data.Repository
             var likesOnComment = likesOnPost.Where(like => like.CommentId == commentId).ToList();
 
             return likesOnComment;
+
+        }
+
+        public async Task<Like> AddLikeToComment(Like like)
+        {
+
+           
+                await _context.Likes.AddAsync(like);
+                await _context.SaveChangesAsync();
+                return like;
+
+          
+
+        }
+
+        public async Task<bool> LikeOnCommentIsUnique(string userId, int commentId, int threadId, int postId)
+        {
+            var isUniqe = await _context.Likes.FirstOrDefaultAsync
+                (
+                l =>
+                l.UserId == userId &&
+                l.CommentId == commentId &&
+                l.ThreadId == threadId &&
+                l.PostId == postId
+                );
+            if (isUniqe == null)
+            {
+                return true;
+            }
+            else
+                return false;
 
         }
     }

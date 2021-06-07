@@ -3,6 +3,7 @@ using _9Chan.Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,7 @@ namespace ForumSite.Pages.Forum
         private readonly IPostData _postRepository;
         private readonly ICommentData _commentData;
         private readonly ILikeData _likeData;
+        private readonly IConfiguration _config;
 
         //    public List<Post> Posts { get; set; }
         public List<PostInput> NewPosts { get; set; }
@@ -57,13 +59,14 @@ namespace ForumSite.Pages.Forum
 
         }
 
-        public PostModel(IPostData postRepository, UserManager<User> postedBy, ICommentData commentData, ILikeData likeData)
+        public PostModel(IPostData postRepository, UserManager<User> postedBy, ICommentData commentData, ILikeData likeData, IConfiguration config)
         {
             _postRepository = postRepository;
 
             PostedBy = postedBy;
             _commentData = commentData;
             _likeData = likeData;
+            _config = config;
         }
 
         public async Task OnGet(int id)
@@ -94,7 +97,9 @@ namespace ForumSite.Pages.Forum
                         DateReplied = comment.DateReplied,
                         LikesOnComment = likesOnComment[comment.Id].Count(),
                         User = comment.User,
-                        UserId = comment.UserId
+                        UserId = comment.UserId,
+                        ThreadId = comment.ThreadId
+
                     };
 
 
@@ -109,13 +114,13 @@ namespace ForumSite.Pages.Forum
                     PostId = post.Id,
                     PostText = post.PostText,
                     ProfilePicture = $"data:{"image/jpeg"};base64,{Convert.ToBase64String(post.User.ProfilePicture)}",
-                    Comments = commentWithLikesList, //comments.Where(c => c.PostId == post.Id).ToList(),
+                    Comments = commentWithLikesList.Where(c => c.PostId == post.Id).ToList(),// commentWithLikesList
                     ThreadId = id,
                     LikesOnPosts = likesOnPost[post.Id].Count()
-                    
+
                 };
                 newPosts.Add(postPost);
-              //  }
+                //  }
             }
 
             NewPosts = newPosts;
@@ -139,6 +144,8 @@ namespace ForumSite.Pages.Forum
 
             return Page();
         }
+        [TempData]
+        public string Message { get; set; }
         public async Task<IActionResult> OnPost(int id)
         {
             if (ModelState.IsValid)
@@ -161,7 +168,33 @@ namespace ForumSite.Pages.Forum
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAddLike(string userId, int threadId, int postId, int commentId)
+        public async Task<IActionResult> OnPostAddLike(string userId, int threadId, int postId)
+        {
+            var like = new Like
+            {
+                UserId = userId,
+                ThreadId = threadId,
+                PostId = postId,
+
+            };
+            if (await _likeData.LikeOnPostIsUnique(like.UserId, like.PostId, like.ThreadId))
+            {
+                await _likeData.AddLike(like);
+                await UpdatePage(threadId);
+                Message = "Post Liked";
+                return Page();
+            }
+            else
+                Message = "Post Already Liked";
+            await UpdatePage(threadId);
+            return Page();
+           
+
+
+
+           
+        }
+        public async Task<IActionResult> OnPostAddLikeToComment(string userId, int threadId, int postId, int commentId)
         {
             var like = new Like
             {
@@ -170,15 +203,22 @@ namespace ForumSite.Pages.Forum
                 PostId = postId,
                 CommentId = commentId
             };
+            if (await _likeData.LikeOnCommentIsUnique(like.UserId, like.CommentId, like.ThreadId, like.PostId))
+            {
+                await _likeData.AddLike(like);
+                await UpdatePage(threadId);
+                Message = "Liked Comment";
 
-            await _likeData.AddLike(like);
+                return Page();
+            }
+            else
+                Message = "Comment Already Liked";
+
+
+
             await UpdatePage(threadId);
-
-
-
             return Page();
+
         }
-
-
     }
 }

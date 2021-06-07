@@ -8,14 +8,14 @@
 
 <table class="table">
     <thead>
-    <tr>
-        <th><h3>@Model.Title</h3></th>
-    </tr>
-    <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Title</th>
-        <th scope="col">Description</th>
-    </tr>
+        <tr>
+            <th><h3>@Model.Title</h3></th>
+        </tr>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var subcategory in Model.SubCategories)
@@ -36,13 +36,15 @@
 </table>
 
 <form method="post">
+    <span asp-validation-for="InputSubCategory.Title" class="text-danger"></span>
     <div class="input-group flex-nowrap">
         <span class="input-group-text" id="addon-wrapping">Title</span>
-        <input type="text" asp-for="@Model.InputSubCategory.Title" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
+        <input type="text" asp-for="InputSubCategory.Title" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
     </div>
+    <span asp-validation-for="InputSubCategory.Description" class="text-danger"></span>
     <div class="input-group flex-nowrap">
         <span class="input-group-text" id="addon-wrapping">Description</span>
-        <input type="text" asp-for="@Model.InputSubCategory.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
+        <input type="text" asp-for="InputSubCategory.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
     </div>
     <hr />
     <div class="btn-group" role="group">
@@ -50,3 +52,7 @@
         <a asp-page="./Index" class="btn btn-primary">Back</a>
     </div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

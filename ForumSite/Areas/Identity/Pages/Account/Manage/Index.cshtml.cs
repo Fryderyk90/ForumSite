@@ -1,4 +1,5 @@
 ﻿using _9Chan.Core.Models;
+using _9Chan.Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,13 +12,15 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IUserGroupManager _userGroupManager;
 
         public IndexModel(
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager, IUserGroupManager userGroupManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userGroupManager = userGroupManager;
         }
 
         public string Username { get; set; }
@@ -100,6 +103,21 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
+            return RedirectToPage();
+        }
+
+
+        public async Task<IActionResult> OnPostLeaveGroup()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (!ModelState.IsValid)
+            {
+                await LoadAsync(user);
+                return Page();
+            }
+            await _userGroupManager.RemoveUserFromGroup(user.Id);
+
+
             return RedirectToPage();
         }
     }

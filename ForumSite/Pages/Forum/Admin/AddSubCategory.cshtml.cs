@@ -3,6 +3,7 @@ using _9Chan.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace ForumSite.Pages.Forum.Admin
@@ -13,8 +14,15 @@ namespace ForumSite.Pages.Forum.Admin
         public string Title { get; set; }
 
         [BindProperty]
-        public SubCategory InputSubCategory { get; set; }
+        public Input InputSubCategory { get; set; }
 
+        public class Input
+        {
+            [Required]
+            public string Title { get; set; }
+            [Required]
+            public string Description { get; set; }
+        }
         public List<SubCategory> SubCategories { get; set; }
 
         public AddSubCategoryModel(ISubCategoryData subCategoryRepository)

@@ -13,9 +13,9 @@
     @foreach (var message in Model.PersonalMessages)
     {
         <tr>
-            <td>@userManager.FindByIdAsync(message.FromUserId).Result.UserName</td>
-            <td>@message.Message</td>
-            <td><a asp-route-username="@userManager.FindByIdAsync(message.FromUserId).Result.UserName" asp-route-id=">@userManager.FindByIdAsync(message.FromUserId).Result.Id" asp-page="/forum/SendPersonalMessage">Reply</a></td>
+            <td>@userManager.FindByIdAsync(message.From).Result.UserName</td>
+            <td>@message.Text</td>
+            <td><a asp-route-username="@userManager.FindByIdAsync(message.From).Result.UserName" asp-route-id=">@userManager.FindByIdAsync(message.From).Result.Id" asp-page="/forum/SendPersonalMessage">Reply</a></td>
         </tr>
     }
 </table>

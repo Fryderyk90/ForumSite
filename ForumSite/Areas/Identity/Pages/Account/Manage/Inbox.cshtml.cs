@@ -9,12 +9,12 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
 {
     public class InboxModel : PageModel
     {
-        private readonly IPersonalMessageData _personalMessageRepository;
+        private readonly IMessageData _personalMessageRepository;
         private readonly UserManager<User> _userManager;
 
-        public List<PersonalMessage> PersonalMessages { get; set; }
+        public List<Message> PersonalMessages { get; set; }
 
-        public InboxModel(IPersonalMessageData personalMessageRepository, UserManager<User> userManager)
+        public InboxModel(IMessageData personalMessageRepository, UserManager<User> userManager)
         {
             _personalMessageRepository = personalMessageRepository;
             _userManager = userManager;
@@ -23,7 +23,7 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
         public async Task OnGet()
         {
             var user = _userManager.GetUserAsync(User).Result.Id;
-            PersonalMessages = await _personalMessageRepository.GetMessagesToInbox(user);
+            PersonalMessages = await _personalMessageRepository.GetMessagesPersonalMessages(user);
         }
     }
 }

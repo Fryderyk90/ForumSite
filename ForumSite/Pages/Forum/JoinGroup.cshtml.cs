@@ -14,13 +14,19 @@ namespace ForumSite.Pages.Forum
     {
         private readonly IGroupData _groupData;
         private UserManager<User> _userManager;
-        public JoinGroupModel(IGroupData groupData, UserManager<User> userManager)
+        private readonly IUserGroupManager _userGroupManager;
+        public JoinGroupModel(IGroupData groupData, UserManager<User> userManager, IUserGroupManager userGroupManager)
         {
             _groupData = groupData;
             _userManager = userManager;
+            _userGroupManager = userGroupManager;
         }
-
+        [TempData]
+        public string Message { get; set; }
+        [TempData]
+        public  string NameOfGroup { get; set; }
         public List<ForumGroup> Groups { get; set; }
+        public UserGroup AddToGroup { get; set; }
         public async Task OnGet()
         {
             var groups = await _groupData.GetAllGroups();
@@ -29,8 +35,29 @@ namespace ForumSite.Pages.Forum
 
         public async Task<IActionResult> OnPost(string userId, int groupId)
         {
-           await _groupData.AddUserToGroup(userId);
+            
+            AddToGroup = await _userGroupManager.AddUserToGroup(userId, groupId);
+            
+            if (AddToGroup == null)
+            {
+                
+                Message = $"Already In Group";
+                
+                var groupss = await _groupData.GetAllGroups();
+                Groups = groupss;
+                return Page();
+            }
+            var nameOfGroup = AddToGroup.ForumGroup.Name;
+            Message = $"Joined {nameOfGroup}";
+            var groups = await _groupData.GetAllGroups();
+            Groups = groups;
+            
             return Page();
+        }
+
+        public void OnPostDelete(string userId)
+        {
+
         }
     }
 }

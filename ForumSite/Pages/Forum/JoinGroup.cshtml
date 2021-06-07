@@ -4,6 +4,19 @@
 @inject UserManager<User> userManager
 @{
 }
+
+@if (Model.AddToGroup != null)
+{
+    <div class="alert alert-success">
+        @Model.Message
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        @Model.Message
+    </div>
+}
 <h1>Groups</h1>
 
 <table class="table">
@@ -22,7 +35,7 @@
                 <td scope="col">@group.Description</td>
                 <td scope="col">
                     <form method="post" asp-page-handler="OnPost">
-                        <button type="submit" asp-route-userId="@userManager.GetUserId(User)" asp-route-groupId="@group.Id" class="btn btn-success">
+                        <button type="submit" asp-route-userId="@userManager.GetUserId(User)" asp-route-groupId="@group.ForumGroupId" class="btn btn-success">
                             Join Group
                         </button>
                     </form>

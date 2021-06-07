@@ -6,12 +6,14 @@
 
 <form method="post">
     <div class="input-group flex-nowrap">
+        <span asp-validation-for="InputCategory.Title" class="text-danger"></span>
         <span class="input-group-text" id="addon-wrapping">Title</span>
-        <input type="text" asp-for="@Model.InputCategory.Title" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
+        <input type="text" asp-for="InputCategory.Title" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
     </div>
     <div class="input-group flex-nowrap">
+        <span asp-validation-for="InputCategory.Description" class="text-danger"></span>
         <span class="input-group-text" id="addon-wrapping">Description</span>
-        <input type="text" asp-for="@Model.InputCategory.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
+        <input type="text" asp-for="InputCategory.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
     </div>
     <hr />
     <div class="btn-group" role="group">
@@ -19,3 +21,8 @@
         <a asp-page="./Index" class="btn btn-primary">Back</a>
     </div>
 </form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

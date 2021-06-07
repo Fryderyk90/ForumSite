@@ -27,9 +27,9 @@ namespace _9Chan.Data.Repository
 
         public async Task<ForumGroup> CreateGroup(ForumGroup newGroup)
         {
-            await _context.Groups.AddAsync(newGroup);
+            var k = await _context.Groups.AddAsync(newGroup);
             await _context.SaveChangesAsync();
-
+         //   await _context.UserGroups.AddAsync(newGroup.ForumGroupId);
             return newGroup;
         }
 
@@ -41,11 +41,12 @@ namespace _9Chan.Data.Repository
         public async Task<ForumGroup> GetGroupById(int groupId)
         {
 
-           var groupToDelete = await _context.Groups.FirstOrDefaultAsync(group => group.Id == groupId);
+          // var groupToDelete = await _context.Groups.FirstOrDefaultAsync(group => group.Id == groupId);
 
-           _context.Groups.Remove(groupToDelete);
-           await  _context.SaveChangesAsync();
-           return groupToDelete;
+           //_context.Groups.Remove(groupToDelete);
+           //await  _context.SaveChangesAsync();
+           //return groupToDelete;
+            return null;
         }
 
         public async Task<ForumGroup> EditGroup(ForumGroup editedGroup)

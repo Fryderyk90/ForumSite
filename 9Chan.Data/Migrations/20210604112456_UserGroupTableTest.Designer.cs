@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _9Chan.Data.Repository;
 
 namespace _9Chan.Data.Migrations
 {
     [DbContext(typeof(ForumSiteContext))]
-    partial class ForumSiteContextModelSnapshot : ModelSnapshot
+    [Migration("20210604112456_UserGroupTableTest")]
+    partial class UserGroupTableTest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,31 +249,25 @@ namespace _9Chan.Data.Migrations
                     b.ToTable("Likes");
                 });
 
-            modelBuilder.Entity("_9Chan.Core.Models.Message", b =>
+            modelBuilder.Entity("_9Chan.Core.Models.PersonalMessage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateSent")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("From")
+                    b.Property<string>("FromUserId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
+                    b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("To")
+                    b.Property<string>("ToUserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Messages");
+                    b.ToTable("PersonalMessages");
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.Post", b =>
@@ -410,9 +406,6 @@ namespace _9Chan.Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int?>("MessageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -423,6 +416,9 @@ namespace _9Chan.Data.Migrations
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PersonalMessageId")
+                        .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
@@ -451,8 +447,6 @@ namespace _9Chan.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MessageId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -460,6 +454,8 @@ namespace _9Chan.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("PersonalMessageId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -472,12 +468,7 @@ namespace _9Chan.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("MessageId")
-                        .HasColumnType("int");
-
                     b.HasKey("ForumGroupId", "UserId");
-
-                    b.HasIndex("MessageId");
 
                     b.HasIndex("UserId");
 
@@ -591,9 +582,9 @@ namespace _9Chan.Data.Migrations
 
             modelBuilder.Entity("_9Chan.Core.Models.User", b =>
                 {
-                    b.HasOne("_9Chan.Core.Models.Message", null)
+                    b.HasOne("_9Chan.Core.Models.PersonalMessage", null)
                         .WithMany("Users")
-                        .HasForeignKey("MessageId");
+                        .HasForeignKey("PersonalMessageId");
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.UserGroup", b =>
@@ -603,10 +594,6 @@ namespace _9Chan.Data.Migrations
                         .HasForeignKey("ForumGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("_9Chan.Core.Models.Message", null)
-                        .WithMany("groups")
-                        .HasForeignKey("MessageId");
 
                     b.HasOne("_9Chan.Core.Models.User", "User")
                         .WithMany("UserGroups")
@@ -629,10 +616,8 @@ namespace _9Chan.Data.Migrations
                     b.Navigation("UserGroups");
                 });
 
-            modelBuilder.Entity("_9Chan.Core.Models.Message", b =>
+            modelBuilder.Entity("_9Chan.Core.Models.PersonalMessage", b =>
                 {
-                    b.Navigation("groups");
-
                     b.Navigation("Users");
                 });
 

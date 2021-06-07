@@ -9,7 +9,7 @@ namespace ForumSite.Pages.Forum
 {
     public class SendPersonalMessageModel : PageModel
     {
-        private readonly IPersonalMessageData _personalMessageRepository;
+        private readonly IMessageData _personalMessageRepository;
         private readonly UserManager<User> _userManager;
 
         [BindProperty]
@@ -17,7 +17,7 @@ namespace ForumSite.Pages.Forum
 
         public string ToUser { get; set; }
 
-        public SendPersonalMessageModel(IPersonalMessageData personalMessageRepository, UserManager<User> userManager)
+        public SendPersonalMessageModel(IMessageData personalMessageRepository, UserManager<User> userManager)
         {
             _personalMessageRepository = personalMessageRepository;
             _userManager = userManager;

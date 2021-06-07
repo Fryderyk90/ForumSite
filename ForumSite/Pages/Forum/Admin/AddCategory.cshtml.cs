@@ -2,6 +2,7 @@ using _9Chan.Core.Models;
 using _9Chan.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace ForumSite.Pages.Forum.Admin
@@ -11,7 +12,18 @@ namespace ForumSite.Pages.Forum.Admin
         private readonly ICategoryData _categoryRepository;
 
         [BindProperty]
-        public Category InputCategory { get; set; }
+        public Input InputCategory { get; set; }
+
+
+        public class Input
+        {
+            [Required]
+
+            public string Title { get; set; }
+            [Required]
+            public string Description { get; set; }
+        }
+
 
         public AddCategoryModel(ICategoryData categoryRepository)
         {
