@@ -13,7 +13,7 @@ namespace _9Chan.Core.Models
         public string AdminId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        //     public User User { get; set; }
+        public List<User> User { get; set; }
 
         public ICollection<UserGroup> UserGroups { get; set; }
 

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace _9Chan.Core.Models
 {
-    public class ProfilePicture
+    public class Picture
     {
         public int Id { get; set; }
-        public byte[] Content { get; set; }
-        public string UserId { get; set; }
+        public string PictureLink { get; set; }
+        public string PostId { get; set; }
     }
 }

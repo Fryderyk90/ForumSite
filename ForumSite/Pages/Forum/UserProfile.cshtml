@@ -1,0 +1,23 @@
+﻿@page
+@model ForumSite.Pages.Forum.UserProfileModel
+@{
+}
+<div class="card" style="width: 18rem;">
+    @if (string.IsNullOrEmpty(Model.ProfilePicture))
+    {
+        <img src="https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-11.jpg" height="140" width="150" alt="..." style="" />
+    }
+    else
+    {
+        <img class="card-img-top" src="@Model.ProfilePicture" alt="Card image cap">
+    }
+
+
+    <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">@Model.UserBio</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">@Model.GroupName</li>
+    </ul>
+</div>

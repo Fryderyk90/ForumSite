@@ -13,7 +13,6 @@ namespace _9Chan.Core.Models
         public Thread Thread { get; set; }
         public string UserId { get; set; }
         public User User { get; set; }
-        public string Picture { get; set; }
-        public ProfilePicture ProfilePicture { get; set; }
+        public string Picture { get; set; }       
     }
 }

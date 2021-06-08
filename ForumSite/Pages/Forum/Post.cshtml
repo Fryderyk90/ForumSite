@@ -32,9 +32,12 @@
             </div>
             <div class="col-md-10">
                 <div class="card-body">
-                    <h5 class="card-title">@post.UserName</h5>
-                    <p class="card-text">@post.PostText</p>
-                    <p align="right">Likes: @post.LikesOnPosts</p>
+                    <a asp-page="UserProfile" asp-route-userId="@post.UserId"><h5 class="card-title">@post.UserName</h5></a>
+                    <p class="card-text">
+                        <span>@post.PostText</span>
+                        <span><img src="@post.Picture" alt="" /></span>
+                    </p>
+                    @*<p align="right">@post.LikesOnPosts <i class="fas fa-thumbs-up"></i></p>*@
                 </div>
             </div>
 
@@ -42,25 +45,29 @@
         <div class="card-footer">
 
 
-            <div class="btn-group" role="group" align="left">
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <p align="right"><a asp-route-id="@post.PostId" asp-route-username="@post.UserName" asp-route-post="@post.PostText" asp-page="ConfirmReport">Report</a></p>
-                    <p align="right"><a asp-route-id="@post.UserId" asp-route-username="@post.UserName" asp-page="SendPersonalMessage">PM</a></p>
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+
+                <div class="btn-group" role="group" align="left">
+                    <a class="btn btn-danger" asp-route-id="@post.PostId" asp-route-username="@post.UserName" asp-route-post="@post.PostText" asp-page="ConfirmReport">
+                        <i class="bi bi-exclamation-octagon"></i>
+                    </a>
+                    <a class="btn btn-primary" asp-route-id="@post.UserId" asp-route-username="@post.UserName" asp-page="SendPersonalMessage">
+                        <i class="bi bi-envelope"></i>
+                    </a>
                     <form method="post" asp-page-handler="AddLike">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-
-
-                        </div>
-
-                        <div class="form-group">
-
-                            <input type="submit" asp-page-handler="AddLike" asp-route-userId="@post.UserId" asp-route-threadId="@post.ThreadId" asp-route-postId="@post.PostId" class="btn btn-primary" />
-                        </div>
+                        <button type="submit" asp-page-handler="AddLike" asp-route-userId="@post.UserId" asp-route-threadId="@post.ThreadId" asp-route-postId="@post.PostId" class="btn btn-success">
+                            <i class="fas fa-thumbs-up "><span class="badge bg-success">@post.LikesOnPosts</span></i>
+                        </button>
                     </form>
-                }
-            </div>
+                </div>
+
+
+
+
+            }
+
 
 
             <div align="right">
@@ -71,9 +78,9 @@
         <div id="accordion">
             <div class="card">
                 <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
+                    <h5 class="mb-0" align="center">
                         <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne_@post.PostId" aria-expanded="true" aria-controls="collapseOne">
-                            Replies #@post.Comments.Where(p => p.PostId == @post.PostId).Count()
+                            <i class="fas fa-comments fa-1.5x"><span class="badge bg-transparent">(@post.Comments.Where(p => p.PostId == @post.PostId).Count())</span></i> 
                         </button>
                     </h5>
                 </div>
@@ -100,7 +107,10 @@
                             <div class="col-md-10">
                                 <div class="card-body">
                                     <h5 class="card-title">@post.Comments[i].User.UserName</h5>
-                                    <p class="card-text">@post.Comments[i].CommentText</p>
+                                    <p class="card-text">
+                                        <span>@post.Comments[i].CommentText</span>
+                                        <span><img src="@post.Comments[i].Picture" alt="" /></span>
+                                    </p>
                                     <p align="right">Likes: @post.Comments[i].LikesOnComment</p>
                                 </div>
                             </div>
@@ -109,29 +119,30 @@
                         <div class="card-footer">
 
 
-                            <div class="btn-group" role="group" align="left">
+                            
                                 @if (SignInManager.IsSignedIn(User))
                                 {
-                                    <p align="right"><a asp-route-id="@post.Comments[i].PostId" asp-route-username="@post.Comments[i].User.UserName" asp-route-post="@post.Comments[i].CommentText" asp-page="ConfirmReport">Report</a></p>
-                                    <p align="right"><a asp-route-id="@post.Comments[i].UserId" asp-route-username="@post.Comments[i].User.UserName" asp-page="SendPersonalMessage">PM</a></p>
-                                    <form method="post" asp-page-handler="AddLike">
-                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                        <div class="form-group">
 
 
-                                        </div>
-
-                                        <div class="form-group">
-
-                                            <input type="submit" asp-page-handler="AddLikeToComment" asp-route-userId="@post.UserId" asp-route-threadId="@post.ThreadId" asp-route-postId="@post.PostId" asp-route-commentId="@post.Comments[i].Id" class="btn btn-primary" />
-                                        </div>
-                                    </form>
+                                    <div class="btn-group" role="group" align="left">
+                                        <a class="btn btn-danger" asp-route-id="@post.Comments[i].PostId" asp-route-username="@post.Comments[i].User.UserName" asp-route-post="@post.Comments[i].CommentText" asp-page="ConfirmReport">
+                                            <i class="bi bi-exclamation-octagon"></i>
+                                        </a>
+                                        <a class="btn btn-primary" asp-route-id="@post.Comments[i].UserId" asp-route-username="@post.Comments[i].User.UserName" asp-page="SendPersonalMessage">
+                                            <i class="bi bi-envelope"></i>
+                                        </a>
+                                        <form method="post" asp-page-handler="AddLike">
+                                            <button type="submit" asp-page-handler="AddLikeToComment" asp-route-userId="@post.UserId" asp-route-threadId="@post.ThreadId" asp-route-postId="@post.PostId" asp-route-commentId="@post.Comments[i].Id" class="btn btn-success">
+                                                <i class="bi bi-hand-thumbs-up"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 }
-                            </div>
+                           
 
 
                             <div align="right">
-                                <p class="card-text"><small class="text-muted">Posted: @post.Comments[i].DateReplied</small></p>
+                                <p class="card-text"><small class="text-muted">Replied: @post.Comments[i].DateReplied</small></p>
                             </div>
 
                         </div>
@@ -141,8 +152,12 @@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
                                 <label asp-for="InputPost.InputText" class="control-label"></label>
-                                <input asp-for="InputPost.InputText" class="form-control" />
+                                @*<input asp-for="InputPost.InputText" class="form-control" />*@
+                                <textarea class="form-control" id="exampleFormControlTextarea1" asp-for="InputPost.InputText" placeholder="" rows="6"></textarea>
                                 <span asp-validation-for="InputPost.InputText" class="text-danger"></span>
+                                <label asp-for="InputPost.InputPicture" class="control-label"></label>
+                                <input type="url" placeholder="https://example.com" asp-for="InputPost.InputPicture" class="form-control" />
+                                <span asp-validation-for="InputPost.InputPicture" class="text-danger"></span>
 
                             </div>
 
@@ -170,13 +185,24 @@
 {
     <h3>Create New Post</h3>
     <form method="post">
-        <div class="input-group flex-nowrap">
-            <span class="input-group-text" id="addon-wrapping">Title</span>
-            <input type="text" asp-for="@Model.InputPost.InputText" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="InputPost.InputText" class="control-label"></label>
+            @*<input asp-for="InputPost.InputText" class="form-control" />*@
+            <textarea class="form-control" id="exampleFormControlTextarea1" asp-for="InputPost.InputText" placeholder="" rows="6"></textarea>
+            <span asp-validation-for="InputPost.InputText" class="text-danger"></span>
+            <label asp-for="InputPost.InputPicture" class="control-label"></label>
+            <input type="url" placeholder="https://example.com" asp-for="InputPost.InputPicture" class="form-control" />
+            <span asp-validation-for="InputPost.InputPicture" class="text-danger"></span>
+
         </div>
 
         <hr />
 
-        <button type="submit"  class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

@@ -35,6 +35,19 @@ namespace _9Chan.Data.Repository
             return userToGroup;
         }
 
+        public int? GetGroupIdByUserId(string userId)
+        {
+
+            var group = _context.UserGroups.FirstOrDefault(group => group.UserId == userId);
+            if (group == null)
+            {
+                return null;
+            }
+            else
+
+            return  group.ForumGroupId;           
+        }
+
         public async Task<UserGroup> RemoveUserFromGroup(string userId)
         {
             var remove = _context.UserGroups.FirstOrDefault(ug => ug.UserId == userId);
@@ -45,6 +58,20 @@ namespace _9Chan.Data.Repository
             return remove;
 
 
+        }
+
+        ForumGroup IUserGroupManager.GetGroupByUserId(string userId)
+        {
+            
+            var groupId = GetGroupIdByUserId(userId);
+            if (groupId == null)
+            {
+                return null;
+            }
+            
+            var group =  _context.Groups.FirstOrDefault(group => group.ForumGroupId == groupId);
+            
+            return group;
         }
 
         private bool GetUserInGroup(string userId)

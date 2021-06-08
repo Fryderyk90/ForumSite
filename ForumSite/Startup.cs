@@ -28,7 +28,7 @@ namespace ForumSite
             services.AddScoped<IThreadData, ThreadData>();
             services.AddScoped<IPostData, PostData>();
             services.AddScoped<IMessageData, MessageData>();
-            services.AddScoped<IProfilePictureData, ProfilePictureData>();
+            services.AddScoped<IPictureData, PictureData>();
             services.AddScoped<ICommentData, CommentData>();
             services.AddScoped<ILikeData, LikeData>();
             services.AddScoped<IGroupData, GroupData>();

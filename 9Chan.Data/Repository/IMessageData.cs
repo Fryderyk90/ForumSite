@@ -14,7 +14,7 @@ namespace _9Chan.Data.Repository
 
         Task<Message> EditMessageById(int id, string message);
 
-        Task<Message> SendGroupMessage();
-        Task<Message> GetGroupMessageById(string UserId)
+        Task<Message> SendGroupMessage(string from, int groupId, string message);
+        Task<List<Message>> GetGroupMessagesByUserId(string UserId);
     }
 }

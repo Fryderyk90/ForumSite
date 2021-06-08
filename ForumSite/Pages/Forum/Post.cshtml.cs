@@ -30,6 +30,7 @@ namespace ForumSite.Pages.Forum
             public DateTime DatePosted { get; set; }
             public string PostText { get; set; }
             public string ProfilePicture { get; set; }
+            public string Picture { get; set; }
             public int ThreadId { get; set; }
             public int LikesOnPosts { get; set; }
             public List<NewComment> Comments { get; set; }
@@ -51,11 +52,13 @@ namespace ForumSite.Pages.Forum
             public int LikesOnComment { get; set; }
             public User User { get; set; }
             public string UserId { get; set; }
+            public string Picture { get; set; }
         }
 
         public class NewPost
         {
             public string InputText { get; set; }
+            public string InputPicture { get; set; }
 
         }
 
@@ -98,8 +101,8 @@ namespace ForumSite.Pages.Forum
                         LikesOnComment = likesOnComment[comment.Id].Count(),
                         User = comment.User,
                         UserId = comment.UserId,
-                        ThreadId = comment.ThreadId
-
+                        ThreadId = comment.ThreadId,
+                        Picture = comment.Picture
                     };
 
 
@@ -113,11 +116,13 @@ namespace ForumSite.Pages.Forum
                     DatePosted = post.DatePosted,
                     PostId = post.Id,
                     PostText = post.PostText,
+                    Picture = post.Picture,
                     ProfilePicture = $"data:{"image/jpeg"};base64,{Convert.ToBase64String(post.User.ProfilePicture)}",
                     Comments = commentWithLikesList.Where(c => c.PostId == post.Id).ToList(),// commentWithLikesList
                     ThreadId = id,
-                    LikesOnPosts = likesOnPost[post.Id].Count()
-
+                    LikesOnPosts = likesOnPost[post.Id].Count(),
+                     
+                    
                 };
                 newPosts.Add(postPost);
                 //  }
@@ -135,8 +140,9 @@ namespace ForumSite.Pages.Forum
                 ThreadId = threadId,
                 PostId = postId,
                 DateReplied = DateTime.Now,
-                UserId = PostedBy.GetUserId(User)
-
+                UserId = PostedBy.GetUserId(User),
+                Picture = InputPost.InputPicture
+                
             };
             await _commentData.AddComment(newComment);
 
@@ -158,6 +164,7 @@ namespace ForumSite.Pages.Forum
                     DatePosted = DateTime.Now,
                     PostText = InputPost.InputText,
                     IsReported = false,
+                    Picture = InputPost.InputPicture
                 };
                 await _postRepository.AddPost(newPost);
             }

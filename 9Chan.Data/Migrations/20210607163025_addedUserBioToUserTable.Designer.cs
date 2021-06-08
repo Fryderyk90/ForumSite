@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _9Chan.Data.Repository;
 
 namespace _9Chan.Data.Migrations
 {
     [DbContext(typeof(ForumSiteContext))]
-    partial class ForumSiteContextModelSnapshot : ModelSnapshot
+    [Migration("20210607163025_addedUserBioToUserTable")]
+    partial class addedUserBioToUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,9 +188,6 @@ namespace _9Chan.Data.Migrations
                     b.Property<DateTime>("DateReplied")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
@@ -279,24 +278,6 @@ namespace _9Chan.Data.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("_9Chan.Core.Models.Picture", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("PictureLink")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProfilePictures");
-                });
-
             modelBuilder.Entity("_9Chan.Core.Models.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -316,6 +297,9 @@ namespace _9Chan.Data.Migrations
                     b.Property<string>("PostText")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProfilePictureId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ThreadId")
                         .HasColumnType("int");
 
@@ -324,11 +308,31 @@ namespace _9Chan.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProfilePictureId");
+
                     b.HasIndex("ThreadId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("_9Chan.Core.Models.ProfilePicture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProfilePictures");
                 });
 
             modelBuilder.Entity("_9Chan.Core.Models.SubCategory", b =>
@@ -552,6 +556,10 @@ namespace _9Chan.Data.Migrations
 
             modelBuilder.Entity("_9Chan.Core.Models.Post", b =>
                 {
+                    b.HasOne("_9Chan.Core.Models.ProfilePicture", "ProfilePicture")
+                        .WithMany()
+                        .HasForeignKey("ProfilePictureId");
+
                     b.HasOne("_9Chan.Core.Models.Thread", "Thread")
                         .WithMany("Posts")
                         .HasForeignKey("ThreadId");
@@ -559,6 +567,8 @@ namespace _9Chan.Data.Migrations
                     b.HasOne("_9Chan.Core.Models.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("ProfilePicture");
 
                     b.Navigation("Thread");
 

@@ -10,10 +10,12 @@ namespace _9Chan.Data.Repository
     public class MessageData : IMessageData
     {
         private readonly ForumSiteContext _context;
+        private readonly IUserGroupManager _userGroupManager;
 
-        public MessageData(ForumSiteContext context)
+        public MessageData(ForumSiteContext context, IUserGroupManager userGroupManager)
         {
             _context = context;
+            _userGroupManager = userGroupManager;
         }
 
         public async Task<Message> SendMessage(string from, string to, string message)
@@ -34,7 +36,7 @@ namespace _9Chan.Data.Repository
         {
             var users = await _context.RegUsers.ToArrayAsync();
             var messages = await _context.Messages
-                .Where(pm => pm.To == id).ToListAsync();
+                .Where(pm => pm.To == id && pm.GroupId == null).ToListAsync();
 
             return messages;
         }
@@ -60,12 +62,12 @@ namespace _9Chan.Data.Repository
             return getMessage;
         }
 
-        public async Task<Message> SendGroupMessage(string from, string groupId, string message)
+        public async Task<Message> SendGroupMessage(string from, int groupId, string message)
         {
             var newMessage = new Message
             {
                 From = from,
-                To = groupId,
+                GroupId = groupId,
                 Text = message,
                 DateSent = DateTime.Now
             };
@@ -74,10 +76,18 @@ namespace _9Chan.Data.Repository
             return newMessage;
         }
 
-        public Task<Message> GetGroupMessageById(string UserId)
+        public async Task<List<Message>> GetGroupMessagesByUserId(string userId)
         {
             
+            var userGroupId = _userGroupManager.GetGroupIdByUserId(userId);
+            
+            
+            var groupMessages = await _context.Messages.Where(message => message.GroupId == userGroupId).ToListAsync();
+            var group = await _context.Groups.ToArrayAsync();
+            return groupMessages; 
 
         }
+
+      
     }
 }

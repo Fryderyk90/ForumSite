@@ -22,8 +22,10 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
 
         public async Task OnGet()
         {
-            var user = _userManager.GetUserAsync(User).Result.Id;
-            PersonalMessages = await _personalMessageRepository.GetMessagesPersonalMessages(user);
+            var userId = _userManager.GetUserAsync(User).Result.Id;
+            PersonalMessages = await _personalMessageRepository.GetMessagesPersonalMessages(userId);
+           
+
         }
     }
 }

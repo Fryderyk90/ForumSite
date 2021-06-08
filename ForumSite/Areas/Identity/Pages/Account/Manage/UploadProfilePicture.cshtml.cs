@@ -19,21 +19,23 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly ForumSiteContext _context;
-        private readonly IProfilePictureData _profilePictureRepository;
+        private readonly IPictureData _profilePictureRepository;
 
-        public UploadProfilePictureModel(UserManager<User> userManager, ForumSiteContext context, IProfilePictureData profilePictureRepository)
+        public UploadProfilePictureModel(UserManager<User> userManager, ForumSiteContext context, IPictureData profilePictureRepository)
         {
             _userManager = userManager;
             _context = context;
             _profilePictureRepository = profilePictureRepository;
         }
-
-        [BindProperty]
-        public PictureFile FileUpload { get; set; }
+        public string DisplayPicture { get; set; }
         [TempData]
         public string Message { get; set; }
+        [BindProperty]
+        public PictureFile FileUpload { get; set; }
+      
+      
 
-        public string DisplayPicture { get; set; }
+       
         public class PictureFile
         {
             [Required]

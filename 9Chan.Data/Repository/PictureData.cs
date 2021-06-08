@@ -5,40 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using _9Chan.Core.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 
 namespace _9Chan.Data.Repository
 {
-    public class ProfilePictureData : IProfilePictureData
+    public class PictureData : IPictureData
     {
         private readonly ForumSiteContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public ProfilePictureData(ForumSiteContext context)
+        public PictureData(ForumSiteContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        public async Task<ProfilePicture> UploadPicture(MemoryStream memoryStream, string userId)
-        {
-
-            if (memoryStream.Length < 2097152)
-            {
-                var file = new ProfilePicture
-                {
-                    Content = memoryStream.ToArray(),
-                    UserId = userId
-
-                };
-                await _context.ProfilePictures.AddAsync(file);
-                await _context.SaveChangesAsync();
-
-                return file;
-            }
-
-            return null;
-
-        }
+       
 
         public async Task<Byte[]> SaveProfilePicture(MemoryStream memoryStream, User user)
         {
@@ -58,10 +42,10 @@ namespace _9Chan.Data.Repository
         }
 
 
-        public async Task<ProfilePicture> GetProfilePictureById(string userId)
+        public async Task<Byte[]> GetProfilePictureById(string userId)
         {
-
-            var profilePicture = await _context.ProfilePictures.FirstOrDefaultAsync(p => p.UserId == userId);
+            var user = await _userManager.FindByIdAsync(userId);
+            var profilePicture = user.ProfilePicture;
             
             if (profilePicture != null)
             {
@@ -84,25 +68,20 @@ namespace _9Chan.Data.Repository
             
 
             return null;
-        }
-
-
-
-
-        public async Task<string> DisplayPictureFromDatabase(string userId)
-        {
-            var picture = await GetProfilePictureById(userId);
-            var image = picture.Content;
-            var contentType = "image/jpeg";
-            var convertedImage = $"data:{contentType};base64,{Convert.ToBase64String(image)}";
-
-
-            return convertedImage;
-        }
-
-        public Task DeleteProfilePicture(ProfilePicture profilePicture)
+        }   
+        public Task DeleteProfilePicture(Picture profilePicture)
         {
             return null;
+        }
+
+        public Task<Picture> SavePicture(string postId, string pictureLink)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Picture> GetPictureByPostId(int postId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -9,9 +9,9 @@ namespace _9Chan.Core.Models
         public string From { get; set; }
         public string To { get; set; }
         public string Text { get; set; }
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
         public DateTime DateSent { get; set; }
         public List<User> Users { get; set; }
-        public List<UserGroup> groups { get; set;}
+        public ForumGroup Group { get; set;}
     }
 }

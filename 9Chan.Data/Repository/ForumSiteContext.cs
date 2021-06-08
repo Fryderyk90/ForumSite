@@ -17,7 +17,7 @@ namespace _9Chan.Data.Repository
         public DbSet<Post> Posts { get; set; }
         public DbSet<User> RegUsers { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<ProfilePicture> ProfilePictures { get; set; }
+        public DbSet<Picture> ProfilePictures { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<ForumGroup> Groups { get; set; }

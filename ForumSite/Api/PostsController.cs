@@ -15,10 +15,12 @@ namespace ForumSite.Api
     public class PostsController : ControllerBase
     {
         private readonly ForumSiteContext _context;
+        private readonly IPostData _postData;
 
-        public PostsController(ForumSiteContext context)
+        public PostsController(ForumSiteContext context, IPostData postData)
         {
             _context = context;
+            _postData = postData;
         }
 
         // GET: api/Posts
@@ -30,9 +32,10 @@ namespace ForumSite.Api
 
         // GET: api/Posts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Post>> GetPost(int id)
+        public async Task<ActionResult<List<Post>>> GetPost(int id)
         {
-            var post = await _context.Posts.FindAsync(id);
+           var post = await  _postData.GetPostsInThreadById(id);
+          //  var post = await _context.Posts.FindAsync(id);
 
             if (post == null)
             {

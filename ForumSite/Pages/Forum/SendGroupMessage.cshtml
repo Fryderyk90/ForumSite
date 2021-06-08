@@ -3,14 +3,16 @@
 @{
 }
 <div class="col-6">
-    <h3>Bio</h3>
+    <h3>Messege To @Model.GroupName</h3>
     <hr />
-    <form>
+    <form method="post">
         <div class="form-group">
             <div class="form-group">
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="6"></textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" asp-for="GroupMessage"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
 </div>
+
+<a asp-page="./Identity/Account/Manage/MyPage" class="btn btn-danger">Back</a>
