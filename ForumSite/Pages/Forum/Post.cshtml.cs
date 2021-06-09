@@ -19,6 +19,7 @@ namespace ForumSite.Pages.Forum
         private readonly ICommentData _commentData;
         private readonly ILikeData _likeData;
         private readonly IConfiguration _config;
+        private readonly IPictureData _pictureData;
 
         //    public List<Post> Posts { get; set; }
         public List<PostInput> NewPosts { get; set; }
@@ -64,7 +65,7 @@ namespace ForumSite.Pages.Forum
 
         }
 
-        public PostModel(IPostData postRepository, UserManager<User> postedBy, ICommentData commentData, ILikeData likeData, IConfiguration config)
+        public PostModel(IPostData postRepository, UserManager<User> postedBy, ICommentData commentData, ILikeData likeData, IConfiguration config, IPictureData pictureData)
         {
             _postRepository = postRepository;
 
@@ -72,6 +73,7 @@ namespace ForumSite.Pages.Forum
             _commentData = commentData;
             _likeData = likeData;
             _config = config;
+            _pictureData = pictureData;
         }
 
         public async Task OnGet(int id)
@@ -84,9 +86,12 @@ namespace ForumSite.Pages.Forum
             var getPosts = await _postRepository.GetPostsInThreadById(id);
             var newPosts = new List<PostInput>();
             var comments = await _commentData.GetCommentsByThreadId(id);
-            var likesInThread = await _likeData.GeLikesInThread(id);
-            var likesOnPost = likesInThread.ToLookup(l => l.PostId, l => l.PostId);
-            var likesOnComment = likesInThread.ToLookup(l => l.CommentId, l => l.CommentId);
+           
+                var likesInThread = await _likeData.GeLikesInThread(id);
+                var likesOnPost = likesInThread.ToLookup(l => l.PostId, l => l.PostId);
+                var likesOnComment = likesInThread.ToLookup(l => l.CommentId, l => l.CommentId);
+                
+            
             var commentWithLikesList = new List<NewComment>();
 
             foreach (var post in getPosts)
@@ -119,7 +124,7 @@ namespace ForumSite.Pages.Forum
                     PostId = post.Id,
                     PostText = post.PostText,
                     Picture = post.Picture,
-                    ProfilePicture = $"data:{"image/jpeg"};base64,{Convert.ToBase64String(post.User.ProfilePicture)}",
+                    ProfilePicture = _pictureData.DisplayProfilePicture(post.User),  //$"data:{"image/jpeg"};base64,{Convert.ToBase64String(post.User.ProfilePicture)}",
                     Comments = commentWithLikesList.Where(c => c.PostId == post.Id).ToList(),// commentWithLikesList
                     ThreadId = id,
                     LikesOnPosts = likesOnPost[post.Id].Count(),
