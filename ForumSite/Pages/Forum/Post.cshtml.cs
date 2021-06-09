@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -57,6 +58,7 @@ namespace ForumSite.Pages.Forum
 
         public class NewPost
         {
+            [Required(ErrorMessage = "Field is Required")]
             public string InputText { get; set; }
             public string InputPicture { get; set; }
 

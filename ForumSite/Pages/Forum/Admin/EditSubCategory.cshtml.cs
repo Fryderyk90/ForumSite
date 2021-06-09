@@ -26,22 +26,27 @@ namespace ForumSite.Pages.Forum.Admin
             _subCategoryRepository = subCategoryRepository;
         }
 
-        public async Task<IActionResult> OnGet(int? subCategoryId)
+        public async Task OnGet(int id)
         {
-            SubCategory = await _subCategoryRepository.GetSubCategoryById(subCategoryId);
+            
+            var subCategory = await _subCategoryRepository.GetSubCategoryById(id);
+            SubCategory = subCategory;
 
-            return Page();
+          
         }
 
-        public async Task<IActionResult> OnPost(int subCategoryId)
+        public async Task<IActionResult> OnPost(int id,string previousTitle)
         {
             if (ModelState.IsValid)
             {
-                SubCategory = await _subCategoryRepository.GetSubCategoryById(subCategoryId);
+                SubCategory = await _subCategoryRepository.GetSubCategoryById(id);
                 SubCategory.Title = InputModel.Title;
                 SubCategory.Description = InputModel.Description;
                 await _subCategoryRepository.UpdateSubCategory(SubCategory);
-                return RedirectToPage("./index/AddSubCategory");
+
+                //  return RedirectToPage($"/Forum/Admin/AddSubCategory?id={id}&title={previousTitle}");
+
+                return Page();
             }
 
             return Page();
