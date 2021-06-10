@@ -16,7 +16,7 @@
     ">
         <div class="row g-0">
             <div class="col-md-2">
-                <div class="profilepicture">
+               
                     @if (post.ProfilePicture == null)
                     {
                         <img class="profilepicture" height="160" width="150" src="https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-11.jpg" alt="..."
@@ -36,10 +36,10 @@
                 border-right: 3px solid black;
                 border-left: 3px solid black;
                 " />}
-                </div>
+                
             </div>
             <div class="col-md-8">
-                <div class="card-body" id="postbody">
+                <div class="card-body">
                     <a class="text-dark" asp-page="UserProfile" asp-route-userId="@post.UserId"><h5 class="card-title">@post.UserName</h5></a>
                     <p class="card-text">
                         <span id="posttext">@post.PostText</span>
@@ -99,13 +99,13 @@
                     @for (int i = 0; i < @post.Comments.Where(p => p.PostId == @post.PostId).ToArray().Length; i++)
                     {
 
-                        <div class="row g-0">
-                            <div class="col-md-2">
-                                <div>
-                                    @if (post.Comments[i].User.ProfilePicture == null)
+                    <div class="row g-0">
+                        <div class="col-md-2">
+                            <div>
+                                @if (post.Comments[i].User.ProfilePicture == null)
                                     {
-                                        <img class="profilepicture" height="160" width="150" src="https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-11.jpg"
-                                             style="
+                                <img height="160" width="150" src="https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-11.jpg"
+                                     style="
 
                 border-top: 3px solid black;
                 border-bottom: 3px solid black;
@@ -115,8 +115,8 @@
                                     }
                                     else
                                     {
-                                        <img class="profilepicture" height="160" width="150" src="@($"data:{"image/jpeg"};base64,{Convert.ToBase64String(@post.Comments[i].User.ProfilePicture)}")"
-                                             style="
+                                <img height="160" width="150" src="@($"data:{"image/jpeg"};base64,{Convert.ToBase64String(@post.Comments[i].User.ProfilePicture)}")"
+                                     style="
 
                 border-top: 3px solid black;
                 border-bottom: 3px solid black;
@@ -124,82 +124,85 @@
                 border-left: 3px solid black;
                 " />
                                     }
-                                </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <a class="text-dark" asp-page="UserProfile" asp-route-userId="@post.Comments[i].UserId"><h5 class="card-title">@post.Comments[i].User.UserName</h5></a>
-                                   
-                                    <p class="card-text">
-                                        <span>@post.Comments[i].CommentText</span>
-                                        <div class="col-md-2">
-                                            <span><img src="@post.Comments[i].Picture" alt="" /></span>
-                                        </div>
-                                    </p>
-                                   
-                                </div>
-                            </div>
-
                         </div>
-                        <div class="card-footer" style="background-color: #e7d4b5">
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <a class="text-dark" asp-page="UserProfile" asp-route-userId="@post.Comments[i].UserId"><h5 class="card-title">@post.Comments[i].User.UserName</h5></a>
+
+                                <p class="card-text">
+                                    <span>@post.Comments[i].CommentText</span>
+                                    <div class="col-md-2">
+                                        <span><img style="max-height: 200px;" src="@post.Comments[i].Picture" alt="" /></span>
+                                    </div>
+                                </p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-footer" style="background-color: #e7d4b5">
 
 
 
-                            @if (SignInManager.IsSignedIn(User))
+                        @if (SignInManager.IsSignedIn(User))
                             {
 
 
-                                <div class="btn-group" role="group" align="left">
-                                    <a class="btn btn-danger" asp-route-id="@post.Comments[i].PostId" asp-route-username="@post.Comments[i].User.UserName" asp-route-post="@post.Comments[i].CommentText" asp-page="ConfirmReport">
-                                        <i class="bi bi-exclamation-octagon"></i>
-                                    </a>
-                                    <a class="btn btn-primary" asp-route-id="@post.Comments[i].UserId" asp-route-username="@post.Comments[i].User.UserName" asp-page="SendPersonalMessage">
-                                        <i class="bi bi-envelope"></i>
-                                    </a>
-                                    <form method="post" asp-page-handler="AddLike">
-                                        <button type="submit" asp-page-handler="AddLikeToComment" asp-route-userId="@post.UserId" asp-route-threadId="@post.ThreadId" asp-route-postId="@post.PostId" asp-route-commentId="@post.Comments[i].Id" class="btn btn-success">
-                                            <i class="fas fa-thumbs-up "><span class="badge bg-success">@post.Comments[i].LikesOnComment</span></i>
-                                        </button>
-                                        @*<button type="submit" asp-page-handler="AddLikeToComment" asp-route-userId="@post.UserId" asp-route-threadId="@post.ThreadId" asp-route-postId="@post.PostId" asp-route-commentId="@post.Comments[i].Id" class="btn btn-success">
+                        <div class="btn-group" role="group" align="left">
+                            <a class="btn btn-danger" asp-route-id="@post.Comments[i].PostId" asp-route-username="@post.Comments[i].User.UserName" asp-route-post="@post.Comments[i].CommentText" asp-page="ConfirmReport">
+                                <i class="bi bi-exclamation-octagon"></i>
+                            </a>
+                            <a class="btn btn-primary" asp-route-id="@post.Comments[i].UserId" asp-route-username="@post.Comments[i].User.UserName" asp-page="SendPersonalMessage">
+                                <i class="bi bi-envelope"></i>
+                            </a>
+                            <form method="post" asp-page-handler="AddLike">
+                                <button type="submit" asp-page-handler="AddLikeToComment" asp-route-userId="@post.UserId" asp-route-threadId="@post.ThreadId" asp-route-postId="@post.PostId" asp-route-commentId="@post.Comments[i].Id" class="btn btn-success">
+                                    <i class="fas fa-thumbs-up "><span class="badge bg-success">@post.Comments[i].LikesOnComment</span></i>
+                                </button>
+                                @*<button type="submit" asp-page-handler="AddLikeToComment" asp-route-userId="@post.UserId" asp-route-threadId="@post.ThreadId" asp-route-postId="@post.PostId" asp-route-commentId="@post.Comments[i].Id" class="btn btn-success">
                         <i class="bi bi-hand-thumbs-up"></i>
                     </button>*@
-                                    </form>
-                                </div>
+                            </form>
+                        </div>
                             }
 
 
 
-                            <div align="right">
-                                <p class="card-text"><small class="text-muted">Replied: @post.Comments[i].DateReplied</small></p>
-                            </div>
-
+                        <div align="right">
+                            <p class="card-text"><small class="text-muted">Replied: @post.Comments[i].DateReplied</small></p>
                         </div>
-                    }
-                    <div class="card-body" id="1">
-                        <form method="post" asp-page-handler="Reply">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="InputPost.InputText" class="control-label"></label>
-                                @*<input asp-for="InputPost.InputText" class="form-control" />*@
-                                <span asp-validation-for="InputPost.InputText" class="text-danger"></span>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" asp-for="InputPost.InputText" placeholder="" rows="6"></textarea>
-
-                                <label asp-for="InputPost.InputPicture" class="control-label"></label>
-                                <input type="url" placeholder="https://example.com" asp-for="InputPost.InputPicture" class="form-control" />
-                                <span asp-validation-for="InputPost.InputPicture" class="text-danger"></span>
-
-                            </div>
-
-                            <div class="form-group">
-
-                                <input type="submit" asp-page-handler="Reply" asp-route-postId="@post.PostId" asp-route-threadId="@post.ThreadId" value="Comment" class="btn btn-primary" />
-                            </div>
-                        </form>
-
-
-                        <hr />
 
                     </div>
+                    }
+                   
+                <div class="card-body" id="1">
+                    @if (SignInManager.IsSignedIn(User))
+                            {
+                    <form method="post" asp-page-handler="Reply">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="InputPost.InputText" class="control-label"></label>
+                            @*<input asp-for="InputPost.InputText" class="form-control" />*@
+                            <span asp-validation-for="InputPost.InputText" class="text-danger"></span>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" asp-for="InputPost.InputText" placeholder="" rows="6"></textarea>
+
+                            <label asp-for="InputPost.InputPicture" class="control-label"></label>
+                            <input type="url" placeholder="https://example.com" asp-for="InputPost.InputPicture" class="form-control" />
+                            <span asp-validation-for="InputPost.InputPicture" class="text-danger"></span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <input type="submit" asp-page-handler="Reply" asp-route-postId="@post.PostId" asp-route-threadId="@post.ThreadId" value="Comment" class="btn btn-primary" />
+                        </div>
+                    </form>
+                    }
+
+                    <hr />
+
+                </div>
 
                 </div>
 
@@ -209,7 +212,15 @@
         </div>
     </div>
 
+
+
+
 }
+
+
+
+
+
 @if (SignInManager.IsSignedIn(User))
 {
     <h3>Create New Post</h3>

@@ -11,11 +11,13 @@ namespace _9Chan.Data.Repository
     public class PostData : IPostData
     {
         private readonly ForumSiteContext _context;
+        private readonly ICommentData _CommentData;
 
 
-        public PostData(ForumSiteContext context)
+        public PostData(ForumSiteContext context, ICommentData commentData)
         {
             _context = context;
+            _CommentData = commentData;
         }
 
         public async Task<List<Post>> GetPostsInThreadById(int id)
@@ -86,12 +88,29 @@ namespace _9Chan.Data.Repository
 
         public async Task DeletePostsInThread(List<Post> postsToDelete)
         {
+
             foreach (var post in postsToDelete)
             {
+                await DeleteCommentsInThreadAsync(post.Id);
+
                 _context.Posts.Remove(post);
             }
 
             await _context.SaveChangesAsync();
+        }
+
+        private async Task DeleteCommentsInThreadAsync(int postId)
+        {
+            var comments = await _CommentData.GetCommentsByPostId(postId);
+            if (comments != null)
+            {
+                foreach (var comment in comments)
+                {
+                    _context.Comments.Remove(comment);
+                }
+                
+            }
+            
         }
 
         public async Task<List<Post>> ReportedPosts()

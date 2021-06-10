@@ -44,6 +44,7 @@ namespace ForumSite.Pages.Forum
         public NewPost InputPost { get; set; }
         [BindProperty]
         public NewComment CommentsWithLikes { get; set; }
+        public PaginatedList<PostInput> MyPosts { get; set; }
         public class NewComment
         {
             public int Id { get; set; }
@@ -76,9 +77,70 @@ namespace ForumSite.Pages.Forum
             _pictureData = pictureData;
         }
 
-        public async Task OnGet(int id)
+        public async Task OnGet(int id, int pageIndex)
         {
             await UpdatePage(id);
+            //var pageSize = _config.GetValue("PageSize", 4);
+            //var qPosts = await UpdateMyPage(id);
+            
+            //MyPosts = await PaginatedList<PostInput>.CreateAsync(
+            //    qPosts, pageIndex , pageIndex);
+        }
+        private async Task<IQueryable<PostInput>> UpdateMyPage(int id)
+        {
+            var getPosts = await _postRepository.GetPostsInThreadById(id);
+            var newPosts = new List<PostInput>();
+            var comments = await _commentData.GetCommentsByThreadId(id);
+
+            var likesInThread = await _likeData.GeLikesInThread(id);
+            var likesOnPost = likesInThread.ToLookup(l => l.PostId, l => l.PostId);
+            var likesOnComment = likesInThread.ToLookup(l => l.CommentId, l => l.CommentId);
+
+
+            var commentWithLikesList = new List<NewComment>();
+
+            foreach (var post in getPosts)
+            {
+                var commentss = comments.Where(c => c.PostId == post.Id).ToList();
+                foreach (var comment in commentss)
+                {
+                    var commentWithLike = new NewComment()
+                    {
+                        Id = comment.Id,
+                        PostId = comment.PostId,
+                        CommentText = comment.CommentText,
+                        DateReplied = comment.DateReplied,
+                        LikesOnComment = likesOnComment[comment.Id].Count(),
+                        User = comment.User,
+                        UserId = comment.UserId,
+                        ThreadId = comment.ThreadId,
+                        Picture = comment.Picture
+                    };
+
+
+                    commentWithLikesList.Add(commentWithLike);
+                }
+
+                var postPost = new PostInput
+                {
+                    UserId = post.User.Id,
+                    UserName = post.User.UserName,
+                    DatePosted = post.DatePosted,
+                    PostId = post.Id,
+                    PostText = post.PostText,
+                    Picture = post.Picture,
+                    ProfilePicture = _pictureData.DisplayProfilePicture(post.User),  //$"data:{"image/jpeg"};base64,{Convert.ToBase64String(post.User.ProfilePicture)}",
+                    Comments = commentWithLikesList.Where(c => c.PostId == post.Id).ToList(),// commentWithLikesList
+                    ThreadId = id,
+                    LikesOnPosts = likesOnPost[post.Id].Count(),
+
+
+                };
+                newPosts.Add(postPost);
+                //  }
+            }
+
+            return (IQueryable<PostInput>)newPosts;
         }
 
         private async Task UpdatePage(int id)

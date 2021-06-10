@@ -14,6 +14,7 @@ namespace _9Chan.Data.Repository
         Task<Comment> EditComment(Comment comment);
         Task<Comment> GetCommentById(int id);
         Task<List<Comment>> GetCommentsByThreadId(int threadId);
+        Task<List<Comment>> GetCommentsByPostId(int postId);
         Task<Comment[]> AllComments();
     }
 }

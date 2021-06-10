@@ -66,5 +66,11 @@ namespace _9Chan.Data.Repository
 
             return allComments;
         }
+
+        public Task<List<Comment>> GetCommentsByPostId(int postId)
+        {
+           return _context.Comments.Where(c => c.PostId == postId).ToListAsync();
+
+        }
     }
 }

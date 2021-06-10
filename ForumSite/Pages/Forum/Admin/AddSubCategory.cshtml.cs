@@ -11,6 +11,7 @@ namespace ForumSite.Pages.Forum.Admin
     public class AddSubCategoryModel : PageModel
     {
         private readonly ISubCategoryData _subCategoryRepository;
+        [BindProperty(SupportsGet = true)]
         public string Title { get; set; }
 
         [BindProperty]

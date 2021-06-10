@@ -26,7 +26,7 @@ namespace ForumSite.Pages.Forum.Admin
             _subCategoryRepository = subCategoryRepository;
         }
 
-        public async Task OnGet(int id)
+        public async Task OnGet(int id, string previousTitle)
         {
             
             var subCategory = await _subCategoryRepository.GetSubCategoryById(id);
@@ -43,10 +43,12 @@ namespace ForumSite.Pages.Forum.Admin
                 SubCategory.Title = InputModel.Title;
                 SubCategory.Description = InputModel.Description;
                 await _subCategoryRepository.UpdateSubCategory(SubCategory);
+                var querystring = $"?id={id}&title={previousTitle}";
+                 
+                
+                return RedirectToPage("./AddSubCategory", new { id = id, title = previousTitle });
 
-                //  return RedirectToPage($"/Forum/Admin/AddSubCategory?id={id}&title={previousTitle}");
-
-                return Page();
+              //  return Page();
             }
 
             return Page();

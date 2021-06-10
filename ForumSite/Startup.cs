@@ -1,5 +1,6 @@
 using _9Chan.Core.Models;
 using _9Chan.Data.Repository;
+using _9Chan.Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +34,8 @@ namespace ForumSite
             services.AddScoped<ILikeData, LikeData>();
             services.AddScoped<IGroupData, GroupData>();
             services.AddScoped<IUserGroupManager, UserGroupManager>();
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddControllers();
 
             services.AddAuthorization(options =>
