@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ForumSite.Pages.Forum
@@ -27,9 +29,30 @@ namespace ForumSite.Pages.Forum
         {
             public int SubCategoryId { get; set; }
             public string UserId { get; set; }
+            [Required(ErrorMessage = "Field Is Required")]
+            [Display(Name = "Title")]
             public string ThreadTitle { get; set; }
+            [Required(ErrorMessage = "Field Is Required")]
+            [Display(Name = "First Post")]
             public string Description { get; set; }
+            [Display(Name = "Picture Url")]
+            public string PictureUrl { get; set; }
+            [Display(Name = "Make Thread Sticky")]
+            public bool IsSticky { get; set; }
             public bool IsReported { get; set; }
+        }
+        public List<ThreadsTable> Table { get; set; }
+        public string ReturnUrl { get; set; }
+        public class ThreadsTable
+        {
+            public int Id { get; set; }
+            public string Title { get; set; }
+            public bool IsSticky { get; set; }
+            public string UserName { get; set; }
+            public DateTime DateCreated { get; set; }
+            public int PostCount { get; set; }
+            public string LatestPostUserName { get; set; }
+            public DateTime LatestPostDate { get; set; }
         }
 
         public ThreadsModel(IThreadData threadData, UserManager<User> userManager, IPostData postData)
@@ -39,15 +62,47 @@ namespace ForumSite.Pages.Forum
             _postData = postData;
         }
 
-        public async Task<IActionResult> OnGetAsync(int id, string subCategoryTitle)
+        public async Task<IActionResult> OnGetAsync(int id, string subCategoryTitle, string categoryTitle)
         {
             SubCategoryTitle = subCategoryTitle;
-            Threads = await _threadData.GetThreadsInSubCategoryById(id);
-
+            ReturnUrl = $"/Forum/Threads/SubCategories?id={id}&categoryTitle={categoryTitle}";
+            var threads = await _threadData.GetThreadsInSubCategoryById(id);
+            var table = CreateThreadsTable(threads);
+            
+            
+            var sortTable = table
+                .OrderByDescending(t => t.IsSticky == true).
+                ThenByDescending(t => t.DateCreated)
+                .ToList();
+            Table = sortTable;
             return Page();
         }
 
-        public async Task<IActionResult> OnPost(int id)
+        private List<ThreadsTable> CreateThreadsTable(List<Thread> threads)
+        {
+
+            var threadTable = new List<ThreadsTable>();
+            foreach (var thread in threads)
+            {
+                foreach (var post in thread.Posts.OrderByDescending(p => p.DatePosted).Take(1))
+                {
+                    var item = new ThreadsTable
+                    {
+                        Id = thread.Id,
+                        Title = thread.Title,
+                        IsSticky = thread.IsSticky,
+                        UserName = thread.User.UserName,
+                        DateCreated = thread.DateCreated,
+                        PostCount = thread.Posts.Count(),
+                        LatestPostUserName = post.User.UserName,
+                        LatestPostDate = post.DatePosted
+                    };
+                    threadTable.Add(item);
+                }
+            }
+            return threadTable;
+        }
+        public async Task<IActionResult> OnPost(int id, string subCategoryTitle)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +112,7 @@ namespace ForumSite.Pages.Forum
                     SubCategoryId = id,
                     UserId = user.Id,
                     DateCreated = DateTime.Now,
-                    IsSticky = false,
+                    IsSticky = NewThreadInput.IsSticky,
                     Title = NewThreadInput.ThreadTitle,
                 };
                 await _threadData.AddThread(newThread);
@@ -67,16 +122,22 @@ namespace ForumSite.Pages.Forum
                     ThreadId = threadId,
                     PostText = NewThreadInput.Description,
                     DatePosted = DateTime.Now,
-                    UserId = user.Id
+                    UserId = user.Id,
+                    Picture = NewThreadInput.PictureUrl
+
 
                 };
                 await _postData.AddPost(firstPostInThread);
-                
-                Threads = await _threadData.GetThreadsInSubCategoryById(id);
+
+                SubCategoryTitle = subCategoryTitle;
+                var threads = await _threadData.GetThreadsInSubCategoryById(id);
+
+                Table = CreateThreadsTable(threads);
                 return Page();
             }
 
             return Page();
         }
+
     }
 }

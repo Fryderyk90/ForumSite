@@ -97,9 +97,9 @@ namespace ForumSite.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
-
+                    var emailPicture = "\"https://upload.wikimedia.org/wikipedia/commons/f/f3/Uncle_Sam_%28pointing_finger%29.jpg\"";
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"<img src='https://upload.wikimedia.org/wikipedia/commons/f/f3/Uncle_Sam_%28pointing_finger%29.jpg)'/>" +
+                        $"<img height=\"200\" width=\"200\" src={emailPicture}/>" + "<hr />"+
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)

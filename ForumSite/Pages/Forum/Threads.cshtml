@@ -5,21 +5,51 @@
 @inject SignInManager<User> SignInManager
 @{
 }
-<a href='javascript:history.go(-1)'>Back</a>
+<i class="fas fa-caret-square-left"><a class="text-dark" href='javascript:history.go(-1)'>Back</a></i>
+
 <h2>@Model.SubCategoryTitle</h2>
-<table class="table">
-    <tr>
+<table class="table table-striped">
+    <tr class="text-center">
         <th>Title</th>
         <th>PostedBy</th>
         <th>Date Posted</th>
+        <th>Posts</th>
+        <th>Latest Post</th>
     </tr>
-    @foreach (var thread in Model.Threads)
+    @foreach (var thread in Model.Table)
     {
-        <tr>
-            <td><a asp-route-id="@thread.Id" asp-page="/Forum/Post">@thread.Title</a></td>
-            <td>@thread.User.UserName</td>
-            <td>@thread.DateCreated.ToShortDateString()</td>
-        </tr>
+        @if (thread.IsSticky == true)
+        {
+
+
+            <tr class="text-center" style="background-color: #e7d4b5">
+
+                <td><a class="text-dark" asp-route-id="@thread.Id" asp-page="/Forum/Post">@thread.Title</a></td>
+                <td>@thread.UserName</td>
+                <td>@thread.DateCreated.ToString("g")</td>
+                <td>@thread.PostCount</td>
+                <td>
+                    @thread.LatestPostUserName
+                    <br />
+                    <small class="text-muted" style="text-align:center">@thread.LatestPostDate.ToString("g")</small>
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr class="text-center">
+
+                <td><a class="text-dark" asp-route-id="@thread.Id" asp-page="/Forum/Post">@thread.Title</a></td>
+                <td>@thread.UserName</td>
+                <td>@thread.DateCreated.ToString("g")</td>
+                <td>@thread.PostCount</td>
+                <td>
+                    @thread.LatestPostUserName
+                    <br />
+                    <small class="text-muted" style="text-align:center">@thread.LatestPostDate.ToString("g")</small>
+                </td>
+            </tr>
+        }
     }
 </table>
 
@@ -28,20 +58,44 @@
 
     <h3>Create New Thread</h3>
 
-    <form method="post">
+    <!--<form method="post">
         <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">Title</span>
-            <input type="text" asp-for="@Model.NewThreadInput.ThreadTitle" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
+            <input type="text" asp-for="NewThreadInput.ThreadTitle" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping">
         </div>
         <div class="input-group flex-nowrap">
-            <span class="input-group-text" id="addon-wrapping">Description</span>
-            <input type="text" asp-for="@Model.NewThreadInput.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
-        </div>
-        <input type="hidden" asp-for="@Model.NewThreadInput.UserId" />
+            <label class="control-label">First Post</label>
+            <hr />
+            <textarea class="form-control" id="exampleFormControlTextarea1" asp-for="NewThreadInput.Description" placeholder="" rows="6"></textarea>-->
+    @*<input type="text" asp-for="@Model.NewThreadInput.Description" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">*@
+    <!--</div>
+
 
         <hr />
         <div align="right">
             <button type="submit" class="btn btn-success">Submit</button>
         </div>
+    </form>-->
+
+
+    <form method="post">
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Title</label>
+            <span asp-validation-for="NewThreadInput.ThreadTitle" class="text-danger"></span>
+            <input type="text" asp-for="NewThreadInput.ThreadTitle" class="form-control" id="exampleFormControlInput1">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" asp-for="NewThreadInput.Description" class="form-label"></label>
+            <span asp-validation-for="NewThreadInput.Description" class="text-danger"></span>
+            <textarea class="form-control" asp-for="NewThreadInput.Description" id="exampleFormControlTextarea1" rows="6"></textarea>
+        </div>
+        <div align="right">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
     </form>
+
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

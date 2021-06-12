@@ -7,6 +7,7 @@ namespace _9Chan.Data.Repository
     public interface IThreadData
     {
         Task<Thread> AddThread(Thread newThread);
+        Task<Thread> FindLatestThreadBySubCategoryId(int subcategoryId);
 
         Task<Thread> GetThreadId();
         Task<int> GetThreadIdByTitle(string threadName);

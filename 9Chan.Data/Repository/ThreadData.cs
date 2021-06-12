@@ -22,7 +22,7 @@ namespace _9Chan.Data.Repository
         {
             var subcategories = await _context.SubCategories.ToArrayAsync();
             newThread.Title = await _postData.ProfanityFilter(newThread.Title);
-      
+
             await _context.Threads.AddAsync(newThread);
             await _context.SaveChangesAsync();
             return newThread;
@@ -45,8 +45,12 @@ namespace _9Chan.Data.Repository
         {
             //Where the magic happens DO NOT TOUCH
             var usersInfo = await _context.RegUsers.ToArrayAsync();
-
-            return await _context.Threads.Where(t => t.SubCategoryId == id).ToListAsync();
+            var threadInfo = await _context.Threads.ToArrayAsync();
+            var postInfo = await _context.Posts.ToArrayAsync();
+   
+            var threads = await _context.Threads.Where(t => t.SubCategoryId == id).ToListAsync();
+          
+            return threads;
         }
 
         public async Task DeleteThreadsById(List<Thread> threadsToDelete)
@@ -64,6 +68,16 @@ namespace _9Chan.Data.Repository
             var threads = await _context.Threads.ToListAsync();
 
             return threads;
+        }
+
+        public async Task<Thread> FindLatestThreadBySubCategoryId(int subcategoryId)
+        {
+            var threadsInSubCategory = await GetThreadsInSubCategoryById(subcategoryId);
+
+            var latestThread = threadsInSubCategory.OrderBy(t => t.DateCreated).Take(1);
+
+            return (Thread)latestThread;
+
         }
     }
 }

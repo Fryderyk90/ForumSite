@@ -1,21 +1,22 @@
 ﻿@page
 @using _9Chan.Core.Models
 @model ForumSite.Pages.Forum.CategoryModel
+@inject _9Chan.Data.Repository.ISubCategoryData subcategoryData
 @{
 }
-<a href='javascript:history.go(-1)'>Back</a>
-<a asp-page="JoinGroup">Groups</a>
-<table class="table">
+<i class="fas fa-caret-square-left"><a class="text-dark" asp-page="/Index">Back</a></i>
+<table class="table table-bordered table-striped">
     <tr>
         <th>Title</th>
         <th>Description</th>
+        <th>Subcategories</th>
     </tr>
     @foreach (var category in Model.Categories)
     {
         <tr>
-            <td><a asp-page="./SubCategories" asp-route-id="@category.Id" asp-route-categoryTitle="@category.Title">@category.Title</a></td>
+            <td><a class="text-dark" asp-page="./SubCategories" asp-route-id="@category.Id" asp-route-categoryTitle="@category.Title">@category.Title</a></td>
             <td>@category.Description</td>
-            <td>@category.SubCategories</td>
+            <td>@subcategoryData.AllSubCategoriesInByCategoryId(category.Id).Result.Count()</td>
         </tr>
     }
 </table>

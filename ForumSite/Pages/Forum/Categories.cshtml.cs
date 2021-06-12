@@ -9,24 +9,25 @@ namespace ForumSite.Pages.Forum
 {
     public class CategoryModel : PageModel
     {
-        private readonly ICategoryData _categoryRepository;
-        private readonly ISubCategoryData _subCategoryRepository;
+        private readonly ICategoryData _categoryData;
+        private readonly ISubCategoryData _subCategoryData;
         public IEnumerable<Category> Categories { get; set; }
 
         [BindProperty]
         public Category InputCategory { get; set; }
 
-        public SubCategory InputSubCategory { get; set; }
+        public SubCategory SubCategoryCount { get; set; }
 
         public CategoryModel(ICategoryData categoryRepository, ISubCategoryData subCategoryRepository)
         {
-            _categoryRepository = categoryRepository;
-            _subCategoryRepository = subCategoryRepository;
+            _categoryData = categoryRepository;
+            _subCategoryData = subCategoryRepository;
         }
 
         public async Task OnGet()
         {
-            Categories = await _categoryRepository.AllCategories();
+            Categories = await _categoryData.AllCategories();
+            
         }
     }
 }
