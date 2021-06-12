@@ -131,8 +131,14 @@ namespace ForumSite.Pages.Forum
 
                 SubCategoryTitle = subCategoryTitle;
                 var threads = await _threadData.GetThreadsInSubCategoryById(id);
+                var table = CreateThreadsTable(threads);
 
-                Table = CreateThreadsTable(threads);
+
+                var sortTable = table
+                    .OrderByDescending(t => t.IsSticky == true).
+                    ThenByDescending(t => t.DateCreated)
+                    .ToList();
+                Table = sortTable;
                 return Page();
             }
 

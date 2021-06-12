@@ -44,12 +44,12 @@ namespace _9Chan.Data.Repository
         public async Task<List<Thread>> GetThreadsInSubCategoryById(int id)
         {
             //Where the magic happens DO NOT TOUCH
+            
+   
+            var threads = await _context.Threads.Where(t => t.SubCategoryId == id).ToListAsync();
             var usersInfo = await _context.RegUsers.ToArrayAsync();
             var threadInfo = await _context.Threads.ToArrayAsync();
             var postInfo = await _context.Posts.ToArrayAsync();
-   
-            var threads = await _context.Threads.Where(t => t.SubCategoryId == id).ToListAsync();
-          
             return threads;
         }
 
