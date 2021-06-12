@@ -48,10 +48,12 @@ namespace ForumSite.Pages.Forum
             public int Id { get; set; }
             public string Title { get; set; }
             public bool IsSticky { get; set; }
+            public string UserId { get; set; }
             public string UserName { get; set; }
             public DateTime DateCreated { get; set; }
             public int PostCount { get; set; }
             public string LatestPostUserName { get; set; }
+            public string LatestPostUserIdUserId { get; set; }
             public DateTime LatestPostDate { get; set; }
         }
 
@@ -92,10 +94,13 @@ namespace ForumSite.Pages.Forum
                         Title = thread.Title,
                         IsSticky = thread.IsSticky,
                         UserName = thread.User.UserName,
+                        UserId = thread.User.Id,
                         DateCreated = thread.DateCreated,
                         PostCount = thread.Posts.Count(),
                         LatestPostUserName = post.User.UserName,
-                        LatestPostDate = post.DatePosted
+                        LatestPostDate = post.DatePosted,
+                        LatestPostUserIdUserId = post.User.Id
+
                     };
                     threadTable.Add(item);
                 }

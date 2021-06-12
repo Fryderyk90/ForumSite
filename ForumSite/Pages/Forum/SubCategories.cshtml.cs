@@ -25,6 +25,7 @@ namespace ForumSite.Pages.Forum
             public string LatestThreadTitle { get; set; }
             public string LatestThreadCreatedBy { get; set; }
             public DateTime LatestThreadDate { get; set; }
+            public string LatestThreadUserId { get; set; }
             public int? CategoryId { get; set; }
         }
 
@@ -63,6 +64,7 @@ namespace ForumSite.Pages.Forum
                         LatestThreadTitle = thread.Title,
                         LatestThreadCreatedBy = thread.User.UserName,
                         LatestThreadDate = thread.DateCreated,
+                        LatestThreadUserId = thread.User.Id
                     };
 
                     subCategoryTable.Add(item);

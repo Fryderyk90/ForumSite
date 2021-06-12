@@ -25,11 +25,11 @@
             <tr class="text-center" style="background-color: #e7d4b5">
 
                 <td><a class="text-dark" asp-route-id="@thread.Id" asp-page="/Forum/Post">@thread.Title</a></td>
-                <td>@thread.UserName</td>
+                <td><a class="text-dark" asp-page="UserProfile" asp-route-userId="@thread.UserId">@thread.UserName</a></td>
                 <td>@thread.DateCreated.ToString("g")</td>
                 <td>@thread.PostCount</td>
                 <td>
-                    @thread.LatestPostUserName
+                    <a class="text-dark" asp-page="UserProfile" asp-route-userId="@thread.UserId">@thread.LatestPostUserName</a>
                     <br />
                     <small class="text-muted" style="text-align:center">@thread.LatestPostDate.ToString("g")</small>
                 </td>
@@ -40,11 +40,11 @@
             <tr class="text-center">
 
                 <td><a class="text-dark" asp-route-id="@thread.Id" asp-page="/Forum/Post">@thread.Title</a></td>
-                <td>@thread.UserName</td>
+                <td><a class="text-dark" asp-page="UserProfile" asp-route-userId="@thread.UserId">@thread.UserName</a></td>
                 <td>@thread.DateCreated.ToString("g")</td>
                 <td>@thread.PostCount</td>
                 <td>
-                    @thread.LatestPostUserName
+                    <a class="text-dark" asp-page="UserProfile" asp-route-userId="@thread.UserId">@thread.LatestPostUserName</a>                   
                     <br />
                     <small class="text-muted" style="text-align:center">@thread.LatestPostDate.ToString("g")</small>
                 </td>

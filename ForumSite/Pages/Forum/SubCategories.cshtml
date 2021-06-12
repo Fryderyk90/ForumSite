@@ -3,7 +3,7 @@
 @{
 }
 @inject _9Chan.Data.Repository.IThreadData threadData
-    <i class="fas fa-caret-square-left"><a class="text-dark" asp-page="./Categories">Back</a></i>
+<i class="fas fa-caret-square-left"><a class="text-dark" asp-page="./Categories">Back</a></i>
 
 <h2>@Model.CategoryTitle</h2>
 <table class="table">
@@ -21,7 +21,9 @@
             <td>@subCategory.ThreadCount</td>
             <td>
                 @subCategory.LatestThreadTitle<br />
-                @subCategory.LatestThreadCreatedBy<br />
+                <a class="text-dark" asp-page="UserProfile" asp-route-userId="@subCategory.LatestThreadUserId">@subCategory.LatestThreadCreatedBy</a>
+
+                <br />
                 <small class="text-muted" style="text-align:center">@subCategory.LatestThreadDate.ToString("g")</small>
             </td>
         </tr>
