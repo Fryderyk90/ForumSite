@@ -89,13 +89,33 @@
             <span asp-validation-for="NewThreadInput.Description" class="text-danger"></span>
             <textarea class="form-control" asp-for="NewThreadInput.Description" id="exampleFormControlTextarea1" rows="6"></textarea>
         </div>
-        <div align="right">
-            <button type="submit" class="btn btn-success">Submit</button>
-        </div>
-    </form>
+        @if (User.IsInRole("Admin"))
+        {
 
-}
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+            
+                <div class="checkbox">
+                    <label asp-for="NewThreadInput.IsSticky">
+                        <input asp-for="NewThreadInput.IsSticky" />
+                        @Html.DisplayNameFor(m => m.NewThreadInput.IsSticky)
+                    </label>
+                </div>
+                @*<div class="form-check">
+                        <input class="form-check-input" asp-for="NewThreadInput.IsSticky" checked="true" type="checkbox" value="" id="flexCheckDefault">
+                        <label asp-for="NewThreadInput.IsSticky" class="form-check-label" for="flexCheckDefault">
+
+                        </label>
+                    </div>*@
+
+                }
+
+                <div align="right">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+        </form>
+
+    }
+
+        @section Scripts {
+            <partial name="_ValidationScriptsPartial" />
+        }

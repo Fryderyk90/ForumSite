@@ -115,8 +115,8 @@ namespace ForumSite.Pages.Forum
                     IsSticky = NewThreadInput.IsSticky,
                     Title = NewThreadInput.ThreadTitle,
                 };
-                await _threadData.AddThread(newThread);
-                var threadId = await _threadData.GetThreadIdByTitle(newThread.Title);
+                var thread = await _threadData.AddThread(newThread);
+                var threadId = thread.Id; /*await _threadData.GetThreadIdByTitle(newThread.Title);*/
                 var firstPostInThread = new Post
                 {
                     ThreadId = threadId,
