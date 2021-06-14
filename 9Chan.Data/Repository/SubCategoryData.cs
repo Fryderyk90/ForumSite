@@ -1,5 +1,6 @@
 ﻿using _9Chan.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace _9Chan.Data.Repository
             return await _context.SubCategories.ToListAsync();
         }
 
-        public async Task<List<SubCategory>> AllSubCategoriesInByCategoryId(int id)
+        public async Task<List<SubCategory>> AllSubCategoriesInByCategoryId(int? id)
         {
             return await _context.SubCategories.Where(sb => sb.CategoryId == id).ToListAsync();
         }
@@ -55,20 +56,41 @@ namespace _9Chan.Data.Repository
             return newSubCategory;
         }
 
-        public async Task<SubCategory> DeleteSubCategory(int id)
+        public async Task<SubCategory> DeleteSubCategory(SubCategory subCategory)
         {
-            var subCategory = await GetSubCategoryById(id);
-            _context.SubCategories.Remove(subCategory);
-            await _context.SaveChangesAsync();
+            var threadsToDelete = await _threadRepository.GetThreadsInSubCategoryById(subCategory.Id);
 
+            //need to get thread id 
+            var thread = await _threadRepository.GetThreadBySubCategoryId(subCategory.Id);
+            var postsInToDelete = await _postRepository.GetPostsInThreadById(thread.Id);
+           
+
+            if (postsInToDelete.Count > 0)
+            {
+                await _postRepository.DeletePostsInThread(postsInToDelete);
+            }
+            if (threadsToDelete.Count > 0)
+            {
+                await _threadRepository.DeleteThreadsById(threadsToDelete);
+            }
+
+           
+                
+                    _context.SubCategories.Remove(subCategory);
+               
+           
+
+            await _context.SaveChangesAsync();
             return subCategory;
         }
 
-        public async Task DeleteSubCategories(int id)
+      
+
+        public async Task DeleteSubCategories(SubCategory subCategory)
         {
-            var threadsToDelete = await _threadRepository.GetThreadsInSubCategoryById(id);
-            var postsInToDelete = await _postRepository.GetPostsInThreadById(id);
-            var subCategoriesToDelete = await AllSubCategoriesInByCategoryId(id);
+            var threadsToDelete = await _threadRepository.GetThreadsInSubCategoryById(subCategory.Id);
+            var postsInToDelete = await _postRepository.GetPostsInThreadById(subCategory.Id);
+            var subCategoriesToDelete = await AllSubCategoriesInByCategoryId(subCategory.CategoryId);
 
             if (postsInToDelete.Count > 0)
             {
@@ -81,9 +103,9 @@ namespace _9Chan.Data.Repository
 
             if (subCategoriesToDelete.Count > 0)
             {
-                foreach (var subCategory in subCategoriesToDelete)
+                foreach (var subcategory in subCategoriesToDelete)
                 {
-                    _context.SubCategories.Remove(subCategory);
+                    _context.SubCategories.Remove(subcategory);
                 }
             }
 

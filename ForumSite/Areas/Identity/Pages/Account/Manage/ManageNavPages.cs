@@ -5,10 +5,10 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
 {
     public static class ManageNavPages
     {
-        public static string Index => "Index";
-
+        public static string Index => "Index";    
         public static string Email => "Email";
         public static string MyPage => "My Page";
+        public static string JoinGroups => "Groups";
         public static string ChangePassword => "ChangePassword";
 
         public static string DownloadPersonalData => "DownloadPersonalData";
@@ -25,6 +25,7 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
 
         public static string EmailNavClass(ViewContext viewContext) => PageNavClass(viewContext, Email);
         public static string MyPageNavClass(ViewContext viewContext) => PageNavClass(viewContext, MyPage);
+        public static string GroupsNavClass(ViewContext viewContext) => PageNavClass(viewContext, JoinGroups);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
 

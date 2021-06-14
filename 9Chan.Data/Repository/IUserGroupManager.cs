@@ -11,6 +11,7 @@ namespace _9Chan.Data.Repository
     {
         Task<UserGroup> AddUserToGroup(string userId, int forumgroupId);
         Task<UserGroup> RemoveUserFromGroup(string userId);
+        bool IsUserInGroup(string userId);
         int? GetGroupIdByUserId(string userId);
         ForumGroup GetGroupByUserId(string userId);
     }

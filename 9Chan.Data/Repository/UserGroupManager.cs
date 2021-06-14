@@ -48,6 +48,16 @@ namespace _9Chan.Data.Repository
             return  group.ForumGroupId;           
         }
 
+        public bool IsUserInGroup(string userId)
+        {
+            var user = _context.UserGroups.FirstOrDefault(ug => ug.UserId == userId);
+            if (user == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public async Task<UserGroup> RemoveUserFromGroup(string userId)
         {
             var remove = _context.UserGroups.FirstOrDefault(ug => ug.UserId == userId);

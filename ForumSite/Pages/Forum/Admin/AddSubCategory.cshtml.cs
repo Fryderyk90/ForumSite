@@ -37,7 +37,7 @@ namespace ForumSite.Pages.Forum.Admin
             SubCategories = await _subCategoryRepository.AllSubCategoriesInByCategoryId(id);
         }
 
-        public async Task<RedirectToPageResult> OnPost(int id)
+        public async Task<IActionResult> OnPost(int id)
         {
             if (ModelState.IsValid)
             {
@@ -49,8 +49,8 @@ namespace ForumSite.Pages.Forum.Admin
                 };
                 await _subCategoryRepository.AddSubCategory(newSubCategory);
             }
-
-            return RedirectToPage("/Forum/Admin/Index");
+            SubCategories = await _subCategoryRepository.AllSubCategoriesInByCategoryId(id);
+            return Page();
         }
     }
 }

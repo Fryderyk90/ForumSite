@@ -55,9 +55,15 @@ namespace ForumSite.Pages.Forum
             return Page();
         }
 
-        public void OnPostDelete(string userId)
+        public async Task<IActionResult> OnPostLeaveGroup()
         {
-
+            var user = await _userManager.GetUserAsync(User);
+          
+            await _userGroupManager.RemoveUserFromGroup(user.Id);
+            var groups = await _groupData.GetAllGroups();
+            Groups = groups;
+            Message = "Left Group";
+            return RedirectToPage();
         }
     }
 }

@@ -50,7 +50,7 @@ namespace ForumSite.Pages.Forum
             public bool IsSticky { get; set; }
             public string UserId { get; set; }
             public string UserName { get; set; }
-            public DateTime DateCreated { get; set; }
+            public DateTime DateCreated { get; set; }           
             public int PostCount { get; set; }
             public string LatestPostUserName { get; set; }
             public string LatestPostUserIdUserId { get; set; }
@@ -64,17 +64,17 @@ namespace ForumSite.Pages.Forum
             _postData = postData;
         }
 
-        public async Task<IActionResult> OnGetAsync(int id, string subCategoryTitle, string categoryTitle)
+        public async Task<IActionResult> OnGetAsync(int id, string subCategoryTitle, string categoryTitle, int subCategoryId)
         {
             SubCategoryTitle = subCategoryTitle;
             ReturnUrl = $"/Forum/Threads/SubCategories?id={id}&categoryTitle={categoryTitle}";
-            var threads = await _threadData.GetThreadsInSubCategoryById(id);
+            var threads = await _threadData.GetThreadsInSubCategoryById(subCategoryId);
             var table = CreateThreadsTable(threads);
             
             
             var sortTable = table
-                .OrderByDescending(t => t.IsSticky == true).
-                ThenByDescending(t => t.DateCreated)
+                .OrderByDescending(t => t.IsSticky == true)
+                .ThenByDescending(t => t.DateCreated)
                 .ToList();
             Table = sortTable;
             return Page();
@@ -107,14 +107,14 @@ namespace ForumSite.Pages.Forum
             }
             return threadTable;
         }
-        public async Task<IActionResult> OnPost(int id, string subCategoryTitle)
+        public async Task<IActionResult> OnPost(int subCategoryId, string subCategoryTitle)
         {
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
                 var newThread = new Thread()
                 {
-                    SubCategoryId = id,
+                    SubCategoryId = subCategoryId,
                     UserId = user.Id,
                     DateCreated = DateTime.Now,
                     IsSticky = NewThreadInput.IsSticky,
@@ -132,16 +132,16 @@ namespace ForumSite.Pages.Forum
 
 
                 };
-                await _postData.AddPost(firstPostInThread);
+                firstPostInThread = await _postData.AddPost(firstPostInThread);
 
                 SubCategoryTitle = subCategoryTitle;
-                var threads = await _threadData.GetThreadsInSubCategoryById(id);
+                var threads = await _threadData.GetThreadsInSubCategoryById(subCategoryId);
                 var table = CreateThreadsTable(threads);
 
 
                 var sortTable = table
-                    .OrderByDescending(t => t.IsSticky == true).
-                    ThenByDescending(t => t.DateCreated)
+                    .OrderByDescending(t => t.IsSticky == true)
+                    .ThenByDescending(t => t.DateCreated)
                     .ToList();
                 Table = sortTable;
                 return Page();

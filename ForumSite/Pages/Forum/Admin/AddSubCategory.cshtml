@@ -27,7 +27,7 @@
                 <td align="right">
                     <div>
                         <a asp-page="EditSubCategory" asp-route-id="@subcategory.Id"  asp-route-previousTitle="@Model.Title"class="btn btn-primary font-weight-bold">Edit</a>
-                        <a asp-page="DeleteSubCategory" asp-route-id="@subcategory.Id" class="btn btn-danger font-weight-bold">Delete</a>
+                        <a asp-page="DeleteSubCategory" asp-route-id="@subcategory.Id" asp-route-previousTitle="@Model.Title" class="btn btn-danger font-weight-bold">Delete</a>
                     </div>
                 </td>
             </tr>

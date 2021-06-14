@@ -20,7 +20,7 @@ namespace _9Chan.Data.Repository
             _CommentData = commentData;
         }
 
-        public async Task<List<Post>> GetPostsInThreadById(int id)
+        public async Task<List<Post>> GetPostsInThreadById(int? id)
         {
             
             var posts = await _context.Posts.Where(s => s.ThreadId == id).ToListAsync();
@@ -91,7 +91,7 @@ namespace _9Chan.Data.Repository
 
             foreach (var post in postsToDelete)
             {
-                await DeleteCommentsInThreadAsync(post.Id);
+                await DeleteCommentsInThreadAsync((int)post.ThreadId);
 
                 _context.Posts.Remove(post);
             }

@@ -36,6 +36,9 @@ namespace ForumSite
             services.AddScoped<IUserGroupManager, UserGroupManager>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
+            services.AddScoped<IEncryption, Encryption>();
+            services.Configure<EncryptionOptions>(Configuration);
+
             services.AddControllers();
 
             services.AddAuthorization(options =>

@@ -107,18 +107,6 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
         }
 
 
-        public async Task<IActionResult> OnPostLeaveGroup()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (!ModelState.IsValid)
-            {
-                await LoadAsync(user);
-                return Page();
-            }
-            await _userGroupManager.RemoveUserFromGroup(user.Id);
-
-
-            return RedirectToPage();
-        }
+       
     }
 }

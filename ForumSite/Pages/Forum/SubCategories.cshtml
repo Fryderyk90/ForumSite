@@ -16,7 +16,7 @@
     @foreach (var subCategory in Model.Table)
     {
         <tr class="text-center">
-            <td><a class="text-dark" asp-route-id="@subCategory.CategoryId" asp-route-categoryTitle="@Model.CategoryTitle" asp-route-subCategoryTitle="@subCategory.Title" asp-page="./Threads">@subCategory.Title</a></td>
+            <td><a class="text-dark" asp-route-id="@subCategory.CategoryId" asp-route-subCategoryId="@subCategory.Id" asp-route-categoryTitle="@Model.CategoryTitle" asp-route-subCategoryTitle="@subCategory.Title" asp-page="./Threads">@subCategory.Title</a></td>
             <td>@subCategory.Description</td>
             <td>@subCategory.ThreadCount</td>
             <td>

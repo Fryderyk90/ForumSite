@@ -19,6 +19,7 @@ namespace ForumSite.Pages.Forum
         public List<SubCategoryTable> Table { get; set; }
         public class SubCategoryTable
         {
+            public int Id { get; set; }
             public string Title { get; set; }
             public string Description { get; set; }
             public int ThreadCount { get; set; }
@@ -40,8 +41,8 @@ namespace ForumSite.Pages.Forum
             CategoryTitle = categoryTitle;
             var subCategories = await _subCategoryRepository.AllSubCategoriesInByCategoryId(id);
             var threads = await _threadData.GetThreadsInSubCategoryById(id);
-
-            Table = CreateSubCategoryTable(subCategories);
+            var table = CreateSubCategoryTable(subCategories);
+            Table = table;
 
         }
 
@@ -50,25 +51,49 @@ namespace ForumSite.Pages.Forum
 
             var subCategoryTable = new List<SubCategoryTable>();
             foreach (var subcategory in subCategories)
-            {       
-                foreach (var thread in subcategory.Threads.OrderByDescending(t => t.DateCreated).Take(1))
+            {
+                if (subcategory.Threads != null)
                 {
+                    foreach (var thread in subcategory.Threads.OrderByDescending(t => t.DateCreated).Take(1))
+                    {
 
+                        var item = new SubCategoryTable
+                        {
+                            Id = subcategory.Id,
+                            Title = subcategory.Title,
+                            Description = subcategory.Description,
+                            ThreadCount = subcategory.Threads.Count(),
+                            CategoryId = subcategory.CategoryId,
+
+                            LatestThreadTitle = thread.Title,
+                            LatestThreadCreatedBy = thread.User.UserName,
+                            LatestThreadDate = thread.DateCreated,
+                            LatestThreadUserId = thread.User.Id
+                        };
+                        subCategoryTable.Add(item);
+                    }
+
+                }
+                else
+                {
                     var item = new SubCategoryTable
                     {
+                        Id = subcategory.Id,
                         Title = subcategory.Title,
                         Description = subcategory.Description,
-                        ThreadCount = subcategory.Threads.Count(),
+                        ThreadCount = 0,
                         CategoryId = subcategory.CategoryId,
-  
-                        LatestThreadTitle = thread.Title,
-                        LatestThreadCreatedBy = thread.User.UserName,
-                        LatestThreadDate = thread.DateCreated,
-                        LatestThreadUserId = thread.User.Id
-                    };
 
+                        LatestThreadTitle = "No Threads",
+                        LatestThreadCreatedBy = "",
+                        LatestThreadDate = DateTime.ParseExact("22/11/2009", "dd/mm/yyyy",null),
+                        LatestThreadUserId = null
+                    };
                     subCategoryTable.Add(item);
-                }              
+                }
+                    
+                
+                
             }
 
             return subCategoryTable;

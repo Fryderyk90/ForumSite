@@ -17,16 +17,19 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly IMessageData _messages;
+        private readonly IUserGroupManager _userGroupManager;
         private readonly IPictureData _pictureData;
 
-        public MyPageModel(UserManager<User> userManager, IMessageData personalMessage, IPictureData pictureData)
+        public MyPageModel(UserManager<User> userManager, IMessageData personalMessage, IPictureData pictureData, IUserGroupManager userGroupManager)
         {
             _userManager = userManager;
             _messages = personalMessage;
             _pictureData = pictureData;
+            _userGroupManager = userGroupManager;
         }
         [BindProperty]
         public string UserBio { get; set; }
+        public bool IsInGroup { get; set; }
 
         [BindProperty]
         public PictureFile FileUpload { get; set; }
@@ -48,8 +51,17 @@ namespace ForumSite.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             var userId = user.Id;
             UserManager = _userManager;
+            IsInGroup = _userGroupManager.IsUserInGroup(userId);
             PersonalMessages = await _messages.GetMessagesPersonalMessages(userId);
-            GroupMessages = await _messages.GetGroupMessagesByUserId(userId);
+            if(IsInGroup)
+            {
+                GroupMessages = await _messages.GetGroupMessagesByUserId(userId);
+            }
+            else
+            {
+                GroupMessages = new List<Message>();
+            }
+            
             ProfilePicture = _pictureData.DisplayProfilePicture(user);
             UserBio = user.Bio;
 

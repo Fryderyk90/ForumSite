@@ -33,12 +33,12 @@
 
 
             <form enctype="multipart/form-data" method="post" asp-page-handler="UpdateProfilePicture">
-            <dl>
-                <dd>
-                    <input asp-for="FileUpload.FormFile" type="file">
-                </dd>
-            </dl>
-            <input class="btn btn-primary" type="submit" value="Upload">
+                <dl>
+                    <dd>
+                        <input asp-for="FileUpload.FormFile" type="file">
+                    </dd>
+                </dl>
+                <input class="btn btn-primary" type="submit" value="Upload">
             </form>
         </div>
     </div>
@@ -70,34 +70,39 @@
             </table>
         </div>
     </div>
-    <div class="col-sm-4" @*style="margin-left: 8px"*@>
-        <h3>Group Messages</h3>
-        <div>
-            <table class="table">
-                <tr>
-                    <th>From</th>
-                    <th>Date</th>
-                    <td>Message</td>
-                    <th></th>
-                </tr>
-                @foreach (var message in Model.GroupMessages)
-                {
+    @if (Model.IsInGroup)
+    {
+        <div class="col-sm-4" @*style="margin-left: 8px"*@>
+            <h3>Group Messages</h3>
+            <div>
+                <table class="table">
                     <tr>
-                        <td>@Model.UserManager.FindByIdAsync(message.From).Result.UserName</td>
-                        <td>@message.DateSent.ToShortDateString()</td>
-                        <td>@message.Text</td>
-                        <td>
-                            <a asp-route-groupName="@message.Group.Name"
-                               asp-route-userId="@Model.UserManager.FindByIdAsync(message.From).Result.Id"
-                               asp-route-groupId="@message.GroupId"
-                               asp-page="/forum/SendGroupMessage">Reply</a>
-                        </td>
-
+                        <th>From</th>
+                        <th>Date</th>
+                        <td>Message</td>
+                        <th></th>
                     </tr>
-                }
-            </table>
+                    @foreach (var message in Model.GroupMessages)
+                    {
+                        <tr>
+                            <td>@Model.UserManager.FindByIdAsync(message.From).Result.UserName</td>
+                            <td>@message.DateSent.ToShortDateString()</td>
+                            <td>@message.Text</td>
+                            <td>
+                                <a asp-route-groupName="@message.Group.Name"
+                                   asp-route-userId="@Model.UserManager.FindByIdAsync(message.From).Result.Id"
+                                   asp-route-groupId="@message.GroupId"
+                                   asp-page="/forum/SendGroupMessage">Reply</a>
+                            </td>
+
+                        </tr>
+                    }
+                </table>
+            </div>
+            <a align="right" class="btn btn-dark" asp-page="/forum/SendGroupMessage">Send Group Message</a>
         </div>
-    </div>
 
+
+
+    }
 </div>
-

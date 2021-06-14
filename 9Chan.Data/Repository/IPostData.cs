@@ -6,7 +6,7 @@ namespace _9Chan.Data.Repository
 {
     public interface IPostData
     {
-        Task<List<Post>> GetPostsInThreadById(int id);
+        Task<List<Post>> GetPostsInThreadById(int? id);
 
         Task<List<Post>> GetPostsByUserId(string userId);
         Task<string> ProfanityFilter(string input);

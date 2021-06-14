@@ -41,7 +41,7 @@ namespace _9Chan.Data.Repository
             return threadId;
         }
 
-        public async Task<List<Thread>> GetThreadsInSubCategoryById(int id)
+        public async Task<List<Thread>> GetThreadsInSubCategoryById(int? id)
         {
             //Where the magic happens DO NOT TOUCH
             
@@ -78,6 +78,11 @@ namespace _9Chan.Data.Repository
 
             return (Thread)latestThread;
 
+        }
+
+        public async Task<Thread> GetThreadBySubCategoryId(int subcategoryId)
+        {
+            return await _context.Threads.FirstOrDefaultAsync(t => t.SubCategoryId == subcategoryId);
         }
     }
 }

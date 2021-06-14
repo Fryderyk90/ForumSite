@@ -29,16 +29,16 @@ namespace ForumSite.Pages.Forum.Admin
             return Page();
         }
 
-        public async Task<IActionResult> OnPost(int id)
+        public async Task<IActionResult> OnPost(int id, string previousTitle)
         {
             var subcategoryToDelete = await _subCategoryRepository.GetSubCategoryById(id);
             if (subcategoryToDelete == null)
             {
                 return RedirectToPage("Pages/NotFound");
             }
-            await _subCategoryRepository.DeleteSubCategories(subcategoryToDelete.Id);
+            await _subCategoryRepository.DeleteSubCategory(subcategoryToDelete);
 
-            return RedirectToPage("./Index/AddSubCategory");
+            return RedirectToPage("./AddSubCategory", new { id = subcategoryToDelete.CategoryId, title = previousTitle });
         }
     }
 }

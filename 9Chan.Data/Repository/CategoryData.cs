@@ -42,7 +42,12 @@ namespace _9Chan.Data.Repository
             var subCategoriesToDelete = await _subCategoryRepository.AllSubCategoriesInByCategoryId(id);
             if (subCategoriesToDelete.Count > 0)
             {
-                await _subCategoryRepository.DeleteSubCategories(id);
+                foreach (var subcategory in subCategoriesToDelete)
+                {
+
+                
+                await _subCategoryRepository.DeleteSubCategories(subcategory);
+                }
             }
             var Category = await GetCategoryById(id);
             if (Category != null)

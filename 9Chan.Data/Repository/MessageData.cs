@@ -1,4 +1,5 @@
 ﻿using _9Chan.Core.Models;
+using _9Chan.Data.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,20 +12,24 @@ namespace _9Chan.Data.Repository
     {
         private readonly ForumSiteContext _context;
         private readonly IUserGroupManager _userGroupManager;
+        private readonly IEncryption _encryption;
 
-        public MessageData(ForumSiteContext context, IUserGroupManager userGroupManager)
+        public MessageData(ForumSiteContext context, IUserGroupManager userGroupManager, IEncryption encryption)
         {
             _context = context;
             _userGroupManager = userGroupManager;
+            _encryption = encryption;
         }
 
         public async Task<Message> SendMessage(string from, string to, string message)
         {
+
+            
             var newMessage = new Message
             {
                 From = from,
                 To = to,
-                Text = message,
+                Text = _encryption.EncryptText(message),
                 DateSent = DateTime.Now               
             };
             await _context.Messages.AddAsync(newMessage);
@@ -38,13 +43,29 @@ namespace _9Chan.Data.Repository
             var messages = await _context.Messages
                 .Where(pm => pm.To == id && pm.GroupId == null).ToListAsync();
 
+            DecryptAllMessages(messages);
+
             return messages;
+        }
+
+        private List<Message> DecryptAllMessages(List<Message> messages)
+        {
+            var decryptedMessages = new List<Message>();
+            foreach (var message in messages)
+            {
+                message.Text = _encryption.DecryptText(message.Text);
+
+                decryptedMessages.Add(message);
+            }
+            return decryptedMessages;
         }
 
         public async Task<Message> GetMessageById(int id)
         {
             var users = await _context.RegUsers.ToArrayAsync();
             var message = await _context.Messages.FindAsync(id);
+
+            message.Text = _encryption.DecryptText(message.Text);
 
             return message;
         }
@@ -68,7 +89,7 @@ namespace _9Chan.Data.Repository
             {
                 From = from,
                 GroupId = groupId,
-                Text = message,
+                Text = _encryption.EncryptText(message),
                 DateSent = DateTime.Now
             };
             await _context.Messages.AddAsync(newMessage);
@@ -84,7 +105,7 @@ namespace _9Chan.Data.Repository
             
             var groupMessages = await _context.Messages.Where(message => message.GroupId == userGroupId).ToListAsync();
             var group = await _context.Groups.ToArrayAsync();
-            return groupMessages; 
+            return DecryptAllMessages(groupMessages); 
 
         }
 
