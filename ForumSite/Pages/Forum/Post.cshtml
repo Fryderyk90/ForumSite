@@ -19,7 +19,8 @@
 
                 @if (post.ProfilePicture == null)
                 {
-                    <img class="profilepicture" height="160" width="150" src="https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-11.jpg" alt="..."
+                    <a align="center" class="text-dark" asp-page="UserProfile" asp-route-userId="@post.UserId"><h5 class="card-title">@post.UserName</h5></a>
+                    <img class="profilepicture" height="160" width="150" src="https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-11.jpg" alt="ProfilePicture"
                          style="
 
                 border-top: 3px solid black;
@@ -29,7 +30,8 @@
                 " />}
                 else
                 {
-                    <img class="profilepicture" src="@post.ProfilePicture" height="160" width="150" alt="..." style="
+                    <a align="center" class="text-dark" asp-page="UserProfile" asp-route-userId="@post.UserId"><h5 class="card-title">@post.UserName</h5></a>
+                    <img class="profilepicture" src="@post.ProfilePicture" height="160" width="150" alt="ProfilePicture" style="
 
                 border-top: 3px solid black;
                 border-bottom: 3px solid black;
@@ -40,7 +42,7 @@
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <a class="text-dark" asp-page="UserProfile" asp-route-userId="@post.UserId"><h5 class="card-title">@post.UserName</h5></a>
+                    @*<a class="text-dark" asp-page="UserProfile" asp-route-userId="@post.UserId"><h5 class="card-title">@post.UserName</h5></a>*@
                     <p class="card-text">
                         <span id="posttext">@post.PostText</span>
                         <div class="col-md-2">
@@ -104,6 +106,7 @@
                                 <div>
                                     @if (post.Comments[i].User.ProfilePicture == null)
                                     {
+                                        <a align="center" class="text-dark" asp-page="UserProfile" asp-route-userId="@post.Comments[i].UserId"><h5 class="card-title">@post.Comments[i].User.UserName</h5></a>
                                         <img height="160" width="150" src="https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-11.jpg"
                                              style="
 
@@ -115,6 +118,7 @@
                                     }
                                     else
                                     {
+                                        <a align="center" class="text-dark" asp-page="UserProfile" asp-route-userId="@post.Comments[i].UserId"><h5 class="card-title">@post.Comments[i].User.UserName</h5></a>
                                         <img height="160" width="150" src="@($"data:{"image/jpeg"};base64,{Convert.ToBase64String(@post.Comments[i].User.ProfilePicture)}")"
                                              style="
 
@@ -128,7 +132,7 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <a class="text-dark" asp-page="UserProfile" asp-route-userId="@post.Comments[i].UserId"><h5 class="card-title">@post.Comments[i].User.UserName</h5></a>
+                                    
 
                                     <p class="card-text">
                                         <span>@post.Comments[i].CommentText</span>
@@ -224,7 +228,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <h3>Create New Post</h3>
-    <form method="post">
+    <form method="post" class="border-dark">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="InputPost.InputText" class="control-label"></label>
