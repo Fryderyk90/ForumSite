@@ -19,17 +19,17 @@ namespace ForumSite.Areas.Identity
                 services.AddDbContext<ForumSiteContext>(options =>
                     options.UseSqlServer(
 
-                        /* 
-                         Uncomment the Database you want to use.
-                         */
+                /* 
+                 Uncomment the Database you want to use.
+                 */
 
 
 
-                        //AzureDb
-                     //   context.Configuration.GetConnectionString("9chanconnectionstring")));
-                        
-                        //LocalDb
-                         context.Configuration.GetConnectionString("LocalDatabase")));
+                //AzureDb
+                //context.Configuration.GetConnectionString("9chanconnectionstring")));
+
+                //LocalDb
+                context.Configuration.GetConnectionString("LocalDatabase")));
 
                 services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddRoles<IdentityRole>()

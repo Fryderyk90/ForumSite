@@ -46,7 +46,7 @@ namespace _9Chan.Data.Repository
                 {
 
                 
-                await _subCategoryRepository.DeleteSubCategories(subcategory);
+                await _subCategoryRepository.DeleteSubCategory(subcategory);
                 }
             }
             var Category = await GetCategoryById(id);

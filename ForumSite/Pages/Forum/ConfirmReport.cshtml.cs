@@ -16,6 +16,7 @@ namespace ForumSite.Pages.Forum
         }
 
         public string ReportedUsername { get; set; }
+        public string Message { get; set; }
         public string ReportedPostText { get; set; }
         public Post Post { get; set; }
         public ReportedPost Reported { get; set; }
@@ -28,10 +29,11 @@ namespace ForumSite.Pages.Forum
         public void OnGet(string username, string post)
         {
             ReportedUsername = username;
+            Message = $"are you sure you want to report {username}";
             ReportedPostText = post;
         }
 
-        public async Task<IActionResult> OnPost(int id)
+        public async Task<IActionResult> OnPost(int id,string username)
         {
             var postToUpDate = await _postRepository.GetPostById(id);
             postToUpDate.IsReported = true;
@@ -39,6 +41,7 @@ namespace ForumSite.Pages.Forum
             await _postRepository.UpdatePost(postToUpDate);
 
             Post = await _postRepository.GetPostById(id);
+            Message = $"Post by {username} reported";
             return Page();
         }
     }
