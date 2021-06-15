@@ -14,5 +14,6 @@ namespace _9Chan.Data.Repository
         Task<ForumGroup> DeleteGroup(ForumGroup group);
         Task<ForumGroup> EditGroup(ForumGroup editedGroup);
         Task<ForumGroup> RemoveUserFromGroup(string userId);
+        Task<ForumGroup> GetGroupById(int id);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using _9Chan.Core.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,13 @@ namespace _9Chan.Data.Repository
     public class UserGroupManager : IUserGroupManager
     {
         private readonly ForumSiteContext _context;
-        
+        private readonly UserManager<User> _userManager;
 
-        public UserGroupManager(ForumSiteContext context)
+
+        public UserGroupManager(ForumSiteContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<UserGroup> AddUserToGroup(string userId, int forumGroupId)
@@ -46,6 +49,21 @@ namespace _9Chan.Data.Repository
             else
 
             return  group.ForumGroupId;           
+        }
+
+        public async Task<List<User>> GetGroupMembers(int groupId)
+        {
+            var members = _context.UserGroups.Where(ug => ug.ForumGroupId == groupId).ToList();
+
+            var groupmembers = new List<User>();
+            foreach (var member in members)
+            {
+                var groupmember = await _userManager.FindByIdAsync(member.UserId); 
+
+                 groupmembers.Add(groupmember);
+            }
+            return groupmembers;
+
         }
 
         public bool IsUserInGroup(string userId)

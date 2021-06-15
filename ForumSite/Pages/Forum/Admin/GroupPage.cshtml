@@ -16,7 +16,7 @@
         @foreach (var group in @Model.Groups)
         {
             <tr>
-                <td scope="col">@group.Name</td>
+                <td scope="col"><a asp-page="GroupMembers" asp-route-id="@group.ForumGroupId">@group.Name</a></td>
                 <td scope="col">@group.Description</td>
                 <td scope="col"></td>
             </tr>

@@ -1,0 +1,35 @@
+﻿@page
+@model ForumSite.Pages.Forum.Admin.GroupMembersModel
+@{
+}
+
+<h3>@Model.GroupName</h3>
+@if (Model.GroupMembers != null)
+{
+    <table class="table table-responsive-md">
+        <thead>
+            <tr>
+                <th scope="col">Members</th>                             
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+
+            @foreach (var member in Model.GroupMembers)
+            {
+                <tr>
+
+                    <td>@member.UserName</td>
+                    <td>
+                        <div>
+                          
+                                <a asp-page="ConfirmRemoveUserFromGroup" asp-route-id="@member.Id" class="btn btn-danger font-weight-bold"><i class="bi bi-trash">Remove</i></a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

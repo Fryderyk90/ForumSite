@@ -53,5 +53,12 @@ namespace _9Chan.Data.Repository
         {
             throw new NotImplementedException();
         }
+
+        public async Task<ForumGroup> GetGroupById(int id)
+        {
+            var group = await _context.Groups.FirstOrDefaultAsync(g => g.ForumGroupId == id);
+            var users = await _context.RegUsers.ToListAsync();
+            return group;
+        }
     }
 }
