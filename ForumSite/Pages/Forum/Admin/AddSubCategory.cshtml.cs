@@ -34,7 +34,7 @@ namespace ForumSite.Pages.Forum.Admin
         public async Task OnGet(string title, int id)
         {
             Title = title;
-            SubCategories = await _subCategoryRepository.AllSubCategoriesInByCategoryId(id);
+            SubCategories = await _subCategoryRepository.AllSubCategoriesByCategoryId(id);
         }
 
         public async Task<IActionResult> OnPost(int id)
@@ -49,7 +49,7 @@ namespace ForumSite.Pages.Forum.Admin
                 };
                 await _subCategoryRepository.AddSubCategory(newSubCategory);
             }
-            SubCategories = await _subCategoryRepository.AllSubCategoriesInByCategoryId(id);
+            SubCategories = await _subCategoryRepository.AllSubCategoriesByCategoryId(id);
             return Page();
         }
     }

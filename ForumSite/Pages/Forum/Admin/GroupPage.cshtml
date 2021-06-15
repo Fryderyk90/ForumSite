@@ -6,28 +6,30 @@
 
 <table class="table">
     <thead>
-    <tr>
-        <th scope="col">Group Name</th>
-        <th scope="col">Description</th>
-        <th scope="col"></th>
-    </tr>
+        <tr>
+            <th scope="col">Group Name</th>
+            <th scope="col">Description</th>
+            <th scope="col"></th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var group in @Model.Groups)
-    {
-        <tr>
-            <td scope="col">@group.Name</td>
-            <td scope="col">@group.Description</td>
-            <td scope="col"></td>
-        </tr>
-    }
+        @foreach (var group in @Model.Groups)
+        {
+            <tr>
+                <td scope="col">@group.Name</td>
+                <td scope="col">@group.Description</td>
+                <td scope="col"></td>
+            </tr>
+        }
     </tbody>
 </table>
-<hr/>
+<hr />
 <h2>Add Group</h2>
 <form method="post">
+    
     <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping">Title</span>
+        <span asp-validation-for="Input.Name" class="text-danger"></span>
+        <span class="input-group-text" id="addon-wrapping">Name</span>
         <input type="text" asp-for="Input.Name" class="form-control" placeholder="Name" aria-label="Title" aria-describedby="addon-wrapping">
     </div>
     <div class="input-group flex-nowrap">
@@ -40,3 +42,8 @@
         <a asp-page="./Index" class="btn btn-primary">Back</a>
     </div>
 </form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

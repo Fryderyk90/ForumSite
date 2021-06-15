@@ -3,6 +3,7 @@ using _9Chan.Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace ForumSite.Pages.Forum
@@ -13,9 +14,11 @@ namespace ForumSite.Pages.Forum
         private readonly UserManager<User> _userManager;
 
         [BindProperty]
+        [Required]
         public string Input { get; set; }
 
         public string ToUser { get; set; }
+        public string Message { get; set; }
 
         public SendPersonalMessageModel(IMessageData personalMessageRepository, UserManager<User> userManager)
         {
@@ -23,9 +26,14 @@ namespace ForumSite.Pages.Forum
             _userManager = userManager;
         }
 
-        public void OnGet(string id, string username)
+        public void OnGet(string id, string username, string message)
         {
             ToUser = username;
+            if(!string.IsNullOrEmpty(message))
+            {
+                Message = message;
+            }
+            
         }
 
         public async Task<IActionResult> OnPostAsync(string id)

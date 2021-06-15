@@ -16,7 +16,7 @@
         <tr>
             <td><a class="text-dark" asp-page="./SubCategories" asp-route-id="@category.Id" asp-route-categoryTitle="@category.Title">@category.Title</a></td>
             <td>@category.Description</td>
-            <td>@subcategoryData.AllSubCategoriesInByCategoryId(category.Id).Result.Count()</td>
+            <td>@subcategoryData.AllSubCategoriesByCategoryId(category.Id).Result.Count()</td>
         </tr>
     }
 </table>

@@ -60,8 +60,8 @@
 
                         <td>@Model.UserManager.FindByIdAsync(message.From).Result.UserName</td>
                         <td>@message.DateSent.ToShortDateString()</td>
-                        <td>@message.Text</td>
-                        <td><a asp-route-username="@Model.UserManager.FindByIdAsync(message.From).Result.UserName" asp-route-id=">@Model.UserManager.FindByIdAsync(message.From).Result.Id" asp-page="/forum/SendPersonalMessage">Reply</a></td>
+                        <td class="overflow-hidden">@message.Text</td>
+                        <td><a asp-route-username="@Model.UserManager.FindByIdAsync(message.From).Result.UserName" asp-route-message="@message.Text" asp-route-id="@Model.UserManager.FindByIdAsync(message.From).Result.Id" asp-page="/forum/SendPersonalMessage">Reply</a></td>
 
 
 
@@ -87,11 +87,12 @@
                         <tr>
                             <td>@Model.UserManager.FindByIdAsync(message.From).Result.UserName</td>
                             <td>@message.DateSent.ToShortDateString()</td>
-                            <td>@message.Text</td>
+                            <td class="overflow-hidden">@message.Text</td>
                             <td>
                                 <a asp-route-groupName="@message.Group.Name"
                                    asp-route-userId="@Model.UserManager.FindByIdAsync(message.From).Result.Id"
                                    asp-route-groupId="@message.GroupId"
+                                   asp-route-message="@message.Text"
                                    asp-page="/forum/SendGroupMessage">Reply</a>
                             </td>
 

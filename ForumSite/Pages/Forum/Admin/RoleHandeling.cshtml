@@ -50,10 +50,11 @@
 </div>
 
 @*TODO Below is add named role form to the IdentityRoles Uncomment it if no roles are added,
-  TODO  add "User" and "Admin"*@
+    TODO  add "User" and "Admin"*@
 
 <form method="post">
     <div class="input-group flex-nowrap">
+        <span asp-validation-for="@Model.RoleName" class="text-danger"></span>
         <span class="input-group-text" id="addon-wrapping">RoleName</span>
         <input type="text" asp-for="@Model.RoleName" class="form-control" placeholder="Enter Rolename" aria-label="Title" aria-describedby="addon-wrapping">
     </div>
@@ -63,3 +64,7 @@
         <a asp-page="./Index" class="btn btn-primary">Back</a>
     </div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

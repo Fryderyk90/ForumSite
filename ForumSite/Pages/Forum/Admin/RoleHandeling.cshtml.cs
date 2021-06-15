@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace ForumSite.Pages.Forum.Admin
@@ -20,6 +21,7 @@ namespace ForumSite.Pages.Forum.Admin
         }
 
         [BindProperty]
+        [Required]
         public string RoleName { get; set; }
 
         public IList<User> Users { get; set; }

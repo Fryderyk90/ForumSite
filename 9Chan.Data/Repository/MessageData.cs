@@ -13,18 +13,20 @@ namespace _9Chan.Data.Repository
         private readonly ForumSiteContext _context;
         private readonly IUserGroupManager _userGroupManager;
         private readonly IEncryption _encryption;
+        private readonly IProfanityFilter _profanityFilter;
 
-        public MessageData(ForumSiteContext context, IUserGroupManager userGroupManager, IEncryption encryption)
+        public MessageData(ForumSiteContext context, IUserGroupManager userGroupManager, IEncryption encryption, IProfanityFilter profanityFilter)
         {
             _context = context;
             _userGroupManager = userGroupManager;
             _encryption = encryption;
+            _profanityFilter = profanityFilter;
         }
 
         public async Task<Message> SendMessage(string from, string to, string message)
         {
 
-            
+            message = await _profanityFilter.Filter(message);
             var newMessage = new Message
             {
                 From = from,
@@ -85,6 +87,7 @@ namespace _9Chan.Data.Repository
 
         public async Task<Message> SendGroupMessage(string from, int groupId, string message)
         {
+            message = await _profanityFilter.Filter(message);
             var newMessage = new Message
             {
                 From = from,

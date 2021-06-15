@@ -39,7 +39,7 @@ namespace ForumSite.Pages.Forum
         public async Task OnGet(int id, string categoryTitle)
         {
             CategoryTitle = categoryTitle;
-            var subCategories = await _subCategoryRepository.AllSubCategoriesInByCategoryId(id);
+            var subCategories = await _subCategoryRepository.AllSubCategoriesByCategoryId(id);
             var threads = await _threadData.GetThreadsInSubCategoryById(id);
             var table = CreateSubCategoryTable(subCategories);
             Table = table;

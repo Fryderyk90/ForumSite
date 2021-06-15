@@ -3,18 +3,15 @@
 @{
 }
 
-<h2>SubCategories</h2>
-<hr />
 
+<h3>Subcategories in @Model.Title</h3>
 <table class="table">
     <thead>
-        <tr>
-            <th><h3>@Model.Title</h3></th>
-        </tr>
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Title</th>
             <th scope="col">Description</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -26,7 +23,7 @@
                 <td>@subcategory.Description</td>
                 <td align="right">
                     <div>
-                        <a asp-page="EditSubCategory" asp-route-id="@subcategory.Id"  asp-route-previousTitle="@Model.Title"class="btn btn-primary font-weight-bold">Edit</a>
+                        <a asp-page="EditSubCategory" asp-route-id="@subcategory.Id" asp-route-previousTitle="@Model.Title" class="btn btn-primary font-weight-bold">Edit</a>
                         <a asp-page="DeleteSubCategory" asp-route-id="@subcategory.Id" asp-route-previousTitle="@Model.Title" class="btn btn-danger font-weight-bold">Delete</a>
                     </div>
                 </td>

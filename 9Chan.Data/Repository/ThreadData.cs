@@ -27,20 +27,7 @@ namespace _9Chan.Data.Repository
             await _context.SaveChangesAsync();
             return newThread;
         }
-
-        public Task<Thread> GetThreadId()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<int> GetThreadIdByTitle(string threadTitle)
-        {
-            var thread = await _context.Threads.FirstOrDefaultAsync(t => t.Title == threadTitle);
-
-            var threadId = thread.Id;
-            return threadId;
-        }
-
+     
         public async Task<List<Thread>> GetThreadsInSubCategoryById(int? id)
         {
             //Where the magic happens DO NOT TOUCH
@@ -61,24 +48,7 @@ namespace _9Chan.Data.Repository
             }
 
             await _context.SaveChangesAsync();
-        }
-
-        public async Task<List<Thread>> getThreads()
-        {
-            var threads = await _context.Threads.ToListAsync();
-
-            return threads;
-        }
-
-        public async Task<Thread> FindLatestThreadBySubCategoryId(int subcategoryId)
-        {
-            var threadsInSubCategory = await GetThreadsInSubCategoryById(subcategoryId);
-
-            var latestThread = threadsInSubCategory.OrderBy(t => t.DateCreated).Take(1);
-
-            return (Thread)latestThread;
-
-        }
+        }        
 
         public async Task<Thread> GetThreadBySubCategoryId(int subcategoryId)
         {

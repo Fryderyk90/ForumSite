@@ -1,4 +1,5 @@
 ﻿using _9Chan.Core.Models;
+using _9Chan.Data.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,14 @@ namespace _9Chan.Data.Repository
     {
         private readonly ForumSiteContext _context;
         private readonly ICommentData _CommentData;
+        private readonly IProfanityFilter _profanityFilter;
 
 
-        public PostData(ForumSiteContext context, ICommentData commentData)
+        public PostData(ForumSiteContext context, ICommentData commentData, IProfanityFilter profanityFilter)
         {
             _context = context;
             _CommentData = commentData;
+            _profanityFilter = profanityFilter;
         }
 
         public async Task<List<Post>> GetPostsInThreadById(int? id)
@@ -55,8 +58,10 @@ namespace _9Chan.Data.Repository
 
         public async Task<Post> AddPost(Post newPost)
         {
-            string postText = newPost.PostText; 
-            newPost.PostText = await ProfanityFilter(postText);
+            string postText = newPost.PostText;
+
+            newPost.PostText = await _profanityFilter.Filter(newPost.PostText);
+            // newPost.PostText = await ProfanityFilter(postText);
 
             await _context.Posts.AddAsync(newPost);
             await _context.SaveChangesAsync();

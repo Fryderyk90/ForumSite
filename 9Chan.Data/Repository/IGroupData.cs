@@ -12,9 +12,7 @@ namespace _9Chan.Data.Repository
         Task<List<ForumGroup>> GetAllGroups();
         Task<ForumGroup> CreateGroup(ForumGroup newGroup);
         Task<ForumGroup> DeleteGroup(ForumGroup group);
-        Task<ForumGroup> GetGroupById(int groupId);
         Task<ForumGroup> EditGroup(ForumGroup editedGroup);
-        Task<ForumGroup> AddUserToGroup(string userId);
         Task<ForumGroup> RemoveUserFromGroup(string userId);
     }
 }

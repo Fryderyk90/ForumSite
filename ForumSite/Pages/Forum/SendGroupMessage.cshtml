@@ -2,17 +2,29 @@
 @model ForumSite.Pages.Forum.SendGroupMessageModel
 @{
 }
-<div class="col-6">
-    <h3>Messege To @Model.GroupName</h3>
+<div class="col-10">
+    <h3>Messege To group members of @Model.GroupName</h3>
+
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1"></label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" disabled rows="3">@Model.Message</textarea>
+    </div>
+
     <hr />
     <form method="post">
         <div class="form-group">
             <div class="form-group">
+                <span asp-validation-for="GroupMessage" class="text-danger"></span>
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" asp-for="GroupMessage"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="btn-group" role="group">
+                <button type="submit" class="btn btn-danger">Send</button>
+                <a asp-page="/Identity/Account/Manage/MyPage" class="btn btn-primary">Back</a>
+            </div>
         </div>
     </form>
 </div>
 
-<a asp-page="./Identity/Account/Manage/MyPage" class="btn btn-danger">Back</a>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

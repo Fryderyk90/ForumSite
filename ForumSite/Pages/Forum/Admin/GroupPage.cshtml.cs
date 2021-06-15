@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using _9Chan.Core.Models;
@@ -21,7 +22,9 @@ namespace ForumSite.Pages.Forum.Admin
         public InputGroup Input { get; set; }
         public class InputGroup
         {
+            [Required]
             public string Name { get; set; }
+            [Required]
             public string Description { get; set; }
 
             public string UserId { get; set; }

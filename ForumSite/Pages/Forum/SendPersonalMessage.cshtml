@@ -4,10 +4,16 @@
 }
 <h1>PM to @Model.ToUser</h1>
 
+<div class="form-group">
+    <label for="exampleFormControlTextarea1"></label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" disabled rows="3">@Model.Message</textarea>
+</div>
+
 <form method="post">
     <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping">Description</span>
-        <input type="text" asp-for="@Model.Input" class="form-control" placeholder="Description" aria-label="Title" aria-describedby="addon-wrapping">
+        <span asp-validation-for="Input" class="text-danger"></span>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" asp-for="Input"></textarea>
+
     </div>
     <hr />
     <div class="btn-group" role="group">
@@ -15,3 +21,7 @@
         <a asp-page="/Index" class="btn btn-primary">Back</a>
     </div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

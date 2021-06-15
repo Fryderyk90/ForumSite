@@ -8,15 +8,14 @@ namespace _9Chan.Data.Repository
     {
         Task<Thread> GetThreadBySubCategoryId(int subcategoryId);
         Task<Thread> AddThread(Thread newThread);
-        Task<Thread> FindLatestThreadBySubCategoryId(int subcategoryId);
+     //   Task<Thread> FindLatestThreadBySubCategoryId(int subcategoryId);
 
-        Task<Thread> GetThreadId();
-        Task<int> GetThreadIdByTitle(string threadName);
+     //   Task<int> GetThreadIdByTitle(string threadName);
 
         Task<List<Thread>> GetThreadsInSubCategoryById(int? id);
 
         Task DeleteThreadsById(List<Thread> threadsToDelete);
 
-        Task<List<Thread>> getThreads();
+       
     }
 }

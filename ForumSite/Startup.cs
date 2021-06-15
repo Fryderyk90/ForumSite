@@ -32,6 +32,8 @@ namespace ForumSite
             services.AddScoped<ILikeData, LikeData>();
             services.AddScoped<IGroupData, GroupData>();
             services.AddScoped<IUserGroupManager, UserGroupManager>();
+            services.AddScoped<IProfanityFilter, ProfanityFilter>();
+            
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddScoped<IEncryption, Encryption>();

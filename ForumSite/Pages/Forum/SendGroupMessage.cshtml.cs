@@ -21,6 +21,7 @@ namespace ForumSite.Pages.Forum
         [Required(ErrorMessage = "Field Is Required")]
         public string GroupMessage { get; set; }
         public string GroupName { get; set; }
+        public string Message { get; set; }
 
         public SendGroupMessageModel(IUserGroupManager userGroupManager, IMessageData messageData, UserManager<User> userManager)
         {
@@ -29,10 +30,14 @@ namespace ForumSite.Pages.Forum
             _userManager = userManager;
         }
 
-        public async Task OnGetAsync(string groupName)
+        public async Task OnGetAsync(string groupName,string message)
         {
             var user = await _userManager.GetUserAsync(User);
             var group = _userGroupManager.GetGroupByUserId(user.Id);
+            if (!string.IsNullOrEmpty(message))
+            {
+                Message = message;
+            }
             GroupName = group.Name;
         }
 

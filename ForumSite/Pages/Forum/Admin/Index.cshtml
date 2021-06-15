@@ -2,19 +2,22 @@
 @model ForumSite.Pages.Forum.Admin.IndexModel
 @{
 }
-<a asp-page="GroupPage">Groups</a>
-<span>
-    <h2 align="left"><a asp-page="./AddCategory" class="btn btn btn-success"><i class="bi bi-plus"></i></a>  Categories</h2>
-</span>
-<span>
-    <h2 align="right"><a asp-page="./RoleHandeling" class="btn btn btn-success"><i class="bi bi-plus"></i></a>  Handel Roles</h2>
-</span>
+
+
+
+<div class="btn-group">
+    <a asp-page="./AddCategory"  class="btn btn btn-success"><i class="bi bi-plus"> Add Category</i></a>
+    <a asp-page="./RoleHandeling" style="margin-left: 5px;" class="btn btn btn-warning"><i class="far fa-address-book"> Roles</i></a>
+    <a class="btn btn-primary" style="margin-left: 5px;" asp-page="GroupPage"><i class="fas fa-users">Groups</i></a>
+</div>
+
 <table class="table">
     <thead>
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Title</th>
             <th scope="col">Description</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -26,8 +29,7 @@
                 <td>@category.Title</td>
                 <td>@category.Description</td>
                 <td align="right">
-                    <div>
-                        @*TODO Need to add Delete and edit for Category And Subcategory*@
+                    <div>                       
                         <a asp-page="AddSubCategory" asp-route-id="@category.Id" asp-route-title="@category.Title" class="btn btn-info font-weight-bold btn-info">Subcategories</a>
                         <a asp-page="EditCategory" asp-route-id="@category.Id" class="btn btn-primary font-weight-bold"><i class="bi bi-pencil"></i></a>
                         <a asp-page="DeleteCategory" asp-route-id="@category.Id" class="btn btn-danger font-weight-bold"><i class="bi bi-trash"></i></a>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using _9Chan.Core.Models;
+using _9Chan.Data.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace _9Chan.Data.Repository
@@ -11,17 +12,20 @@ namespace _9Chan.Data.Repository
     public class CommentData : ICommentData
     {
         private readonly ForumSiteContext _context;
-        private readonly PostData postData;
+        private readonly IProfanityFilter _profanityFilter;
 
-        public CommentData(ForumSiteContext context)
+
+        public CommentData(ForumSiteContext context, IProfanityFilter profanityFilter)
         {
             _context = context;
+            _profanityFilter = profanityFilter;
         }
 
         public async Task<Comment> AddComment(Comment comment)
         {
-      //      comment.CommentText = await postData.ProfanityFilter(comment.CommentText);
-             
+            //      comment.CommentText = await postData.ProfanityFilter(comment.CommentText);
+
+            comment.CommentText = await _profanityFilter.Filter(comment.CommentText);
             await _context.Comments.AddAsync(comment);
             await _context.SaveChangesAsync();
             return comment;
