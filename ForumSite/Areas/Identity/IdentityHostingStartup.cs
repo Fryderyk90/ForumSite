@@ -26,7 +26,7 @@ namespace ForumSite.Areas.Identity
 
 
                 //AzureDb
-               // context.Configuration.GetConnectionString("9chanconnectionstring")));
+              //  context.Configuration.GetConnectionString("9chanconnectionstring")));
 
                 //LocalDb
                 context.Configuration.GetConnectionString("LocalDatabase")));

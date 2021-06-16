@@ -62,13 +62,15 @@ namespace _9Chan.Data.Repository
 
             //need to get thread id 
             var thread = await _threadRepository.GetThreadBySubCategoryId(subCategory.Id);
-            var postsInToDelete = await _postRepository.GetPostsInThreadById(thread.Id);
-           
-
-            if (postsInToDelete.Count > 0)
+            if(thread != null)
             {
+                var postsInToDelete = await _postRepository.GetPostsInThreadById(thread.Id);
                 await _postRepository.DeletePostsInThread(postsInToDelete);
             }
+            
+           
+
+          
             if (threadsToDelete.Count > 0)
             {
                 await _threadRepository.DeleteThreadsById(threadsToDelete);
