@@ -76,8 +76,16 @@ namespace ForumSite.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+
+            var isEmailUnique = _userManager.FindByEmailAsync(Input.Email);
+            if (isEmailUnique != null)
+            {
+              
+                ModelState.AddModelError("Input.Email", "Email Already registrated");
+            }
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && isEmailUnique == null)
             {
                 var user = new User
                 {
