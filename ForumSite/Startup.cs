@@ -38,6 +38,7 @@ namespace ForumSite
             services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddScoped<IEncryption, Encryption>();
             services.Configure<EncryptionOptions>(Configuration);
+            services.Configure<ProfanityFilterOptions>(Configuration);
 
             services.AddControllers();
 

@@ -8,6 +8,7 @@ namespace _9Chan.Data.Services
 {
     public interface IProfanityFilter
     {
+      //  Task<string> MicroString(string input);
         Task<string> Filter(string input);
     }
 }
