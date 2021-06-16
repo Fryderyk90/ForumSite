@@ -76,8 +76,8 @@ namespace ForumSite.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-
-            var isEmailUnique = _userManager.FindByEmailAsync(Input.Email);
+            
+            var isEmailUnique = await _userManager.FindByEmailAsync(Input.Email);
             if (isEmailUnique != null)
             {
               
