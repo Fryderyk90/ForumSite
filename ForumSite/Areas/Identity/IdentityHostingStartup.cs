@@ -26,12 +26,12 @@ namespace ForumSite.Areas.Identity
 
 
                 //AzureDb
-                context.Configuration.GetConnectionString("9chanconnectionstring")));
+                //context.Configuration.GetConnectionString("9chanconnectionstring")));
 
-                //LocalDb
-               // context.Configuration.GetConnectionString("LocalDatabase")));
+            //LocalDb
+            context.Configuration.GetConnectionString("LocalDatabase")));
 
-                services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<ForumSiteContext>();
             });

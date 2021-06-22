@@ -27,7 +27,7 @@ namespace ForumSite.Pages
 
         public async System.Threading.Tasks.Task OnGetAsync()
         {
-            var response = await _profanityFilter.Filter("fuck");
+           
         }
 
         public void OnPost()
